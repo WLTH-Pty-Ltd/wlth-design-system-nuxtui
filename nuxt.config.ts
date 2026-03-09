@@ -7,7 +7,7 @@
 import { fileURLToPath } from 'node:url'
 
 export default defineNuxtConfig({
-  modules: ['@nuxt/ui'],
+  modules: ['@nuxt/ui', '@vueuse/nuxt'],
   css: [fileURLToPath(new URL('./assets/css/tokens.css', import.meta.url))],
   colorMode: {
     preference: 'light'

@@ -242,6 +242,54 @@
    Light mode uses Slate/Light Grey 2 neutral, Royal Blue primary.
    ========================================================================== */
 
+/* ==========================================================================
+   PALETTE CUSTOM PROPERTIES — explicit :root declarations
+   @theme static generates utilities but the Nuxt UI colors.js runtime plugin
+   uses var(--color-*-shade) references with empty fallbacks for non-standard
+   palette names. Declaring them here as plain :root variables ensures they
+   resolve at runtime for all three custom palettes.
+   ========================================================================== */
+:root {
+  /* Royal Blue (primary) */
+  --color-royalblue-50:  #eef2ff;
+  --color-royalblue-100: #d9e2ff;
+  --color-royalblue-200: #b3c8ff;
+  --color-royalblue-300: #7fa6f5;
+  --color-royalblue-400: #4e78e3;
+  --color-royalblue-500: #1445c7;
+  --color-royalblue-600: #0f3aa8;
+  --color-royalblue-700: #0c2e88;
+  --color-royalblue-800: #09256f;
+  --color-royalblue-900: #061d59;
+  --color-royalblue-950: #03133b;
+
+  /* Dark Blue (secondary) */
+  --color-darkblue-50:  #f6f7f8;
+  --color-darkblue-100: #edeff0;
+  --color-darkblue-200: #d2d5d8;
+  --color-darkblue-300: #b5bac0;
+  --color-darkblue-400: #8e959e;
+  --color-darkblue-500: #292e3a;
+  --color-darkblue-600: #1f232d;
+  --color-darkblue-700: #181c24;
+  --color-darkblue-800: #10141b;
+  --color-darkblue-900: #0a0e12;
+  --color-darkblue-950: #06090d;
+
+  /* Light Grey (info, neutral) */
+  --color-lightgrey-50:  #ffffff;
+  --color-lightgrey-100: #f7f8f8;
+  --color-lightgrey-200: #f4f4f4;
+  --color-lightgrey-300: #eceff0;
+  --color-lightgrey-400: #dde2e3;
+  --color-lightgrey-500: #ccd3d5;
+  --color-lightgrey-600: #b8c5ca;
+  --color-lightgrey-700: #8d9aa1;
+  --color-lightgrey-800: #7a8890;
+  --color-lightgrey-900: #4c5a68;
+  --color-lightgrey-950: #292e3a;
+}
+
 /* ---------- LIGHT THEME ---------- */
 :root {
   /* Backgrounds */
@@ -262,9 +310,16 @@
   /* Borders */
   --ui-border:          var(--color-lightgrey-900);
   --ui-border-muted:    var(--color-lightgrey-400);
-  --ui-border-accented: var(--color-lightgrey-950);
+  --ui-border-accented: var(--color-lightgrey-700);
   --ui-border-inverted: var(--color-lightgrey-900);
   --ui-border-highlighted: var(--color-royalblue-500);
+
+  /* Color role overrides for custom palettes — un-layered :root wins over
+     @layer theme injected by colors.js, which has empty fallbacks for
+     non-tailwindcss/colors palette names (royalblue, darkblue, lightgrey) */
+  --ui-primary:   var(--color-royalblue-500);
+  --ui-secondary: var(--color-darkblue-500);
+  --ui-info:      var(--color-lightgrey-500);
 
   /* Radius */
   --ui-radius-xs: var(--radius-xs);
@@ -280,6 +335,10 @@
 
 /* ---------- DARK THEME ---------- */
 .dark {
+  --ui-primary:   var(--color-royalblue-400);
+  --ui-secondary: var(--color-darkblue-400);
+  --ui-info:      var(--color-lightgrey-400);
+
   /* Backgrounds */
   --ui-bg:          var(--color-lightgrey-900);
   --ui-bg-muted:    var(--color-lightgrey-800);
