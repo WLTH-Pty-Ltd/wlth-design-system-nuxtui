@@ -1,0 +1,303 @@
+@import "tailwindcss" theme(static);
+/* Nuxt UI design system: base styles, component tokens, --ui-* variables */
+@import "@nuxt/ui";
+
+/* ==========================================================================
+   DESIGN TOKENS — Nuxt UI v4 Design Kit (WLTH)
+   Tailwind v4 CSS-first configuration. All customization via @theme.
+   Resolved from Figma variables JSON export.
+   ========================================================================== */
+/* WLTH Fonts */
+@font-face {
+  font-family: "SuisseIntl";
+  src: url("https://assets.wlth.com/fonts/SuisseIntl-Book.woff2") format("woff2"),
+    url("https://assets.wlth.com/fonts/SuisseIntl-Book.woff") format("woff"),
+    url("https://assets.wlth.com/fonts/SuisseIntl-Book.ttf") format("truetype"),
+    local("Suisse Int'l Book"),
+    local("Suisse Int'l"),
+    local("SuisseIntl-Book"),
+    local("SuisseIntl Book");
+  font-style: normal;
+  font-weight: 300;
+  text-rendering: optimizeLegibility;
+  font-display: swap;
+}
+
+
+@font-face {
+  font-family: "SuisseIntl";
+  src: url("https://assets.wlth.com/fonts/SuisseIntl-Thin.woff2") format("woff2"),
+    url("https://assets.wlth.com/fonts/SuisseIntl-Thin.woff") format("woff"),
+    url("https://assets.wlth.com/fonts/SuisseIntl-Thin.ttf") format("truetype"),
+    local("Suisse Int'l Thin"),
+    local("SuisseIntl-Thin");
+  font-style: normal;
+  font-weight: 100;
+  text-rendering: optimizeLegibility;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "SuisseIntl";
+  src: url("https://assets.wlth.com/fonts/SuisseIntl-Light.woff2") format("woff2"),
+    url("https://assets.wlth.com/fonts/SuisseIntl-Light.woff") format("woff"),
+    url("https://assets.wlth.com/fonts/SuisseIntl-Light.ttf") format("truetype"),
+    local("Suisse Int'l Light"),
+    local("SuisseIntl-Light");
+  font-style: normal;
+  font-weight: 200;
+  text-rendering: optimizeLegibility;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "SuisseIntl";
+  src: url("https://assets.wlth.com/fonts/SuisseIntl-Regular.woff2") format("woff2"),
+    url("https://assets.wlth.com/fonts/SuisseIntl-Regular.woff") format("woff"),
+    url("https://assets.wlth.com/fonts/SuisseIntl-Regular.ttf") format("truetype"),
+    local("Suisse Int'l Regular"),
+    local("Suisse Int'l"),
+    local("SuisseIntl-Regular");
+  font-style: normal;
+  font-weight: 400;
+  text-rendering: optimizeLegibility;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "SuisseIntl";
+  src: url("https://assets.wlth.com/fonts/SuisseIntl-Medium.woff2") format("woff2"),
+    url("https://assets.wlth.com/fonts/SuisseIntl-Medium.woff") format("woff"),
+    url("https://assets.wlth.com/fonts/SuisseIntl-Medium.ttf") format("truetype"),
+    local("Suisse Int'l Medium"),
+    local("SuisseIntl-Medium");
+  font-style: normal;
+  font-weight: 500;
+  text-rendering: optimizeLegibility;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "SuisseIntl";
+  src: url("https://assets.wlth.com/fonts/SuisseIntl-SemiBold.woff2") format("woff2"),
+    url("https://assets.wlth.com/fonts/SuisseIntl-SemiBold.woff") format("woff"),
+    url("https://assets.wlth.com/fonts/SuisseIntl-SemiBold.ttf") format("truetype"),
+    local("Suisse Int'l Semi Bold"),
+    local("SuisseIntl-SemiBold");
+  font-style: normal;
+  font-weight: 600;
+  text-rendering: optimizeLegibility;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "SuisseIntl";
+  src: url("https://assets.wlth.com/fonts/SuisseIntl-Bold.woff2") format("woff2"),
+    url("https://assets.wlth.com/fonts/SuisseIntl-Bold.woff") format("woff"),
+    url("https://assets.wlth.com/fonts/SuisseIntl-Bold.ttf") format("truetype"),
+    local("Suisse Int'l Bold"),
+    local("SuisseIntl-Bold");
+  font-style: normal;
+  font-weight: 700;
+  text-rendering: optimizeLegibility;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "SuisseIntl";
+  src: url("https://assets.wlth.com/fonts/SuisseIntl-Black.woff2") format("woff2"),
+    url("https://assets.wlth.com/fonts/SuisseIntl-Black.woff") format("woff"),
+    url("https://assets.wlth.com/fonts/SuisseIntl-Black.ttf") format("truetype"),
+    local("Suisse Int'l Black"),
+    local("SuisseIntl-Black");
+  font-style: normal;
+  font-weight: 900;
+  text-rendering: optimizeLegibility;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "SuisseIntlMono";
+  src: url("https://assets.wlth.com/fonts/SuisseIntlMono.eot");
+  /* IE9 Compat Modes */
+  src: url("https://assets.wlth.com/fonts/SuisseIntlMono.eot?#iefix") format("embedded-opentype"),
+    /* IE6-IE8 */
+    url("https://assets.wlth.com/fonts/SuisseIntlMono.woff") format("woff"),
+    /* Modern Browsers */
+    url("https://assets.wlth.com/fonts/SuisseIntlMono.ttf") format("truetype"),
+    /* Safari, Android, iOS */
+    url("https://assets.wlth.com/fonts/SuisseIntlMono.svg#SuisseIntlMono") format("svg"),
+    /* Local fallback */
+    local("Suisse Int'l Mono"),
+    local("SuisseIntlMono"),
+    local("SuisseIntl Mono");
+  /* Legacy iOS */
+  font-style: normal;
+  font-weight: 400;
+  text-rendering: optimizeLegibility;
+  font-display: swap;
+}
+
+@theme static {
+
+  /* ---------- FONTS ---------- */
+  --font-sans: 'SuisseIntl', system-ui, -apple-system, sans-serif;
+  --font-mono: 'SuisseIntlMono', ui-monospace, monospace;
+
+  /* ---------- ROYAL BLUE (primary) ---------- */
+  --color-royalblue-50:  #eef2ff;
+  --color-royalblue-100: #d9e2ff;
+  --color-royalblue-200: #b3c8ff;
+  --color-royalblue-300: #7fa6f5;
+  --color-royalblue-400: #4e78e3;
+  --color-royalblue-500: #1445c7;
+  --color-royalblue-600: #0f3aa8;
+  --color-royalblue-700: #0c2e88;
+  --color-royalblue-800: #09256f;
+  --color-royalblue-900: #061d59;
+  --color-royalblue-950: #03133b;
+
+  /* ---------- DARK BLUE 1 (secondary) ---------- */
+  --color-darkblue-50:  #f6f7f8;
+  --color-darkblue-100: #edeff0;
+  --color-darkblue-200: #d2d5d8;
+  --color-darkblue-300: #b5bac0;
+  --color-darkblue-400: #8e959e;
+  --color-darkblue-500: #292e3a;
+  --color-darkblue-600: #1f232d;
+  --color-darkblue-700: #181c24;
+  --color-darkblue-800: #10141b;
+  --color-darkblue-900: #0a0e12;
+  --color-darkblue-950: #06090d;
+
+  /* ---------- LIGHT GREY 2 (neutral) ---------- */
+  --color-lightgrey-50:  #ffffff;
+  --color-lightgrey-100: #f7f8f8;
+  --color-lightgrey-200: #f4f4f4;
+  --color-lightgrey-300: #eceff0;
+  --color-lightgrey-400: #dde2e3;
+  --color-lightgrey-500: #ccd3d5;
+  --color-lightgrey-600: #b8c5ca;
+  --color-lightgrey-700: #8d9aa1;
+  --color-lightgrey-800: #7a8890;
+  --color-lightgrey-900: #4c5a68;
+  --color-lightgrey-950: #292e3a;
+
+  /* ---------- GREEN (success) ---------- */
+  --color-green-50:  #e9fbf3;
+  --color-green-100: #c8f6e1;
+  --color-green-200: #a2efcb;
+  --color-green-300: #74e4af;
+  --color-green-400: #42d992;
+  --color-green-500: #04ca72;
+  --color-green-600: #03b667;
+  --color-green-700: #029e59;
+  --color-green-800: #02864b;
+  --color-green-900: #016f3d;
+  --color-green-950: #005a31;
+
+  /* ---------- YELLOW (warning) ---------- */
+  --color-yellow-50:  #fffbeb;
+  --color-yellow-100: #fef3c7;
+  --color-yellow-200: #fde68a;
+  --color-yellow-300: #fcd34d;
+  --color-yellow-400: #fbbf24;
+  --color-yellow-500: #f59e0b;
+  --color-yellow-600: #d97706;
+  --color-yellow-700: #b45309;
+  --color-yellow-800: #92400e;
+  --color-yellow-900: #78350f;
+  --color-yellow-950: #451a03;
+
+  /* ---------- RED (error) ---------- */
+  --color-red-50:  #fef2f2;
+  --color-red-100: #fee2e2;
+  --color-red-200: #fecaca;
+  --color-red-300: #fca5a5;
+  --color-red-400: #f87171;
+  --color-red-500: #ef4444;
+  --color-red-600: #dc2626;
+  --color-red-700: #b91c1c;
+  --color-red-800: #991b1b;
+  --color-red-900: #7f1d1d;
+  --color-red-950: #450a0a;
+
+  /* ---------- BREAKPOINTS ---------- */
+  --breakpoint-3xl: 1920px;
+
+  /* ---------- RADIUS ---------- */
+  --radius-xs: 0.125rem;
+  --radius-sm: 0.25rem;
+  --radius-md: 0.375rem;
+  --radius-lg: 0.5rem;
+  --radius-xl: 0.75rem;
+  --radius-2xl: 1rem;
+  --radius-3xl: 1.5rem;
+  --radius-full: 9999px;
+}
+
+/* ==========================================================================
+   SEMANTIC UI OVERRIDES (--ui-* CSS variables)
+   Resolved from Nuxt UI v4 Design Kit "3 - Tokens" collection.
+   Light mode uses Slate/Light Grey 2 neutral, Royal Blue primary.
+   ========================================================================== */
+
+/* ---------- LIGHT THEME ---------- */
+:root {
+  /* Backgrounds */
+  --ui-bg:          var(--color-lightgrey-200);
+  --ui-bg-muted:    var(--color-lightgrey-50);
+  --ui-bg-elevated: var(--color-lightgrey-300);
+  --ui-bg-accented: var(--color-lightgrey-200);
+  --ui-bg-inverted: var(--color-lightgrey-800);
+
+  /* Text */
+  --ui-text-dimmed:      var(--color-lightgrey-500);
+  --ui-text-muted:       var(--color-lightgrey-600);
+  --ui-text-toned:       var(--color-lightgrey-900);
+  --ui-text:             var(--color-lightgrey-950);
+  --ui-text-highlighted: var(--color-royalblue-500);
+  --ui-text-inverted:    #ffffff;
+
+  /* Borders */
+  --ui-border:          var(--color-lightgrey-900);
+  --ui-border-muted:    var(--color-lightgrey-400);
+  --ui-border-accented: var(--color-lightgrey-950);
+  --ui-border-inverted: var(--color-lightgrey-900);
+  --ui-border-highlighted: var(--color-royalblue-500);
+
+  /* Radius */
+  --ui-radius-xs: var(--radius-xs);
+  --ui-radius-sm: var(--radius-sm);
+  --ui-radius-md: var(--radius-md);
+  --ui-radius-lg: var(--radius-lg);
+  --ui-radius-xl: var(--radius-xl);
+  --ui-radius-2xl: var(--radius-2xl);
+  --ui-radius-3xl: var(--radius-3xl);
+  --ui-radius-full: var(--radius-full);
+  --ui-radius: var(--radius-sm);
+}
+
+/* ---------- DARK THEME ---------- */
+.dark {
+  /* Backgrounds */
+  --ui-bg:          var(--color-lightgrey-900);
+  --ui-bg-muted:    var(--color-lightgrey-800);
+  --ui-bg-elevated: var(--color-lightgrey-800);
+  --ui-bg-accented: var(--color-lightgrey-700);
+  --ui-bg-inverted: #ffffff;
+
+  /* Text */
+  --ui-text-dimmed:      var(--color-lightgrey-500);
+  --ui-text-muted:       var(--color-lightgrey-400);
+  --ui-text-toned:       var(--color-lightgrey-300);
+  --ui-text:             var(--color-lightgrey-200);
+  --ui-text-highlighted: #ffffff;
+  --ui-text-inverted:    var(--color-lightgrey-900);
+
+  /* Borders */
+  --ui-border:          var(--color-lightgrey-800);
+  --ui-border-muted:    var(--color-lightgrey-700);
+  --ui-border-accented: var(--color-lightgrey-700);
+  --ui-border-inverted: #ffffff;
+}

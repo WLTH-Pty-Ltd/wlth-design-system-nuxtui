@@ -1,0 +1,25 @@
+{
+  "name": "@wlth/design-system",
+  "version": "1.0.0",
+  "description": "WLTH design system — Nuxt layer with design tokens, fonts, and Nuxt UI defaults",
+  "type": "module",
+  "main": "./nuxt.config.ts",
+  "files": [
+    "app",
+    "assets",
+    "app.config.ts",
+    "nuxt.config.ts"
+  ],
+  "scripts": {
+    "dev": "nuxi dev playground",
+    "prepare": "nuxt prepare"
+  },
+  "peerDependencies": {
+    "@nuxt/ui": "^4.4.0",
+    "nuxt": "^4.0.0"
+  },
+  "devDependencies": {
+    "@nuxt/ui": "^4.4.0",
+    "nuxt": "^4.1.3"
+  }
+}
