@@ -12,6 +12,7 @@
   ],
   "scripts": {
     "dev": "nuxi dev playground",
+    "build": "nuxi build playground",
     "prepare": "nuxt prepare"
   },
   "peerDependencies": {
