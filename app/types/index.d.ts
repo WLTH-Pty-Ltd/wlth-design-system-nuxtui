@@ -120,6 +120,38 @@ export interface HubNotification {
   read: boolean
 }
 
+// ── WLTH Chart types ──────────────────────────────────────────────────────
+
+export type AppChartType = 'bar' | 'stacked-bar'
+
+export type AppChartFormat = 'currency' | 'number' | 'percent' | ((v: number) => string)
+
+export interface AppChartSeries {
+  /** Unique identifier — matches keys in AppChartDataPoint.values */
+  id: string
+  /** Display label shown in the legend */
+  label: string
+  /** Tailwind color name (e.g. 'royalblue', 'green'). Defaults to chart color sequence. */
+  color?: string
+}
+
+export interface AppChartDataPoint {
+  /** Unique key per x-position (e.g. 'sept-25') */
+  key: string
+  /** Display label shown below the bar (e.g. 'Sept 25') */
+  label: string
+  /** Values keyed by series id (e.g. { business: 128, velocity: 60 }) */
+  values: Record<string, number>
+  /** Optional: overrides bar color for this data point (e.g. 'yellow' for warning/min state).
+   *  Consuming app sets this based on its own business logic. */
+  highlight?: string
+}
+
+export interface AppChartFormatOptions {
+  /** Currency symbol prefix. Defaults to '$'. */
+  currency?: string
+}
+
 declare module '@nuxt/schema' {
   interface AppConfigInput {
     wlth?: {
@@ -127,6 +159,12 @@ declare module '@nuxt/schema' {
       product?: ProductId
       /** Override the product's nav items with app-specific routes. */
       navItems?: ProductNavItem[]
+      /** Chart component configuration */
+      chart?: {
+        /** Color sequence for multi-series charts. Tailwind color names.
+         *  Defaults to ['royalblue', 'darkblue', 'green', 'yellow', 'red'] */
+        colors?: string[]
+      }
     }
   }
 }

@@ -127,7 +127,7 @@ const semanticTokenGroups = parseTokens(tokensCSS)
           <div
             v-for="token in group.tokens"
             :key="token.name"
-            class="grid items-center gap-4 px-4 py-3 bg-default hover:bg-elevated transition-colors"
+            class="grid items-center gap-4 px-4 py-3 bg-muted hover:bg-elevated transition-colors"
             style="grid-template-columns: 2rem 14rem 1fr 1fr"
           >
             <div

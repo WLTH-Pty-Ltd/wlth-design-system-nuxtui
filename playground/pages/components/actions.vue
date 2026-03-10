@@ -42,7 +42,7 @@ const chipSize = ref('md')
           <UButton :color="buttonColor" :variant="buttonVariant" :size="buttonSize" label="Loading" loading />
           <UButton :color="buttonColor" :variant="buttonVariant" :size="buttonSize" label="Disabled" disabled />
         </div>
-        <div class="border-t border-muted px-5 py-3 flex flex-wrap gap-3 items-center bg-default">
+        <div class="border-t border-muted px-5 py-3 flex flex-wrap gap-3 items-center bg-muted">
           <USelect v-model="buttonColor" :items="colorItems" value-key="value" size="xs" class="w-32" />
           <USelect v-model="buttonVariant" :items="buttonVariantItems" value-key="value" size="xs" class="w-32" />
           <USelect v-model="buttonSize" :items="sizeItems" value-key="value" size="xs" class="w-20" />
@@ -64,7 +64,7 @@ const chipSize = ref('md')
           <UBadge :color="badgeColor" :variant="badgeVariant" :size="badgeSize" label="With icon" icon="i-lucide-circle-check" />
           <UBadge :color="badgeColor" :variant="badgeVariant" :size="badgeSize" label="42" />
         </div>
-        <div class="border-t border-muted px-5 py-3 flex flex-wrap gap-3 items-center bg-default">
+        <div class="border-t border-muted px-5 py-3 flex flex-wrap gap-3 items-center bg-muted">
           <USelect v-model="badgeColor" :items="colorItems" value-key="value" size="xs" class="w-32" />
           <USelect v-model="badgeVariant" :items="badgeVariantItems" value-key="value" size="xs" class="w-32" />
           <USelect v-model="badgeSize" :items="sizeItems" value-key="value" size="xs" class="w-20" />
@@ -89,7 +89,7 @@ const chipSize = ref('md')
             <UAvatar src="https://i.pravatar.cc/40?img=1" size="sm" />
           </UChip>
         </div>
-        <div class="border-t border-muted px-5 py-3 flex flex-wrap gap-3 items-center bg-default">
+        <div class="border-t border-muted px-5 py-3 flex flex-wrap gap-3 items-center bg-muted">
           <USelect v-model="chipColor" :items="colorItems" value-key="value" size="xs" class="w-32" />
           <USelect v-model="chipSize" :items="sizeItems" value-key="value" size="xs" class="w-20" />
         </div>

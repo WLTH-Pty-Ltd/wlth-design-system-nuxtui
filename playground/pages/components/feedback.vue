@@ -53,7 +53,7 @@ const progressValue = ref(65)
             class="max-w-lg"
           />
         </div>
-        <div class="border-t border-muted px-5 py-3 flex flex-wrap gap-3 items-center bg-default">
+        <div class="border-t border-muted px-5 py-3 flex flex-wrap gap-3 items-center bg-muted">
           <USelect v-model="alertColor" :items="colorItems" value-key="value" size="xs" class="w-32" />
           <USelect v-model="alertVariant" :items="alertVariantItems" value-key="value" size="xs" class="w-32" />
         </div>
@@ -72,7 +72,7 @@ const progressValue = ref(65)
         <div class="p-6 bg-muted flex flex-wrap gap-3 items-center">
           <UButton :color="toastColor" variant="outline" size="sm" label="Fire toast" icon="i-lucide-bell" @click="fireToast" />
         </div>
-        <div class="border-t border-muted px-5 py-3 flex flex-wrap gap-3 items-center bg-default">
+        <div class="border-t border-muted px-5 py-3 flex flex-wrap gap-3 items-center bg-muted">
           <USelect v-model="toastColor" :items="colorItems" value-key="value" size="xs" class="w-32" />
         </div>
       </div>
@@ -91,7 +91,7 @@ const progressValue = ref(65)
           <UProgress :value="progressValue" :color="progressColor" :size="progressSize" class="w-64" />
           <USlider v-model="progressValue" class="w-64" />
         </div>
-        <div class="border-t border-muted px-5 py-3 flex flex-wrap gap-3 items-center bg-default">
+        <div class="border-t border-muted px-5 py-3 flex flex-wrap gap-3 items-center bg-muted">
           <USelect v-model="progressColor" :items="colorItems" value-key="value" size="xs" class="w-32" />
           <USelect v-model="progressSize" :items="sizeItems" value-key="value" size="xs" class="w-20" />
         </div>

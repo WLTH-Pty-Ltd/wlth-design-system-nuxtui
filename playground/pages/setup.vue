@@ -156,5 +156,24 @@ npm run dev
 # → opens playground at localhost:3000</pre>
     </div>
 
+    <USeparator />
+
+    <!-- Docs site -->
+    <div class="space-y-3">
+      <p class="text-xs font-semibold uppercase tracking-widest text-muted">Docs site</p>
+      <p class="text-sm text-toned">The playground (this site) is deployed automatically to Vercel on every push to <span class="font-mono text-xs">main</span>. No extra steps required — your normal commit and push workflow is all you need.</p>
+      <pre class="rounded-xl bg-darkblue-900 text-lightgrey-100 text-xs font-mono p-5 overflow-x-auto leading-relaxed">git add .
+git commit -m "your message"
+git push
+# → Vercel detects the push and redeploys the docs site automatically</pre>
+      <UAlert
+        icon="i-lucide-info"
+        color="neutral"
+        variant="subtle"
+        title="Static build"
+        description="Vercel runs npm run generate, which produces a fully static site. No server required."
+      />
+    </div>
+
   </div>
 </template>

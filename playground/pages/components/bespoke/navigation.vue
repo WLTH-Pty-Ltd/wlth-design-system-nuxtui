@@ -129,7 +129,7 @@ const products = [
         <div class="overflow-hidden">
           <AppHeader />
         </div>
-        <div class="border-t border-muted px-5 py-3 flex flex-wrap gap-3 items-center bg-default">
+        <div class="border-t border-muted px-5 py-3 flex flex-wrap gap-3 items-center bg-muted">
           <span class="text-xs text-toned">Product variant</span>
           <USelect v-model="currentProductId" :items="productItems" value-key="value" size="xs" class="w-36" />
         </div>
@@ -148,7 +148,7 @@ const products = [
       <!-- Step 1: extend the layer -->
       <div class="space-y-2">
         <p class="text-xs font-semibold text-toned uppercase tracking-wider">Step 1 — Extend the design system layer</p>
-        <div class="rounded-xl border border-muted overflow-hidden">
+        <div class="rounded-xl border border-muted overflow-hidden bg-muted">
           <div class="px-5 py-4 space-y-2">
             <p class="text-sm text-toned">In the consuming app's <code class="text-xs font-mono bg-elevated px-1 py-0.5 rounded">nuxt.config.ts</code>, extend the layer:</p>
             <pre class="text-xs font-mono bg-elevated rounded-lg px-4 py-3 overflow-x-auto leading-relaxed text-default"><code>// nuxt.config.ts
@@ -163,7 +163,7 @@ export default defineNuxtConfig({
       <!-- Step 2: configure product variant -->
       <div class="space-y-2">
         <p class="text-xs font-semibold text-toned uppercase tracking-wider">Step 2 — Configure the product variant</p>
-        <div class="rounded-xl border border-muted overflow-hidden">
+        <div class="rounded-xl border border-muted overflow-hidden bg-muted">
           <div class="px-5 py-4 space-y-3">
             <p class="text-sm text-toned">
               Set <code class="text-xs font-mono bg-elevated px-1 py-0.5 rounded">wlth.product</code> to the product ID.
@@ -196,7 +196,7 @@ export default defineAppConfig({
       <!-- Step 3: place the component -->
       <div class="space-y-2">
         <p class="text-xs font-semibold text-toned uppercase tracking-wider">Step 3 — Place the component</p>
-        <div class="rounded-xl border border-muted overflow-hidden">
+        <div class="rounded-xl border border-muted overflow-hidden bg-muted">
           <div class="px-5 py-4 space-y-2">
             <p class="text-sm text-toned">Drop <code class="text-xs font-mono bg-elevated px-1 py-0.5 rounded">&lt;AppHeader /&gt;</code> into your app layout:</p>
             <pre class="text-xs font-mono bg-elevated rounded-lg px-4 py-3 overflow-x-auto leading-relaxed text-default"><code>// layouts/default.vue
@@ -215,7 +215,7 @@ export default defineAppConfig({
       <!-- Available products -->
       <div class="space-y-2">
         <p class="text-xs font-semibold text-toned uppercase tracking-wider">Available product IDs</p>
-        <div class="rounded-xl border border-muted overflow-hidden">
+        <div class="rounded-xl border border-muted overflow-hidden bg-muted">
           <div
             v-for="(product, i) in products"
             :key="product.id"
@@ -237,7 +237,7 @@ export default defineAppConfig({
       <!-- NavItem fields -->
       <div class="space-y-2">
         <p class="text-xs font-semibold text-toned uppercase tracking-wider">ProductNavItem fields</p>
-        <div class="rounded-xl border border-muted overflow-hidden">
+        <div class="rounded-xl border border-muted overflow-hidden bg-muted">
           <div class="px-5 py-4">
             <pre class="text-xs font-mono bg-elevated rounded-lg px-4 py-3 overflow-x-auto leading-relaxed text-default"><code>interface ProductNavItem {
   label: string            // Display text
@@ -265,7 +265,7 @@ export default defineAppConfig({
       <!-- Sub-components -->
       <div class="space-y-2">
         <p class="text-xs font-semibold text-toned uppercase tracking-wider">Components</p>
-        <div class="rounded-xl border border-muted overflow-hidden">
+        <div class="rounded-xl border border-muted overflow-hidden bg-muted">
           <div
             v-for="(comp, i) in subComponents"
             :key="comp.name"
@@ -289,7 +289,7 @@ export default defineAppConfig({
       <!-- Composables -->
       <div class="space-y-2">
         <p class="text-xs font-semibold text-toned uppercase tracking-wider">Composables</p>
-        <div class="rounded-xl border border-muted overflow-hidden">
+        <div class="rounded-xl border border-muted overflow-hidden bg-muted">
           <div
             v-for="(comp, i) in composables"
             :key="comp.name"

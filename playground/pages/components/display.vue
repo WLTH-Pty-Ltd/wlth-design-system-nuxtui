@@ -71,7 +71,7 @@ const tableData = [
             <UAvatar src="https://i.pravatar.cc/80?img=13" />
           </UAvatarGroup>
         </div>
-        <div class="border-t border-muted px-5 py-3 flex flex-wrap gap-3 items-center bg-default">
+        <div class="border-t border-muted px-5 py-3 flex flex-wrap gap-3 items-center bg-muted">
           <USelect v-model="avatarSize" :items="sizeItems" value-key="value" size="xs" class="w-20" />
         </div>
       </div>

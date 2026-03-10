@@ -67,7 +67,7 @@ const phoneError = computed(() => {
           <UInput v-model="inputValue" :color="inputColor" :size="inputSize" placeholder="With icon" icon="i-lucide-search" class="w-52" />
           <UInput v-model="inputValue" :color="inputColor" :size="inputSize" placeholder="Disabled" disabled class="w-52" />
         </div>
-        <div class="border-t border-muted px-5 py-3 flex flex-wrap gap-3 items-center bg-default">
+        <div class="border-t border-muted px-5 py-3 flex flex-wrap gap-3 items-center bg-muted">
           <USelect v-model="inputColor" :items="colorItems" value-key="value" size="xs" class="w-32" />
           <USelect v-model="inputSize" :items="sizeItems" value-key="value" size="xs" class="w-20" />
         </div>
@@ -86,7 +86,7 @@ const phoneError = computed(() => {
         <div class="p-6 bg-muted">
           <UTextarea v-model="textareaValue" :color="textareaColor" :size="textareaSize" placeholder="Enter text..." class="w-full max-w-sm" />
         </div>
-        <div class="border-t border-muted px-5 py-3 flex flex-wrap gap-3 items-center bg-default">
+        <div class="border-t border-muted px-5 py-3 flex flex-wrap gap-3 items-center bg-muted">
           <USelect v-model="textareaColor" :items="colorItems" value-key="value" size="xs" class="w-32" />
           <USelect v-model="textareaSize" :items="sizeItems" value-key="value" size="xs" class="w-20" />
         </div>
@@ -105,7 +105,7 @@ const phoneError = computed(() => {
         <div class="p-6 bg-muted">
           <USelect v-model="selectValue" :color="selectColor" :size="selectSize" :items="selectItems" placeholder="Choose an option" class="w-52" />
         </div>
-        <div class="border-t border-muted px-5 py-3 flex flex-wrap gap-3 items-center bg-default">
+        <div class="border-t border-muted px-5 py-3 flex flex-wrap gap-3 items-center bg-muted">
           <USelect v-model="selectColor" :items="colorItems" value-key="value" size="xs" class="w-32" />
           <USelect v-model="selectSize" :items="sizeItems" value-key="value" size="xs" class="w-20" />
         </div>
@@ -126,7 +126,7 @@ const phoneError = computed(() => {
           <UCheckbox :color="checkboxColor" :size="checkboxSize" label="Checked" :default-value="true" />
           <UCheckbox :color="checkboxColor" :size="checkboxSize" label="Disabled" disabled />
         </div>
-        <div class="border-t border-muted px-5 py-3 flex flex-wrap gap-3 items-center bg-default">
+        <div class="border-t border-muted px-5 py-3 flex flex-wrap gap-3 items-center bg-muted">
           <USelect v-model="checkboxColor" :items="colorItems" value-key="value" size="xs" class="w-32" />
           <USelect v-model="checkboxSize" :items="sizeItems" value-key="value" size="xs" class="w-20" />
         </div>
@@ -145,7 +145,7 @@ const phoneError = computed(() => {
         <div class="p-6 bg-muted">
           <URadioGroup v-model="radioValue" :color="radioColor" :size="radioSize" :items="radioItems" />
         </div>
-        <div class="border-t border-muted px-5 py-3 flex flex-wrap gap-3 items-center bg-default">
+        <div class="border-t border-muted px-5 py-3 flex flex-wrap gap-3 items-center bg-muted">
           <USelect v-model="radioColor" :items="colorItems" value-key="value" size="xs" class="w-32" />
           <USelect v-model="radioSize" :items="sizeItems" value-key="value" size="xs" class="w-20" />
         </div>
@@ -165,7 +165,7 @@ const phoneError = computed(() => {
           <USwitch v-model="switchValue" :color="switchColor" :size="switchSize" label="Toggle me" />
           <USwitch :color="switchColor" :size="switchSize" label="Disabled" disabled />
         </div>
-        <div class="border-t border-muted px-5 py-3 flex flex-wrap gap-3 items-center bg-default">
+        <div class="border-t border-muted px-5 py-3 flex flex-wrap gap-3 items-center bg-muted">
           <USelect v-model="switchColor" :items="colorItems" value-key="value" size="xs" class="w-32" />
           <USelect v-model="switchSize" :items="sizeItems" value-key="value" size="xs" class="w-20" />
         </div>
@@ -184,7 +184,7 @@ const phoneError = computed(() => {
         <div class="p-6 bg-muted">
           <USlider v-model="sliderValue" :color="sliderColor" :size="sliderSize" class="w-64" />
         </div>
-        <div class="border-t border-muted px-5 py-3 flex flex-wrap gap-3 items-center bg-default">
+        <div class="border-t border-muted px-5 py-3 flex flex-wrap gap-3 items-center bg-muted">
           <USelect v-model="sliderColor" :items="colorItems" value-key="value" size="xs" class="w-32" />
           <USelect v-model="sliderSize" :items="sizeItems" value-key="value" size="xs" class="w-20" />
         </div>

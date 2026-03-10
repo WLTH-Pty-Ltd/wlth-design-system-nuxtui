@@ -45,7 +45,7 @@ const accordionItems = [
         <div class="p-6 bg-muted">
           <UTabs :items="demoTabItems" :color="tabsColor" :size="tabsSize" :variant="tabsVariant" class="max-w-sm" />
         </div>
-        <div class="border-t border-muted px-5 py-3 flex flex-wrap gap-3 items-center bg-default">
+        <div class="border-t border-muted px-5 py-3 flex flex-wrap gap-3 items-center bg-muted">
           <USelect v-model="tabsColor" :items="colorItems" value-key="value" size="xs" class="w-32" />
           <USelect v-model="tabsVariant" :items="tabsVariantItems" value-key="value" size="xs" class="w-28" />
           <USelect v-model="tabsSize" :items="sizeItems" value-key="value" size="xs" class="w-20" />
@@ -86,7 +86,7 @@ const accordionItems = [
         <div class="p-6 bg-muted">
           <UPagination v-model:page="paginationPage" :total="100" :color="paginationColor" :size="paginationSize" />
         </div>
-        <div class="border-t border-muted px-5 py-3 flex flex-wrap gap-3 items-center bg-default">
+        <div class="border-t border-muted px-5 py-3 flex flex-wrap gap-3 items-center bg-muted">
           <USelect v-model="paginationColor" :items="colorItems" value-key="value" size="xs" class="w-32" />
           <USelect v-model="paginationSize" :items="sizeItems" value-key="value" size="xs" class="w-20" />
         </div>

@@ -19,6 +19,7 @@ const components = [
 
 const bespoke = [
   { label: 'App Header', to: '/components/bespoke/navigation' },
+  { label: 'Charts', to: '/components/bespoke/charts' },
 ]
 
 function isActive(path: string) {
