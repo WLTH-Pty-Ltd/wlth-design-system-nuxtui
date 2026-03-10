@@ -124,20 +124,29 @@ const MOCK_NOTIFICATIONS: HubNotification[] = [
 
 const _useHeader = () => {
   const route = useRoute()
+  const appConfig = useAppConfig()
 
   // Persisted state (localStorage)
   const currentEntityId = useLocalStorage('wlth-entity-id', 'entity-1')
   const roles = useLocalStorage<string[]>('wlth-roles', ['admin'])
   const notificationScope = useLocalStorage<'all' | 'product'>('wlth-notification-scope', 'all')
 
-  // Session state
-  const currentProductId = ref<ProductId>('broker')
+  // Session state — default product comes from app config (consuming app sets wlth.product)
+  const configProduct = (appConfig.wlth as { product?: ProductId } | undefined)?.product
+  const currentProductId = ref<ProductId>(configProduct ?? 'broker')
   const notifications = ref<HubNotification[]>([...MOCK_NOTIFICATIONS])
   const activeLabel = ref('Home')
   watch(currentProductId, () => { activeLabel.value = 'Home' })
 
-  // Computed
-  const currentProduct = computed(() => PRODUCTS[currentProductId.value])
+  // Computed — merge app-config navItem overrides (with real routes) over the defaults
+  const currentProduct = computed(() => {
+    const base = PRODUCTS[currentProductId.value]
+    const configNavItems = (appConfig.wlth as { navItems?: typeof base.navItems } | undefined)?.navItems
+    if (configNavItems?.length) {
+      return { ...base, navItems: configNavItems }
+    }
+    return base
+  })
   const currentEntity = computed(
     () => MOCK_ENTITIES.find(e => e.id === currentEntityId.value) ?? MOCK_ENTITIES[0]!
   )

@@ -1,4 +1,7 @@
 export default defineAppConfig({
+  // Product variant config — consuming apps override this to set their context.
+  // See app/types/index.d.ts for the full WlthAppConfig type.
+  wlth: {},
   ui: {
     // Semantic color mapping — Nuxt UI v4 Design Kit (WLTH).
     // Custom palettes defined via @theme in tokens.css.

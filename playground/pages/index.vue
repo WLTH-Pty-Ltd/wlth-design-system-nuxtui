@@ -15,10 +15,10 @@ definePageMeta({ layout: 'docs' })
         A versioned Nuxt layer providing the complete WLTH brand design system — tokens, fonts, semantic variables, Nuxt UI component defaults, and bespoke navigation components. Extend it in any Nuxt project to inherit the full system.
       </p>
       <div class="flex flex-wrap gap-2 pt-1">
-        <UBadge variant="subtle" color="neutral" size="lg" label="Nuxt 4" />
-        <UBadge variant="subtle" color="neutral" size="lg" label="Nuxt UI v4" />
-        <UBadge variant="subtle" color="neutral" size="lg" label="Tailwind v4" />
-        <UBadge variant="subtle" color="neutral" size="lg" label="SuisseIntl" />
+        <UBadge variant="solid" color="primary" size="lg" label="Nuxt 4" />
+        <UBadge variant="solid" color="primary" size="lg" label="Nuxt UI v4" />
+        <UBadge variant="solid" color="primary" size="lg" label="Tailwind v4" />
+        <UBadge variant="solid" color="primary" size="lg" label="SuisseIntl" />
       </div>
     </div>
 
@@ -56,7 +56,7 @@ definePageMeta({ layout: 'docs' })
     <!-- Quick overview -->
     <div class="space-y-4">
       <h2 class="text-sm font-semibold text-default">What's included</h2>
-      <div class="rounded-xl border border-muted overflow-hidden">
+      <div class="rounded-xl border border-muted overflow-hidden bg-(--ui-bg-muted)">
         <div
           v-for="(item, i) in [
             { icon: 'i-lucide-palette', label: 'Design tokens', desc: 'Royal Blue, Dark Blue, Light Grey, Green, Yellow, Red — 11 shades each' },

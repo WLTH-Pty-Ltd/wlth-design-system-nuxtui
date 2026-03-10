@@ -17,6 +17,8 @@ const { currentProduct, activeLabel, switchProduct } = useHeader()
         square
         size="lg"
         aria-label="Home"
+        :to="item.to"
+        :href="item.href"
         @click="activeLabel = item.label"
       >
         <UIcon name="i-lucide-house" class="size-4" />
@@ -28,6 +30,8 @@ const { currentProduct, activeLabel, switchProduct } = useHeader()
         color="nav"
         variant="soft"
         size="md"
+        :href="item.href"
+        :to="item.to"
         @click="switchProduct('broker')"
       >
         <UIcon :name="item.icon ?? 'i-lucide-arrow-up-right'" class="size-4" />
@@ -40,6 +44,8 @@ const { currentProduct, activeLabel, switchProduct } = useHeader()
         color="nav"
         :variant="activeLabel === item.label ? 'solid' : 'soft'"
         size="md"
+        :to="item.to"
+        :href="item.href"
         @click="activeLabel = item.label"
       >
         {{ item.label }}

@@ -97,6 +97,8 @@ export interface ProductNavItem {
   isHome?: boolean         // renders as icon-only house button
   isCrossProduct?: boolean // opens cross-product switch in new tab
   hasDropdown?: boolean    // shows a chevron indicator when item has a dropdown menu
+  to?: string              // NuxtLink route for in-app navigation
+  href?: string            // external href for cross-app navigation
 }
 
 export interface Product {
@@ -116,4 +118,15 @@ export interface HubNotification {
   body?: string
   timestamp: string
   read: boolean
+}
+
+declare module '@nuxt/schema' {
+  interface AppConfigInput {
+    wlth?: {
+      /** Which product this app is — sets the default header context. */
+      product?: ProductId
+      /** Override the product's nav items with app-specific routes. */
+      navItems?: ProductNavItem[]
+    }
+  }
 }
