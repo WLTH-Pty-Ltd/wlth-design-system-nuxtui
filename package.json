@@ -14,6 +14,7 @@
     "dev": "nuxi dev playground",
     "build": "nuxi build playground",
     "generate": "nuxi generate playground",
+    "generate:vercel": "nuxi generate playground && rm -rf public && mkdir -p public && cp -R playground/.output/public/. public/",
     "prepare": "nuxt prepare"
   },
   "peerDependencies": {

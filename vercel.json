@@ -1,4 +1,4 @@
 {
-  "buildCommand": "npm run generate",
-  "outputDirectory": "playground/.output/public"
+  "buildCommand": "npm run generate:vercel",
+  "outputDirectory": "public"
 }
