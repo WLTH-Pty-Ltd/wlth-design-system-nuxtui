@@ -1,5 +1,4 @@
 {
-  "installCommand": "npm install --include=dev",
-  "buildCommand": "npm run generate:vercel",
+  "buildCommand": "npm install --include=dev && npm run generate:vercel",
   "outputDirectory": "public"
 }
