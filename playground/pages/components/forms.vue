@@ -162,8 +162,8 @@ const phoneError = computed(() => {
       </div>
       <div class="rounded-xl border border-muted overflow-hidden">
         <div class="p-6 bg-muted flex flex-wrap gap-4 items-center">
-          <USwitch v-model="switchValue" :color="switchColor" :size="switchSize" label="Toggle me" />
-          <USwitch :color="switchColor" :size="switchSize" label="Disabled" disabled />
+          <AppSwitch v-model="switchValue" :color="switchColor" :size="switchSize" label="Toggle me" />
+          <AppSwitch :color="switchColor" :size="switchSize" label="Disabled" disabled />
         </div>
         <div class="border-t border-muted px-5 py-3 flex flex-wrap gap-3 items-center bg-muted">
           <USelect v-model="switchColor" :items="colorItems" value-key="value" size="xs" class="w-32" />

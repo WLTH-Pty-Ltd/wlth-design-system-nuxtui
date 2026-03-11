@@ -24,6 +24,8 @@ import AppChartStackedBar from './chart/AppChartStackedBar.vue'
 const props = withDefaults(defineProps<{
   /** Chart type */
   type: AppChartType
+  /** Optional title shown on the same row as the dataset toggle */
+  title?: string
   /** Series definitions — used when not using datasets prop */
   series?: AppChartSeries[]
   /** Data points — used when not using datasets prop */
@@ -44,6 +46,8 @@ const props = withDefaults(defineProps<{
   maxBarHeight?: number
   /** Bar chart: show pagination footer */
   showPagination?: boolean
+  /** Bar chart: show/hide the multi-series legend. Default: true */
+  showLegend?: boolean
   /** Show loading skeleton */
   loading?: boolean
 }>(), {
@@ -89,14 +93,21 @@ const resolvedData = computed<AppChartDataPoint[]>(() => activeDataset.value?.da
 <template>
   <div class="flex flex-col gap-4 w-full">
 
-    <!-- Dataset toggle skeleton -->
-    <div v-if="loading && (datasets?.length ?? 0) > 1" class="flex">
-      <div class="h-8 w-44 rounded-full bg-lightgrey-400 dark:bg-lightgrey-600 animate-pulse" />
-    </div>
+    <!-- Title + Dataset toggle row -->
+    <div
+      v-if="title || showToggle || (loading && (datasets?.length ?? 0) > 1)"
+      class="flex items-center gap-4"
+      :class="{ 'justify-between': title }"
+    >
+      <!-- Title skeleton -->
+      <div v-if="loading && title" class="h-4 w-24 rounded bg-lightgrey-400 dark:bg-lightgrey-600 animate-pulse" />
+      <p v-else-if="title" class="text-sm font-semibold text-default">{{ title }}</p>
 
-    <!-- Dataset toggle — pill switcher above everything -->
-    <div v-else-if="showToggle && datasets" class="flex">
-      <div class="inline-flex items-center gap-1 bg-elevated rounded-full p-1">
+      <!-- Toggle skeleton -->
+      <div v-if="loading && (datasets?.length ?? 0) > 1" class="h-8 w-44 rounded-full bg-lightgrey-400 dark:bg-lightgrey-600 animate-pulse" />
+
+      <!-- Dataset toggle pill -->
+      <div v-else-if="showToggle && datasets" class="inline-flex items-center gap-1 bg-elevated rounded-full p-1">
         <button
           v-for="dataset in datasets"
           :key="dataset.id"
@@ -144,6 +155,7 @@ const resolvedData = computed<AppChartDataPoint[]>(() => activeDataset.value?.da
       :max-bar-height="maxBarHeight"
       :loading="loading"
       :show-pagination="showPagination"
+      :show-legend="showLegend"
       @select="(key, values) => emit('select', key, values)"
     />
 

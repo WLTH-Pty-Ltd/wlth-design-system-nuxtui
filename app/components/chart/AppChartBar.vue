@@ -19,12 +19,15 @@ const props = withDefaults(defineProps<{
   loading?: boolean
   /** Show pagination footer. Default: true */
   showPagination?: boolean
+  /** Show legend (multi-series only). Default: true */
+  showLegend?: boolean
 }>(), {
   format: 'number',
   formatOptions: () => ({}),
   maxBarHeight: 200,
   loading: false,
   showPagination: true,
+  showLegend: true,
 })
 
 const emit = defineEmits<{
@@ -140,11 +143,25 @@ function barHeight(value: number): number {
 
 // ─── Bar color ────────────────────────────────────────────────────────────────
 
+// For active multi-series groups: rank each series bar by value descending.
+// Rank 0 (highest) → royalblue-500, rank 1 → royalblue-300 (3+ series only), rest → grey.
+const activeGroupValueRanks = computed<Record<string, number>>(() => {
+  if (!resolvedActiveKey.value) return {}
+  const point = visibleData.value.find(p => p.key === resolvedActiveKey.value)
+  if (!point) return {}
+  const sorted = props.series
+    .map(s => ({ id: s.id, val: point.values[s.id] ?? 0 }))
+    .sort((a, b) => b.val - a.val)
+  return Object.fromEntries(sorted.map((e, i) => [e.id, i]))
+})
+
 function barColorClass(point: AppChartDataPoint, seriesId: string): string {
   if (point.highlight) return colorToClass(point.highlight)
-  if (point.key === resolvedActiveKey.value) return 'bg-royalblue-500 hover:bg-royalblue-400'
-  const color = seriesColorMap.value[seriesId] ?? 'lightgrey'
-  return colorToMutedClass(color)
+  if (point.key !== resolvedActiveKey.value) return 'bg-lightgrey-700 hover:bg-lightgrey-600'
+  const rank = activeGroupValueRanks.value[seriesId] ?? 0
+  if (rank === 0) return 'bg-royalblue-500 hover:bg-royalblue-400'
+  if (rank === 1 && props.series.length > 2) return 'bg-royalblue-300 hover:bg-royalblue-200'
+  return 'bg-lightgrey-700 hover:bg-lightgrey-600'
 }
 
 function colorToClass(color: string): string {
@@ -157,10 +174,6 @@ function colorToClass(color: string): string {
     lightgrey: 'bg-lightgrey-700 hover:bg-lightgrey-600',
   }
   return map[color] ?? `bg-${color}-500`
-}
-
-function colorToMutedClass(_color: string): string {
-  return 'bg-lightgrey-700 hover:bg-lightgrey-600'
 }
 
 // ─── Legend ──────────────────────────────────────────────────────────────────
@@ -351,8 +364,11 @@ const skeletonHeights = [120, 60, 180, 40, 150, 90, 130, 70, 160, 45, 110, 85]
           </div>
         </template>
 
-        <!-- Value label -->
-        <span class="text-xs font-semibold px-2 py-0.5 rounded-md w-full text-center truncate text-toned">
+        <!-- Value label — always present for layout; hidden for inactive multi-series groups -->
+        <span
+          class="text-xs font-semibold px-2 py-0.5 rounded-md w-full text-center truncate text-toned transition-opacity duration-150"
+          :class="{ 'invisible': series.length > 1 && point.key !== resolvedActiveKey }"
+        >
           {{ formatChartValue(
             series.length === 1
               ? (point.values[series[0].id] ?? 0)
@@ -363,7 +379,7 @@ const skeletonHeights = [120, 60, 180, 40, 150, 90, 130, 70, 160, 45, 110, 85]
         </span>
 
         <!-- Date label -->
-        <span class="text-xs px-2 py-0.5 rounded-md bg-elevated text-muted w-full text-center truncate">
+        <span class="text-xs px-2 py-0.5 rounded-md bg-elevated text-toned w-full text-center truncate">
           {{ point.label }}
         </span>
       </div>
@@ -433,7 +449,15 @@ const skeletonHeights = [120, 60, 180, 40, 150, 90, 130, 70, 160, 45, 110, 85]
     </div>
 
     <!-- Legend (multi-series only) -->
-    <div v-if="series.length > 1" class="flex flex-wrap items-center gap-x-4 gap-y-2">
+    <div v-if="loading && series.length > 1 && showLegend" class="flex flex-wrap items-center gap-x-4 gap-y-2">
+      <div
+        v-for="i in series.length"
+        :key="i"
+        class="h-3 w-20 rounded bg-lightgrey-400 dark:bg-lightgrey-600 animate-pulse"
+        :style="{ animationDelay: `${i * 80}ms` }"
+      />
+    </div>
+    <div v-else-if="series.length > 1 && showLegend" class="flex flex-wrap items-center gap-x-4 gap-y-2">
       <div v-for="s in series" :key="s.id" class="flex items-center gap-1.5">
         <span
           class="inline-block size-3 rounded-full shrink-0"
