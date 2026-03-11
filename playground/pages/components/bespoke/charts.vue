@@ -3,33 +3,97 @@ definePageMeta({ layout: 'docs' })
 
 // ─── Mock data — no API needed ────────────────────────────────────────────────
 
-// Bar chart: broker submitted applications (18 months of history)
-const applicationSeries = [
+// Dataset 1: Submitted Applications
+const submittedSeries = [
   { id: 'submitted', label: 'Submitted Applications', color: 'royalblue' }
 ]
-
 const applicationData = [
-  { key: 'aug-24', label: 'Aug 24', values: { submitted: 412000 } },
-  { key: 'sep-24', label: 'Sept 24', values: { submitted: 661500 } },
-  { key: 'oct-24', label: 'Oct 24', values: { submitted: 0 } },
-  { key: 'nov-24', label: 'Nov 24', values: { submitted: 0 } },
-  { key: 'dec-24', label: 'Dec 24', values: { submitted: 89000 } },
-  { key: 'jan-25', label: 'Jan 25', values: { submitted: 210000 } },
-  { key: 'feb-25', label: 'Feb 25', values: { submitted: 540000 } },
-  { key: 'mar-25', label: 'Mar 25', values: { submitted: 330000 } },
-  { key: 'apr-25', label: 'Apr 25', values: { submitted: 175000 } },
-  { key: 'may-25', label: 'May 25', values: { submitted: 620000 } },
-  { key: 'jun-25', label: 'Jun 25', values: { submitted: 0 } },
-  { key: 'jul-25', label: 'Jul 25', values: { submitted: 440000 } },
-  { key: 'aug-25', label: 'Aug 25', values: { submitted: 890000 } },
-  { key: 'sep-25', label: 'Sept 25', values: { submitted: 661500 } },
-  { key: 'oct-25', label: 'Oct 25', values: { submitted: 0 } },
-  { key: 'nov-25', label: 'Nov 25', values: { submitted: 0 } },
-  { key: 'dec-25', label: 'Dec 25', values: { submitted: 2360000 } },
-  { key: 'jan-26', label: 'Jan 26', values: { submitted: 3970000 } },
+  { key: 'jan-26',  label: 'Jan 26',  values: { submitted: 3970000 } },
+  { key: 'dec-25',  label: 'Dec 25',  values: { submitted: 2360000 } },
+  { key: 'nov-25',  label: 'Nov 25',  values: { submitted: 0 } },
+  { key: 'oct-25',  label: 'Oct 25',  values: { submitted: 0 } },
+  { key: 'sep-25',  label: 'Sept 25', values: { submitted: 661500 } },
+  { key: 'aug-25',  label: 'Aug 25',  values: { submitted: 890000 } },
+  { key: 'jul-25',  label: 'Jul 25',  values: { submitted: 440000 } },
+  { key: 'jun-25',  label: 'Jun 25',  values: { submitted: 0 } },
+  { key: 'may-25',  label: 'May 25',  values: { submitted: 620000 } },
+  { key: 'apr-25',  label: 'Apr 25',  values: { submitted: 175000 } },
+  { key: 'mar-25',  label: 'Mar 25',  values: { submitted: 330000 } },
+  { key: 'feb-25',  label: 'Feb 25',  values: { submitted: 540000 } },
+  { key: 'jan-25',  label: 'Jan 25',  values: { submitted: 210000 } },
+  { key: 'dec-24',  label: 'Dec 24',  values: { submitted: 89000 } },
+  { key: 'nov-24',  label: 'Nov 24',  values: { submitted: 0 } },
+  { key: 'oct-24',  label: 'Oct 24',  values: { submitted: 0 } },
+  { key: 'sep-24',  label: 'Sept 24', values: { submitted: 661500 } },
+  { key: 'aug-24',  label: 'Aug 24',  values: { submitted: 412000 } },
 ]
 
-// Bar chart: rewards — multi-series (business, velocity, frequent flyer)
+// Dataset 2: In Flow Applications
+const inflowSeries = [
+  { id: 'inflow', label: 'In Flow Applications', color: 'royalblue' }
+]
+const inflowData = [
+  { key: 'jan-26',  label: 'Jan 26',  values: { inflow: 2910000 } },
+  { key: 'dec-25',  label: 'Dec 25',  values: { inflow: 1840000 } },
+  { key: 'nov-25',  label: 'Nov 25',  values: { inflow: 75000 } },
+  { key: 'oct-25',  label: 'Oct 25',  values: { inflow: 130000 } },
+  { key: 'sep-25',  label: 'Sept 25', values: { inflow: 510000 } },
+  { key: 'aug-25',  label: 'Aug 25',  values: { inflow: 640000 } },
+  { key: 'jul-25',  label: 'Jul 25',  values: { inflow: 310000 } },
+  { key: 'jun-25',  label: 'Jun 25',  values: { inflow: 95000 } },
+  { key: 'may-25',  label: 'May 25',  values: { inflow: 480000 } },
+  { key: 'apr-25',  label: 'Apr 25',  values: { inflow: 120000 } },
+  { key: 'mar-25',  label: 'Mar 25',  values: { inflow: 275000 } },
+  { key: 'feb-25',  label: 'Feb 25',  values: { inflow: 390000 } },
+  { key: 'jan-25',  label: 'Jan 25',  values: { inflow: 155000 } },
+  { key: 'dec-24',  label: 'Dec 24',  values: { inflow: 62000 } },
+  { key: 'nov-24',  label: 'Nov 24',  values: { inflow: 45000 } },
+  { key: 'oct-24',  label: 'Oct 24',  values: { inflow: 88000 } },
+  { key: 'sep-24',  label: 'Sept 24', values: { inflow: 310000 } },
+  { key: 'aug-24',  label: 'Aug 24',  values: { inflow: 198000 } },
+]
+
+// Combined datasets for toggle
+const applicationDatasets = [
+  {
+    id: 'submitted',
+    label: 'Submitted',
+    total: '$3.97m',
+    series: submittedSeries,
+    data: applicationData,
+  },
+  {
+    id: 'inflow',
+    label: 'In Flow',
+    total: '$2.91m',
+    series: inflowSeries,
+    data: inflowData,
+  },
+]
+
+// ─── Configuration (Figma-style booleans) ─────────────────────────────────────
+
+const config = reactive({
+  showDatasetToggle: true,
+  showPagination: true,
+  loading: false,
+  empty: false,
+  maxBarHeight: 180,
+  window: 5,
+})
+
+const breakpointPresets = [
+  { label: 'Mobile',  icon: 'i-lucide-smartphone', window: 3, maxWidth: '375px' },
+  { label: 'Tablet',  icon: 'i-lucide-tablet',     window: 4, maxWidth: '768px' },
+  { label: 'Desktop', icon: 'i-lucide-monitor',    window: 5, maxWidth: null    },
+]
+
+const activeBreakpoint = computed(() =>
+  breakpointPresets.find(bp => bp.window === config.window) ?? null
+)
+
+// ─── Bar chart: rewards — multi-series (business, velocity, frequent flyer) ──
+
 const rewardSeries = [
   { id: 'business',  label: 'Business Rewards', color: 'royalblue' },
   { id: 'velocity',  label: 'Velocity',          color: 'darkblue'  },
@@ -44,7 +108,8 @@ const rewardData = [
   { key: 'jan-26',  label: 'Jan 26',  values: { business: 4280, velocity: 3452, frequent: 5134 } },
 ]
 
-// Stacked bar: payments — this month
+// ─── Stacked bar: payments ────────────────────────────────────────────────────
+
 const paymentSeriesMonth = [
   { id: 'amex',         label: 'Amex',         color: 'royalblue' },
   { id: 'mastercard',   label: 'Mastercard',   color: 'darkblue'  },
@@ -73,12 +138,12 @@ const components = [
   {
     name: 'AppChart',
     file: 'app/components/AppChart.vue',
-    desc: 'Entry-point wrapper component. Routes to the correct renderer based on the type prop. Provides KPI slot layout above the chart.'
+    desc: 'Entry-point wrapper component. Routes to the correct renderer based on the type prop. Provides KPI slot layout, dataset toggle, and slot layout above the chart.'
   },
   {
     name: 'AppChartBar',
     file: 'app/components/chart/AppChartBar.vue',
-    desc: 'Vertical pill bar renderer. Handles scaling, active-bar highlight, responsive window sizing, pagination, hover tooltips, and multi-series grouped bars.'
+    desc: 'Vertical pill bar renderer. Handles scaling, highest-value highlight, responsive window sizing, pagination, hover tooltips, and multi-series grouped bars.'
   },
   {
     name: 'AppChartStackedBar',
@@ -117,59 +182,161 @@ const composables = [
       </div>
     </div>
 
-    <!-- ─── 2. Pill Bar Chart — single series ───────────────────────────── -->
+    <!-- ─── 2. Bar Chart — Single Series ────────────────────────────────── -->
     <div class="space-y-4">
       <div class="space-y-1">
         <h2 class="text-lg font-semibold text-default">Bar Chart — Single Series</h2>
         <p class="text-sm text-toned">
-          Vertical pill bars with pagination. The last data point is highlighted in royalblue by default.
-          Clicking a bar emits a <code class="text-xs font-mono bg-elevated px-1 py-0.5 rounded">select</code> event.
-          The window auto-reduces from 5 to 3 on mobile.
+          Vertical pill bars with pagination. The highest value bar is highlighted in royalblue.
+          Toggle between datasets using the pill switcher above the chart.
+          Bars animate on load and when switching datasets.
         </p>
       </div>
 
-      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <!-- Live example -->
-        <UCard>
+      <!-- Configuration panel — horizontal strip -->
+      <UCard variant="soft" :ui="{ root: 'rounded-xl bg-(--ui-bg-muted)', body: 'p-4' }">
+        <div class="flex flex-wrap items-center gap-x-6 gap-y-4">
+
+          <!-- Toggle switches -->
+          <div class="flex flex-wrap items-center gap-x-5 gap-y-3">
+            <label class="flex items-center gap-2 cursor-pointer select-none">
+              <AppSwitch v-model="config.showPagination" size="sm" />
+              <span class="text-xs text-toned">Pagination</span>
+            </label>
+            <label class="flex items-center gap-2 cursor-pointer select-none">
+              <AppSwitch v-model="config.showDatasetToggle" size="sm" />
+              <span class="text-xs text-toned">Dataset toggle</span>
+            </label>
+            <label class="flex items-center gap-2 cursor-pointer select-none">
+              <AppSwitch v-model="config.loading" size="sm" />
+              <span class="text-xs text-toned">Loading</span>
+            </label>
+            <label class="flex items-center gap-2 cursor-pointer select-none">
+              <AppSwitch v-model="config.empty" size="sm" />
+              <span class="text-xs text-toned">Empty</span>
+            </label>
+          </div>
+
+          <div class="w-px h-8 bg-muted hidden sm:block" />
+
+          <!-- Max bar height -->
+          <div class="space-y-1.5 min-w-36">
+            <div class="flex items-center justify-between gap-4">
+              <p class="text-xs text-muted">Bar Height</p>
+              <span class="text-xs font-mono text-toned">{{ config.maxBarHeight }}px</span>
+            </div>
+            <input
+              v-model.number="config.maxBarHeight"
+              type="range"
+              min="80"
+              max="300"
+              step="10"
+              class="w-full accent-royalblue-500"
+            />
+          </div>
+
+          <div class="w-px h-8 bg-muted hidden sm:block" />
+
+          <!-- Breakpoint / visible bars -->
+          <div class="space-y-1.5">
+            <div class="flex items-center justify-between gap-4">
+              <p class="text-xs text-muted">Breakpoint</p>
+              <span class="text-xs font-mono text-toned">{{ config.window }} bars</span>
+            </div>
+            <div class="flex items-center gap-1">
+              <div class="inline-flex items-center gap-1 bg-elevated rounded-full p-1">
+                <button
+                  v-for="bp in breakpointPresets"
+                  :key="bp.label"
+                  type="button"
+                  class="flex items-center gap-1.5 text-xs py-1 px-2.5 rounded-full transition-all duration-200 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-royalblue-300 whitespace-nowrap"
+                  :class="config.window === bp.window
+                    ? 'bg-white dark:bg-white/10 text-royalblue-500 font-semibold shadow-sm'
+                    : 'text-toned hover:text-default'"
+                  @click="config.window = bp.window"
+                >
+                  <span :class="[bp.icon, 'size-3 shrink-0']" />
+                  {{ bp.label }}
+                </button>
+              </div>
+              <!-- Fine-tune slider for non-preset counts -->
+              <input
+                v-model.number="config.window"
+                type="range"
+                min="3"
+                max="12"
+                step="1"
+                class="w-24 accent-royalblue-500"
+              />
+            </div>
+          </div>
+
+        </div>
+      </UCard>
+
+      <!-- Live preview — constrained to active breakpoint width -->
+      <div
+        class="transition-all duration-500 ease-in-out"
+        :style="activeBreakpoint?.maxWidth ? `max-width: ${activeBreakpoint.maxWidth}` : ''"
+      >
+        <!-- Breakpoint label (only when a size is selected) -->
+        <div v-if="activeBreakpoint" class="flex items-center gap-1.5 mb-2">
+          <span :class="[activeBreakpoint.icon, 'size-3 text-muted']" />
+          <span class="text-xs text-muted">{{ activeBreakpoint.label }}<span v-if="activeBreakpoint.maxWidth"> · {{ activeBreakpoint.maxWidth }}</span></span>
+        </div>
+        <UCard variant="soft" :ui="{ root: 'rounded-xl bg-(--ui-bg-muted)', body: 'p-4' }">
           <AppChart
             type="bar"
-            :series="applicationSeries"
-            :data="applicationData"
+            :datasets="config.empty ? [] : applicationDatasets"
+            :show-dataset-toggle="config.showDatasetToggle"
+            :show-pagination="config.showPagination"
+            :loading="config.loading"
+            :max-bar-height="config.maxBarHeight"
+            :window="config.window"
             format="currency"
             :format-options="{ currency: '$' }"
-            :max-bar-height="180"
             @select="onSelect"
           >
-            <template #chip>
-              <UBadge color="primary" variant="solid" class="rounded-full text-xs">
-                Submitted Applications
-              </UBadge>
-            </template>
+            <template #kpi-label>this period</template>
           </AppChart>
         </UCard>
+      </div>
 
-        <!-- Code -->
-        <div class="space-y-2">
-          <p class="text-xs font-mono text-toned uppercase tracking-wider">Usage</p>
-          <pre class="text-xs bg-elevated rounded-lg p-4 overflow-auto leading-relaxed"><code>{{ `<AppChart
+      <!-- Select feedback -->
+      <div v-if="lastSelected" class="text-xs text-toned bg-elevated rounded-lg px-3 py-2">
+        Selected: <span class="font-mono text-royalblue-500">{{ lastSelected.key }}</span>
+        — {{ JSON.stringify(lastSelected.values) }}
+      </div>
+
+      <!-- Usage code -->
+      <div class="space-y-2">
+        <p class="text-xs font-mono text-toned uppercase tracking-wider">Usage</p>
+        <pre class="text-xs bg-elevated rounded-lg p-4 overflow-auto leading-relaxed"><code>{{ `<AppChart
   type="bar"
-  :series="[{ id: 'submitted', label: 'Applications', color: 'royalblue' }]"
-  :data="applicationData"
+  :datasets="[
+    {
+      id: 'submitted',
+      label: 'Submitted',
+      total: '$3.97m',
+      series: [{ id: 'submitted', label: 'Submitted Applications', color: 'royalblue' }],
+      data: submittedData,
+    },
+    {
+      id: 'inflow',
+      label: 'In Flow',
+      total: '$2.91m',
+      series: [{ id: 'inflow', label: 'In Flow Applications', color: 'royalblue' }],
+      data: inflowData,
+    },
+  ]"
   format="currency"
   :format-options="{ currency: '$' }"
+  :show-dataset-toggle="true"
+  :show-pagination="true"
   @select="(key, values) => console.log(key, values)"
 >
-  <template #chip>
-    <UBadge>Submitted Applications</UBadge>
-  </template>
+  <template #kpi-label>this period</template>
 </AppChart>` }}</code></pre>
-
-          <!-- Select feedback -->
-          <div v-if="lastSelected" class="text-xs text-toned bg-elevated rounded-lg px-3 py-2">
-            Selected: <span class="font-mono text-royalblue-600">{{ lastSelected.key }}</span>
-            — {{ JSON.stringify(lastSelected.values) }}
-          </div>
-        </div>
       </div>
     </div>
 
@@ -179,7 +346,7 @@ const composables = [
         <h2 class="text-lg font-semibold text-default">Bar Chart — Multi-Series</h2>
         <p class="text-sm text-toned">
           When multiple series are provided, each column renders a group of narrow pills side by side.
-          A legend appears below the chart. The active column highlights all its bars.
+          A legend appears below the chart. The column with the highest total highlights all its bars.
         </p>
       </div>
 
@@ -219,7 +386,7 @@ const composables = [
       </div>
     </div>
 
-    <!-- ─── 4. Stacked Bar Chart ──────────────────────────────────────────── -->
+    <!-- ─── 6. Stacked Bar Chart ──────────────────────────────────────────── -->
     <div class="space-y-4">
       <div class="space-y-1">
         <h2 class="text-lg font-semibold text-default">Stacked Bar — Payments</h2>
@@ -342,7 +509,7 @@ const { data, series, isLoading } = useChartData({
           <UCard>
             <AppChart
               type="bar"
-              :series="applicationSeries"
+              :series="submittedSeries"
               :data="[]"
               loading
             />
@@ -353,7 +520,7 @@ const { data, series, isLoading } = useChartData({
           <UCard>
             <AppChart
               type="bar"
-              :series="applicationSeries"
+              :series="submittedSeries"
               :data="[]"
             />
           </UCard>
@@ -428,16 +595,19 @@ const { data, series, isLoading } = useChartData({
           <tbody>
             <tr v-for="row in [
               { prop: 'type', type: `'bar' | 'stacked-bar'`, def: '—', desc: 'Required. Chart type to render.' },
-              { prop: 'series', type: 'AppChartSeries[]', def: '—', desc: 'Required. Series definitions with id, label, optional color.' },
-              { prop: 'data', type: 'AppChartDataPoint[]', def: '—', desc: 'Required. Data points — key, label, values map, optional highlight.' },
+              { prop: 'series', type: 'AppChartSeries[]', def: '[]', desc: 'Series definitions. Used when not using datasets prop.' },
+              { prop: 'data', type: 'AppChartDataPoint[]', def: '[]', desc: 'Data points. Used when not using datasets prop.' },
+              { prop: 'datasets', type: 'AppChartDataset[]', def: '—', desc: 'Self-contained datasets with own series, data, and optional total. Enables dataset toggle when >1 provided.' },
+              { prop: 'showDatasetToggle', type: 'boolean', def: 'true', desc: 'Show/hide the dataset toggle pill switcher. Auto-true when datasets has >1 entry.' },
               { prop: 'format', type: `'currency' | 'number' | 'percent' | fn`, def: `'number'`, desc: 'Value label format.' },
               { prop: 'formatOptions', type: 'AppChartFormatOptions', def: '{}', desc: 'Options for format (e.g. { currency: \'£\' }).' },
               { prop: 'window', type: 'number', def: '5 (3 mobile)', desc: 'Bar chart: bars visible at once.' },
-              { prop: 'activeKey', type: 'string', def: 'last key', desc: 'Bar chart: override the highlighted bar.' },
+              { prop: 'activeKey', type: 'string', def: 'highest value', desc: 'Bar chart: override the highlighted bar (defaults to bar with highest value).' },
               { prop: 'maxBarHeight', type: 'number', def: '200', desc: 'Bar chart: max bar height in px.' },
+              { prop: 'showPagination', type: 'boolean', def: 'true', desc: 'Bar chart: show/hide pagination footer.' },
               { prop: 'loading', type: 'boolean', def: 'false', desc: 'Show loading skeleton.' },
             ]" :key="row.prop" class="border-b border-muted last:border-0">
-              <td class="px-4 py-3 font-mono text-xs text-royalblue-600">{{ row.prop }}</td>
+              <td class="px-4 py-3 font-mono text-xs text-royalblue-500">{{ row.prop }}</td>
               <td class="px-4 py-3 font-mono text-xs text-toned">{{ row.type }}</td>
               <td class="px-4 py-3 font-mono text-xs text-toned">{{ row.def }}</td>
               <td class="px-4 py-3 text-xs text-toned">{{ row.desc }}</td>

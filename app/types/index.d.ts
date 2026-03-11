@@ -152,6 +152,20 @@ export interface AppChartFormatOptions {
   currency?: string
 }
 
+/** A fully self-contained dataset for use with the AppChart dataset toggle. */
+export interface AppChartDataset {
+  /** Unique identifier for this dataset */
+  id: string
+  /** Label shown on the toggle button (e.g. 'Submitted Applications') */
+  label: string
+  /** Optional pre-formatted KPI value shown when this dataset is active (e.g. '$3.97m') */
+  total?: string
+  /** Series definitions for this dataset */
+  series: AppChartSeries[]
+  /** Data points for this dataset */
+  data: AppChartDataPoint[]
+}
+
 declare module '@nuxt/schema' {
   interface AppConfigInput {
     wlth?: {
