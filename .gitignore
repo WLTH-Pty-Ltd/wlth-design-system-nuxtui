@@ -6,6 +6,7 @@ node_modules/
 .output/
 dist/
 public/
+playground/.vercel/
 
 # macOS
 .DS_Store

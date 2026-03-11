@@ -171,7 +171,7 @@ git push
         color="neutral"
         variant="subtle"
         title="Static build"
-        description="Vercel runs npm run generate, which produces a fully static site. No server required."
+        description="Vercel runs npm run generate:vercel, which produces a fully static site. No server required."
       />
     </div>
 
