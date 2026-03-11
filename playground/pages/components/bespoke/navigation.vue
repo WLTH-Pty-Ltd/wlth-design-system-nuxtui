@@ -170,7 +170,7 @@ export default defineNuxtConfig({
               Provide <code class="text-xs font-mono bg-elevated px-1 py-0.5 rounded">wlth.navItems</code> with real routes
               for this app — these override the design system defaults.
             </p>
-            <pre class="text-xs font-mono bg-elevated rounded-lg px-4 py-3 overflow-x-auto leading-relaxed text-default"><code>// app.config.ts
+            <pre class="text-xs font-mono bg-elevated rounded-lg px-4 py-3 overflow-x-auto leading-relaxed text-default"><code>// app/app.config.ts
 export default defineAppConfig({
   wlth: {
     product: 'pay',

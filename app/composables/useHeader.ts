@@ -2,9 +2,9 @@ import { createSharedComposable, useLocalStorage } from '@vueuse/core'
 import type { EntityOption, HubNotification, Product, ProductId } from '~/types'
 
 export const MOCK_ENTITIES: EntityOption[] = [
-  { id: 'entity-1', name: 'Acme Corp', avatar: { src: '/images/entity%20avatars/Crypto%20Logos/Helium.png', alt: 'Acme Corp' } },
-  { id: 'entity-2', name: 'Globex Holdings', avatar: { src: '/images/entity%20avatars/Crypto%20Logos/Polkadot.png', alt: 'Globex Holdings' } },
-  { id: 'entity-3', name: 'Initech', avatar: { src: '/images/entity%20avatars/Crypto%20Logos/Shiba%20Inu%20SHIB.png', alt: 'Initech' } }
+  { id: 'entity-1', name: 'Acme Corp' },
+  { id: 'entity-2', name: 'Globex Holdings' },
+  { id: 'entity-3', name: 'Initech' }
 ]
 
 export const MOCK_USER = {
@@ -19,12 +19,7 @@ export const PRODUCTS: Record<ProductId, Product> = {
     label: 'Broker',
     icon: 'i-lucide-briefcase',
     baseUrl: '/products/broker',
-    navItems: [
-      { label: 'Home', isHome: true },
-      { label: 'Products', icon: 'i-lucide-package' },
-      { label: 'Applications', icon: 'i-lucide-file-text' },
-      { label: 'Support', icon: 'i-lucide-life-buoy' }
-    ],
+    navItems: [],
     entitySelectorState: 'active'
   },
   pay: {
@@ -32,12 +27,7 @@ export const PRODUCTS: Record<ProductId, Product> = {
     label: 'Pay',
     icon: 'i-lucide-credit-card',
     baseUrl: '/products/pay',
-    navItems: [
-      { label: 'Home', isHome: true },
-      { label: 'Payments', icon: 'i-lucide-credit-card' },
-      { label: 'Payees', icon: 'i-lucide-users' },
-      { label: 'Cards', icon: 'i-lucide-wallet' }
-    ],
+    navItems: [],
     entitySelectorState: 'active'
   },
   shareholder: {
@@ -45,11 +35,7 @@ export const PRODUCTS: Record<ProductId, Product> = {
     label: 'Shareholder',
     icon: 'i-lucide-trending-up',
     baseUrl: '/products/shareholder',
-    navItems: [
-      { label: 'Home', isHome: true },
-      { label: 'Documents', icon: 'i-lucide-folder' },
-      { label: 'Transactions', icon: 'i-lucide-arrow-left-right' }
-    ],
+    navItems: [],
     entitySelectorState: 'active'
   },
   dashboard: {
@@ -57,9 +43,7 @@ export const PRODUCTS: Record<ProductId, Product> = {
     label: 'Dashboard',
     icon: 'i-lucide-layout-dashboard',
     baseUrl: '/products/dashboard',
-    navItems: [
-      { label: 'Home', isHome: true }
-    ],
+    navItems: [],
     entitySelectorState: 'active'
   },
   customer: {
@@ -67,9 +51,7 @@ export const PRODUCTS: Record<ProductId, Product> = {
     label: 'Customer',
     icon: 'i-lucide-user',
     baseUrl: '/products/customer',
-    navItems: [
-      { label: 'Home', isHome: true }
-    ],
+    navItems: [],
     entitySelectorState: 'reserved'
   }
 }

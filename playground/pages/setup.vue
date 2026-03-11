@@ -85,6 +85,67 @@ definePageMeta({ layout: 'docs' })
         title="Pinned versions"
         description="Consuming apps pin to a specific git tag (e.g. #v1.0.0). The layer is immutable at that tag — upgrade by bumping the tag in your package.json."
       />
+
+      <UAlert
+        icon="i-lucide-lock"
+        color="neutral"
+        variant="subtle"
+        title="Private repo?"
+        description='Use the SSH form instead: "git+ssh://git@github.com/rhyeezus/wlth-design-system.git" — works on any machine with GitHub SSH configured. For CI/CD, consider migrating to GitHub Packages.'
+      />
+    </div>
+
+    <USeparator />
+
+    <!-- Starter scaffold -->
+    <div class="space-y-3">
+      <p class="text-xs font-semibold uppercase tracking-widest text-muted">Starter scaffold</p>
+      <p class="text-sm text-toned">Minimum file structure for a consuming Nuxt 4 app.</p>
+      <pre class="rounded-xl bg-darkblue-900 text-lightgrey-100 text-xs font-mono p-5 overflow-x-auto leading-relaxed">app/
+  app.vue
+  app.config.ts        ← inside app/ for Nuxt 4
+  layouts/
+    default.vue        ← mount AppHeader + AppPageLoader here
+  pages/
+    index.vue
+nuxt.config.ts
+package.json
+tsconfig.json          ← { "extends": "./.nuxt/tsconfig.json" }</pre>
+      <div class="space-y-2">
+        <p class="text-xs text-dimmed font-mono">app/app.config.ts</p>
+        <pre class="rounded-xl bg-darkblue-900 text-lightgrey-100 text-xs font-mono p-5 overflow-x-auto leading-relaxed">export default defineAppConfig({
+  wlth: {
+    product: 'broker',  // ← set to your product id
+    navItems: [
+      { label: 'Home', isHome: true, to: '/' },
+      // add your app's routes here
+    ]
+  }
+})</pre>
+      </div>
+      <div class="space-y-2">
+        <p class="text-xs text-dimmed font-mono">app/layouts/default.vue</p>
+        <pre class="rounded-xl bg-darkblue-900 text-lightgrey-100 text-xs font-mono p-5 overflow-x-auto leading-relaxed">&lt;template&gt;
+  &lt;div class="flex flex-col min-h-screen"&gt;
+    &lt;AppPageLoader /&gt;
+    &lt;AppHeader /&gt;
+    &lt;main class="flex-1"&gt;
+      &lt;slot /&gt;
+    &lt;/main&gt;
+  &lt;/div&gt;
+&lt;/template&gt;</pre>
+      </div>
+      <div class="space-y-2">
+        <p class="text-xs text-dimmed font-mono">tsconfig.json</p>
+        <pre class="rounded-xl bg-darkblue-900 text-lightgrey-100 text-xs font-mono p-5 overflow-x-auto leading-relaxed">{ "extends": "./.nuxt/tsconfig.json" }</pre>
+      </div>
+      <UAlert
+        icon="i-lucide-info"
+        color="neutral"
+        variant="subtle"
+        title="tsconfig.json"
+        description="Extending .nuxt/tsconfig.json enables IDE auto-imports for Nuxt composables (useRouter, usePageLoader, etc.) — avoids red underlines for auto-imported functions."
+      />
     </div>
 
     <USeparator />
