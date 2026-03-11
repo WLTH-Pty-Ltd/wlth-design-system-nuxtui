@@ -9,7 +9,7 @@ const isOpen = ref(false)
 const dropdownItems = computed<DropdownMenuItem[][]>(() => [
   MOCK_ENTITIES.map(entity => ({
     label: entity.name,
-    avatar: entity.avatar,
+    avatar: entity.avatar ?? { alt: entity.name },
     active: currentEntity.value.id === entity.id,
     disabled: currentEntity.value.id === entity.id,
     onSelect: () => setEntity(entity.id)
@@ -31,7 +31,7 @@ const dropdownItems = computed<DropdownMenuItem[][]>(() => [
       />
     </template>
     <UButton color="pill" :variant="isOpen ? 'solid' : 'soft'">
-      <UAvatar v-bind="currentEntity.avatar ?? { src: currentEntity.name }" size="xs" class="shrink-0" />
+      <UAvatar v-bind="currentEntity.avatar ?? { alt: currentEntity.name }" size="xs" class="shrink-0" />
       <span class="hidden lg:inline text-sm font-medium text-lightgrey-900 whitespace-nowrap leading-none">
         {{ currentEntity.name }}
       </span>
