@@ -53,13 +53,13 @@ export default defineAppConfig({
           // Dropdown pill trigger — closed / default
           color: 'pill',
           variant: 'soft',
-          class: 'flex items-center gap-1.5 rounded-[24px] border border-(--ui-border-muted) px-3 py-1.5 text-sm bg-(--ui-bg-muted) hover:bg-(--ui-bg-elevated) focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-royalblue-300 transition-colors',
+          class: 'flex items-center gap-1.5 rounded-[24px] border border-lightgrey-600 px-3 py-1.5 text-sm bg-transparent hover:bg-lightgrey-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-royalblue-300 transition-colors',
         },
         {
           // Dropdown pill trigger — open (dropdown is visible)
           color: 'pill',
           variant: 'solid',
-          class: 'flex items-center gap-1.5 rounded-[24px] border-2 border-(--ui-border-highlighted) px-3 py-1.5 text-sm bg-(--ui-bg-muted) focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-royalblue-300 transition-colors',
+          class: 'flex items-center gap-1.5 rounded-[24px] border-2 border-(--ui-border-highlighted) px-3 py-1.5 text-sm bg-(--ui-bg-accented) focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-royalblue-300 transition-colors',
         },
       ],
     },
@@ -82,7 +82,7 @@ export default defineAppConfig({
     //   active=true  — current / highlighted row (non-interactive, visually distinct)
     dropdownMenu: {
       slots: {
-        content:      'bg-(--ui-bg-muted) ring-0 border border-(--ui-border-muted) rounded-xl shadow-xl py-4 px-4',
+        content:      'bg-lightgrey-50 ring-0 border border-lightgrey-300 rounded-xl shadow-xl py-4 px-4',
         group:        'p-1 isolate flex flex-col gap-1',
         item:         'rounded-lg',
         itemLabel:    'text-lightgrey-900 font-medium',
@@ -93,7 +93,7 @@ export default defineAppConfig({
           // Unhovered / unselected row
           active: false,
           class: {
-            item:            'data-highlighted:text-lightgrey-950 data-highlighted:before:bg-(--ui-bg-elevated)',
+            item:            'data-highlighted:text-lightgrey-950 data-highlighted:before:bg-lightgrey-200',
             itemLeadingIcon: 'group-data-highlighted:text-(--ui-text-highlighted)',
           },
         },
