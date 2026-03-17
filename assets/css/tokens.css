@@ -330,7 +330,7 @@
   --ui-radius-2xl: var(--radius-2xl);
   --ui-radius-3xl: var(--radius-3xl);
   --ui-radius-full: var(--radius-full);
-  --ui-radius: var(--radius-sm);
+  --ui-radius: var(--radius-3xl);
 }
 
 /* ---------- DARK THEME ---------- */

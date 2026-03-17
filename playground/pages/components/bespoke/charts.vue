@@ -237,6 +237,41 @@ const composables = [
     desc: "Formats numeric values for chart labels. Modes: 'currency' ($661.5k, $3.97m), 'number' (12,563), 'percent' (25%), or a custom formatter function."
   },
 ]
+
+// ─── Code snippets ────────────────────────────────────────────────────────────
+
+const barSingleCode = computed(() => {
+  const props: string[] = ['  type="bar"', '  :series="series"', '  :data="data"', '  format="currency"']
+  if (!barSingleConfig.showTitle)         props.push('  :show-title="false"')
+  if (!barSingleConfig.showDatasetToggle) props.push('  :show-dataset-toggle="false"')
+  if (!barSingleConfig.showPagination)    props.push('  :show-pagination="false"')
+  if (barSingleConfig.loading)            props.push('  loading')
+  if (barSingleConfig.empty)              props.push('  :data="[]"')
+  if (barSingleConfig.window !== 5)       props.push(`  :window="${barSingleConfig.window}"`)
+  if (barSingleConfig.maxBarHeight !== 180) props.push(`  :max-bar-height="${barSingleConfig.maxBarHeight}"`)
+  return `<AppChart\n${props.join('\n')}\n/>`
+})
+
+const barMultiCode = computed(() => {
+  const props: string[] = ['  type="bar"', '  :datasets="datasets"', '  format="currency"']
+  if (!barMultiConfig.showTitle)         props.push('  :show-title="false"')
+  if (!barMultiConfig.showDatasetToggle) props.push('  :show-dataset-toggle="false"')
+  if (!barMultiConfig.showPagination)    props.push('  :show-pagination="false"')
+  if (!barMultiConfig.showLegend)        props.push('  :show-legend="false"')
+  if (barMultiConfig.loading)            props.push('  loading')
+  if (barMultiConfig.empty)              props.push('  :data="[]"')
+  if (barMultiConfig.window !== 7)       props.push(`  :window="${barMultiConfig.window}"`)
+  if (barMultiConfig.maxBarHeight !== 160) props.push(`  :max-bar-height="${barMultiConfig.maxBarHeight}"`)
+  return `<AppChart\n${props.join('\n')}\n/>`
+})
+
+const stackedCode = computed(() => {
+  const props: string[] = ['  type="stacked-bar"', '  :series="series"', '  :data="data"']
+  if (!stackedConfig.showTitle) props.push('  :show-title="false"')
+  if (stackedConfig.loading)    props.push('  loading')
+  if (stackedConfig.empty)      props.push('  :data="[]"')
+  return `<AppChart\n${props.join('\n')}\n/>`
+})
 </script>
 
 <template>
@@ -395,6 +430,8 @@ const composables = [
 ]"` }}</code></pre>
           </div>
 
+          <AppCodeBlock :code="barSingleCode" />
+
         </div>
       </template>
 
@@ -536,6 +573,8 @@ const composables = [
 />` }}</code></pre>
           </div>
 
+          <AppCodeBlock :code="barMultiCode" />
+
         </div>
       </template>
 
@@ -612,6 +651,8 @@ const composables = [
   <template #kpi-label>this month</template>
 </AppChart>` }}</code></pre>
           </div>
+
+          <AppCodeBlock :code="stackedCode" />
 
         </div>
       </template>

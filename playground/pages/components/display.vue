@@ -6,16 +6,6 @@ const sizeItems = toItems(['xs', 'sm', 'md', 'lg', 'xl'])
 
 const avatarSize = ref('md')
 
-const tableColumns = [
-  { accessorKey: 'name', header: 'Name' },
-  { accessorKey: 'role', header: 'Role' },
-  { accessorKey: 'status', header: 'Status' }
-]
-const tableData = [
-  { id: 1, name: 'Alice Martin', role: 'Designer', status: 'Active' },
-  { id: 2, name: 'Bob Chen', role: 'Engineer', status: 'Active' },
-  { id: 3, name: 'Carol White', role: 'Product', status: 'Inactive' }
-]
 </script>
 
 <template>
@@ -96,20 +86,6 @@ const tableData = [
       </div>
     </section>
 
-    <USeparator />
-
-    <!-- Table -->
-    <section class="space-y-4">
-      <div class="space-y-0.5">
-        <h2 class="text-base font-semibold text-default">Table</h2>
-        <p class="text-sm text-toned">Data table with column definitions and row data.</p>
-      </div>
-      <div class="rounded-xl border border-muted overflow-hidden">
-        <div class="p-6 bg-muted">
-          <UTable :columns="tableColumns" :data="tableData" class="max-w-lg" />
-        </div>
-      </div>
-    </section>
 
   </div>
 </template>

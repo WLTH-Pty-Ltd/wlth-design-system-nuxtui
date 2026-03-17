@@ -165,7 +165,31 @@ export default defineAppConfig({
     },
 
 
+    // ─── Table ────────────────────────────────────────────────────────────────
+
+    table: {
+      slots: {
+tr:        'bg-muted hover:bg-elevated data-[selected=true]:bg-elevated',
+        tbody:     '!divide-lightgrey-400',
+        separator: '!bg-(--ui-border-muted)',
+        td:        'text-toned'
+      },
+    },
+
+
     // ─── Form controls ────────────────────────────────────────────────────────
+
+    input: {
+      slots: { base: '!bg-muted' },
+    },
+
+    textarea: {
+      slots: { base: '!bg-muted' },
+    },
+
+    select: {
+      slots: { base: '!bg-muted' },
+    },
 
   },
 })

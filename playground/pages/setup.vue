@@ -208,6 +208,49 @@ tsconfig.json          ← { "extends": "./.nuxt/tsconfig.json" }</pre>
 
     <USeparator />
 
+    <!-- Pulling latest changes -->
+    <div class="space-y-3">
+      <p class="text-xs font-semibold uppercase tracking-widest text-muted">Upgrading the design system in your app</p>
+      <p class="text-sm text-toned">The design system is pinned by git tag in your consuming app's <span class="font-mono text-xs">package.json</span>. Running <span class="font-mono text-xs">git pull</span> in your app does not update it — npm has already resolved and cached the pinned version. To get a newer version of the design system you must explicitly bump the tag and reinstall.</p>
+
+      <div class="space-y-2">
+        <p class="text-xs text-dimmed font-mono">Option A — latest from main (no version number needed)</p>
+        <pre class="rounded-xl bg-darkblue-900 text-lightgrey-100 text-xs font-mono p-5 overflow-x-auto leading-relaxed">npm install "github:rhyeezus/wlth-design-system"
+npm run dev</pre>
+      </div>
+
+      <div class="space-y-2">
+        <p class="text-xs text-dimmed font-mono">Option B — pin to a specific release tag</p>
+        <pre class="rounded-xl bg-darkblue-900 text-lightgrey-100 text-xs font-mono p-5 overflow-x-auto leading-relaxed">npm install "github:rhyeezus/wlth-design-system#v1.1.0"
+npm run dev</pre>
+      </div>
+
+      <UAlert
+        icon="i-lucide-info"
+        color="info"
+        variant="subtle"
+        title="Both commands update package.json automatically"
+        description="You don't need to edit any files manually. npm install writes the new reference into your package.json and package-lock.json for you."
+      />
+      <UAlert
+        icon="i-lucide-triangle-alert"
+        color="warning"
+        variant="subtle"
+        title="zsh: event not found?"
+        description="zsh treats # as a comment character, so the tag suffix will cause an error if unquoted. Always wrap the full string in quotes as shown above."
+      />
+
+      <UAlert
+        icon="i-lucide-triangle-alert"
+        color="warning"
+        variant="subtle"
+        title="git pull won't update the dependency"
+        description="Pulling your consuming repo only updates your own code. The design system version is locked to whatever tag is in your package.json — only bumping that tag and reinstalling will pull in design system changes."
+      />
+    </div>
+
+    <USeparator />
+
     <!-- Local dev -->
     <div class="space-y-3">
       <p class="text-xs font-semibold uppercase tracking-widest text-muted">Local development</p>

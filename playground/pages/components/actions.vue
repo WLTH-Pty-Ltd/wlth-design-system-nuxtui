@@ -18,6 +18,21 @@ const badgeVariant = ref('subtle')
 
 const chipColor = ref('primary')
 const chipSize = ref('md')
+
+const buttonCode = computed(() => {
+  const attrs = [`color="${buttonColor.value}"`, `variant="${buttonVariant.value}"`, `size="${buttonSize.value}"`]
+  return `<UButton ${attrs.join(' ')} label="Button" />`
+})
+
+const badgeCode = computed(() => {
+  const attrs = [`color="${badgeColor.value}"`, `variant="${badgeVariant.value}"`, `size="${badgeSize.value}"`]
+  return `<UBadge ${attrs.join(' ')} label="Badge" />`
+})
+
+const chipCode = computed(() => {
+  const attrs = [`color="${chipColor.value}"`, `size="${chipSize.value}"`]
+  return `<UChip ${attrs.join(' ')}>\n  <UButton color="neutral" variant="outline" size="sm" label="Notification" />\n</UChip>`
+})
 </script>
 
 <template>
@@ -48,6 +63,7 @@ const chipSize = ref('md')
           <USelect v-model="buttonSize" :items="sizeItems" value-key="value" size="xs" class="w-20" />
         </div>
       </div>
+      <AppCodeBlock :code="buttonCode" />
     </section>
 
     <USeparator />
@@ -70,6 +86,7 @@ const chipSize = ref('md')
           <USelect v-model="badgeSize" :items="sizeItems" value-key="value" size="xs" class="w-20" />
         </div>
       </div>
+      <AppCodeBlock :code="badgeCode" />
     </section>
 
     <USeparator />
@@ -94,6 +111,7 @@ const chipSize = ref('md')
           <USelect v-model="chipSize" :items="sizeItems" value-key="value" size="xs" class="w-20" />
         </div>
       </div>
+      <AppCodeBlock :code="chipCode" />
     </section>
 
     <USeparator />

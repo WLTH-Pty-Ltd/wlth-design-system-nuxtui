@@ -89,6 +89,12 @@ function nextPage() {
   if (pageIndex.value < totalPages.value - 1) pageIndex.value++
 }
 
+// Bridge for AppPagination (1-based) ↔ internal pageIndex (0-based)
+const paginationPage = computed({
+  get: () => pageIndex.value + 1,
+  set: (val: number) => { pageIndex.value = val - 1 },
+})
+
 // ─── Active bar ───────────────────────────────────────────────────────────────
 // Priority: localActiveKey (user clicked) → prop override → highest value bar
 
@@ -388,64 +394,10 @@ const skeletonHeights = [120, 60, 180, 40, 150, 90, 130, 70, 160, 45, 110, 85]
     <!-- Pagination footer — always rendered (v-show) to prevent height jump -->
     <div
       v-show="showPagination && (loading || data.length > windowSize)"
-      class="flex items-center justify-between pt-3 border-t border-muted"
+      class="pt-3 border-t border-muted"
       :class="{ 'pointer-events-none': !showPagination || (!loading && data.length <= windowSize) }"
     >
-      <!-- Skeleton pagination -->
-      <template v-if="loading">
-        <div class="flex items-center gap-1.5">
-          <div
-            v-for="i in 4" :key="i"
-            class="h-1.5 w-1.5 rounded-full bg-lightgrey-400 dark:bg-lightgrey-600 animate-pulse"
-            :style="{ animationDelay: `${i * 80}ms` }"
-          />
-        </div>
-        <div class="flex gap-2">
-          <div class="h-6 w-6 rounded-md bg-lightgrey-400 dark:bg-lightgrey-600 animate-pulse" />
-          <div class="h-6 w-6 rounded-md bg-lightgrey-400 dark:bg-lightgrey-600 animate-pulse" style="animation-delay: 80ms" />
-        </div>
-      </template>
-
-      <!-- Real pagination -->
-      <template v-else>
-        <!-- Page dots -->
-        <div class="flex items-center gap-1.5">
-          <button
-            v-for="i in totalPages"
-            :key="i"
-            type="button"
-            class="rounded-full transition-all duration-200 cursor-pointer focus-visible:outline-none"
-            :class="i - 1 === pageIndex
-              ? 'w-4 h-1.5 bg-royalblue-500'
-              : 'w-1.5 h-1.5 bg-lightgrey-700 hover:bg-lightgrey-600'"
-            :aria-label="`Go to page ${i}`"
-            @click="pageIndex = i - 1"
-          />
-        </div>
-        <!-- Prev / Next -->
-        <div class="flex gap-2">
-          <UButton
-            size="xs"
-            color="neutral"
-            variant="outline"
-            icon="i-lucide-chevron-left"
-            :disabled="pageIndex === 0"
-            aria-label="Previous"
-            square
-            @click="prevPage"
-          />
-          <UButton
-            size="xs"
-            color="neutral"
-            variant="outline"
-            icon="i-lucide-chevron-right"
-            :disabled="pageIndex >= totalPages - 1"
-            aria-label="Next"
-            square
-            @click="nextPage"
-          />
-        </div>
-      </template>
+      <AppPagination v-model:page="paginationPage" :total="totalPages" :loading="loading" />
     </div>
 
     <!-- Legend (multi-series only) -->

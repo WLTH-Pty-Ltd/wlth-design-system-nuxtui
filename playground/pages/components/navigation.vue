@@ -4,7 +4,7 @@ definePageMeta({ layout: 'docs' })
 const toItems = (arr: string[]) => arr.map(v => ({ label: v, value: v }))
 
 const colorItems = toItems(['primary', 'secondary', 'success', 'info', 'warning', 'error', 'neutral'])
-const sizeItems = toItems(['xs', 'sm', 'md', 'lg', 'xl'])
+const sizeItems  = toItems(['xs', 'sm', 'md', 'lg', 'xl'])
 const tabsVariantItems = toItems(['pill', 'link', 'underline'])
 
 const tabsColor = ref('primary')
@@ -15,10 +15,6 @@ const demoTabItems = [
   { label: 'Tab Two', value: 'two' },
   { label: 'Tab Three', value: 'three' }
 ]
-
-const paginationPage = ref(3)
-const paginationColor = ref('primary')
-const paginationSize = ref('md')
 
 const accordionItems = [
   { value: 'q1', label: 'What is Nuxt UI?', content: 'Nuxt UI is a comprehensive UI component library for Nuxt 3 and 4, built on top of Reka UI and Tailwind CSS.' },
@@ -70,25 +66,6 @@ const accordionItems = [
               { label: 'Navigation' }
             ]"
           />
-        </div>
-      </div>
-    </section>
-
-    <USeparator />
-
-    <!-- Pagination -->
-    <section class="space-y-4">
-      <div class="space-y-0.5">
-        <h2 class="text-base font-semibold text-default">Pagination</h2>
-        <p class="text-sm text-toned">Page navigation control for large datasets.</p>
-      </div>
-      <div class="rounded-xl border border-muted overflow-hidden">
-        <div class="p-6 bg-muted">
-          <UPagination v-model:page="paginationPage" :total="100" :color="paginationColor" :size="paginationSize" />
-        </div>
-        <div class="border-t border-muted px-5 py-3 flex flex-wrap gap-3 items-center bg-muted">
-          <USelect v-model="paginationColor" :items="colorItems" value-key="value" size="xs" class="w-32" />
-          <USelect v-model="paginationSize" :items="sizeItems" value-key="value" size="xs" class="w-20" />
         </div>
       </div>
     </section>

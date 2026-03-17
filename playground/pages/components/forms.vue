@@ -45,6 +45,14 @@ const phoneError = computed(() => {
   const stripped = phoneValue.value.replace(/[\s\-]/g, '')
   return /^04\d{8}$/.test(stripped) ? '' : 'Enter a valid Australian mobile number (04XX XXX XXX)'
 })
+
+const inputCode = computed(() => `<UInput color="${inputColor.value}" size="${inputSize.value}" placeholder="Plain input" />`)
+const textareaCode = computed(() => `<UTextarea color="${textareaColor.value}" size="${textareaSize.value}" placeholder="Enter text..." />`)
+const selectCode = computed(() => `<USelect color="${selectColor.value}" size="${selectSize.value}" :items="items" placeholder="Choose an option" />`)
+const checkboxCode = computed(() => `<UCheckbox color="${checkboxColor.value}" size="${checkboxSize.value}" label="Option" />`)
+const radioCode = computed(() => `<URadioGroup color="${radioColor.value}" size="${radioSize.value}" v-model="value" :items="items" />`)
+const switchCode = computed(() => `<AppSwitch color="${switchColor.value}" size="${switchSize.value}" v-model="value" label="Toggle me" />`)
+const sliderCode = computed(() => `<USlider color="${sliderColor.value}" size="${sliderSize.value}" v-model="value" />`)
 </script>
 
 <template>
@@ -72,6 +80,7 @@ const phoneError = computed(() => {
           <USelect v-model="inputSize" :items="sizeItems" value-key="value" size="xs" class="w-20" />
         </div>
       </div>
+      <AppCodeBlock :code="inputCode" />
     </section>
 
     <USeparator />
@@ -91,6 +100,7 @@ const phoneError = computed(() => {
           <USelect v-model="textareaSize" :items="sizeItems" value-key="value" size="xs" class="w-20" />
         </div>
       </div>
+      <AppCodeBlock :code="textareaCode" />
     </section>
 
     <USeparator />
@@ -110,6 +120,7 @@ const phoneError = computed(() => {
           <USelect v-model="selectSize" :items="sizeItems" value-key="value" size="xs" class="w-20" />
         </div>
       </div>
+      <AppCodeBlock :code="selectCode" />
     </section>
 
     <USeparator />
@@ -131,6 +142,7 @@ const phoneError = computed(() => {
           <USelect v-model="checkboxSize" :items="sizeItems" value-key="value" size="xs" class="w-20" />
         </div>
       </div>
+      <AppCodeBlock :code="checkboxCode" />
     </section>
 
     <USeparator />
@@ -150,6 +162,7 @@ const phoneError = computed(() => {
           <USelect v-model="radioSize" :items="sizeItems" value-key="value" size="xs" class="w-20" />
         </div>
       </div>
+      <AppCodeBlock :code="radioCode" />
     </section>
 
     <USeparator />
@@ -170,6 +183,7 @@ const phoneError = computed(() => {
           <USelect v-model="switchSize" :items="sizeItems" value-key="value" size="xs" class="w-20" />
         </div>
       </div>
+      <AppCodeBlock :code="switchCode" />
     </section>
 
     <USeparator />
@@ -189,6 +203,7 @@ const phoneError = computed(() => {
           <USelect v-model="sliderSize" :items="sizeItems" value-key="value" size="xs" class="w-20" />
         </div>
       </div>
+      <AppCodeBlock :code="sliderCode" />
     </section>
 
     <USeparator />

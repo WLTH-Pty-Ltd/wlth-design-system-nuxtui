@@ -26,6 +26,10 @@ function fireToast() {
 const progressColor = ref('primary')
 const progressSize = ref('md')
 const progressValue = ref(65)
+
+const alertCode = computed(() => `<UAlert\n  color="${alertColor.value}"\n  variant="${alertVariant.value}"\n  title="Alert title"\n  description="Additional context here."\n  icon="i-lucide-info"\n/>`)
+const toastCode = computed(() => `const toast = useToast()\ntoast.add({\n  title: 'Notification',\n  description: 'Message here.',\n  color: '${toastColor.value}'\n})`)
+const progressCode = computed(() => `<UProgress :value="value" color="${progressColor.value}" size="${progressSize.value}" />`)
 </script>
 
 <template>
@@ -58,6 +62,7 @@ const progressValue = ref(65)
           <USelect v-model="alertVariant" :items="alertVariantItems" value-key="value" size="xs" class="w-32" />
         </div>
       </div>
+      <AppCodeBlock :code="alertCode" />
     </section>
 
     <USeparator />
@@ -76,6 +81,7 @@ const progressValue = ref(65)
           <USelect v-model="toastColor" :items="colorItems" value-key="value" size="xs" class="w-32" />
         </div>
       </div>
+      <AppCodeBlock :code="toastCode" />
     </section>
 
     <USeparator />
@@ -96,6 +102,7 @@ const progressValue = ref(65)
           <USelect v-model="progressSize" :items="sizeItems" value-key="value" size="xs" class="w-20" />
         </div>
       </div>
+      <AppCodeBlock :code="progressCode" />
     </section>
 
     <USeparator />

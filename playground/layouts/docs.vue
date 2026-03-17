@@ -13,6 +13,7 @@ const components = [
   { label: 'Overlays', to: '/components/overlays' },
   { label: 'Navigation', to: '/components/navigation' },
   { label: 'Display', to: '/components/display' },
+  { label: 'Tables', to: '/components/tables' },
   { label: 'Colors', to: '/components/colors' },
   { label: 'Tokens', to: '/components/tokens' },
 ]
@@ -20,6 +21,7 @@ const components = [
 const bespoke = [
   { label: 'App Header', to: '/components/bespoke/navigation' },
   { label: 'Charts', to: '/components/bespoke/charts' },
+  { label: 'Pagination', to: '/components/bespoke/pagination' },
 ]
 
 function isActive(path: string) {
@@ -30,7 +32,7 @@ function isActive(path: string) {
 <template>
   <div class="flex min-h-screen bg-default">
       <!-- Sidebar -->
-      <aside class="w-60 shrink-0 border-r border-muted flex flex-col bg-(--ui-bg-muted)">
+      <aside class="w-60 shrink-0 border-r border-muted flex flex-col bg-muted">
         <!-- Nav -->
         <nav class="flex-1 overflow-y-auto py-12 px-6 space-y-6">
           <!-- Getting Started -->
