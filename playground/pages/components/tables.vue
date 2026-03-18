@@ -570,18 +570,20 @@ const showFooterBar = computed(() => config.rowSelection || config.showFooter)
       </div>
 
       <!-- Table — height always fixed on UTable so its overflow-auto root is the scroll container -->
-      <UTable
-        ref="tableRef"
-        v-model:rowSelection="rowSelection"
-        :columns="activeColumns"
-        :data="displayData"
-        :loading="config.loading"
-        :loading-color="config.loadingColor"
-        :loading-animation="config.loadingAnimation"
-        :sticky="stickyProp"
-        :ui="tableUI"
-        class="h-[568px]"
-      />
+      <div :class="config.showPagination ? 'min-h-[568px]' : ''">
+        <UTable
+          ref="tableRef"
+          v-model:rowSelection="rowSelection"
+          :columns="activeColumns"
+          :data="displayData"
+          :loading="config.loading"
+          :loading-color="config.loadingColor"
+          :loading-animation="config.loadingAnimation"
+          :sticky="stickyProp"
+          :ui="tableUI"
+          class="h-[568px]"
+        />
+      </div>
 
       <!-- Footer bar -->
       <div v-if="showFooterBar" class="border-t border-muted px-5 py-3 bg-elevated flex items-center gap-4">
@@ -589,24 +591,26 @@ const showFooterBar = computed(() => config.rowSelection || config.showFooter)
         <!-- Summary ON + Pagination ON: [summary | dots | controls] -->
         <template v-if="config.showSummary && config.showPagination">
           <p class="flex-1 text-xs text-toned shrink-0">{{ footerClientLabel }} · {{ footerAUM }}</p>
-          <div class="flex items-center gap-1.5">
-            <button
-              v-for="i in pageCount" :key="i" type="button"
-              class="rounded-full transition-all duration-200 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-royalblue-300"
-              :class="i === currentPage ? 'w-4 h-1.5 bg-royalblue-500' : 'w-1.5 h-1.5 bg-lightgrey-700 hover:bg-lightgrey-600'"
-              :aria-label="`Go to page ${i}`" @click="currentPage = i"
-            />
-          </div>
-          <div class="flex-1 flex items-center justify-end gap-1">
-            <UButton :size="config.paginationSize" color="secondary" variant="outline" icon="i-lucide-chevron-left" :disabled="currentPage <= 1" square class="rounded-full!" @click="currentPage > 1 && currentPage--" />
-            <template v-if="config.paginationShowNumbers">
-              <button v-if="paginationBlockStart > 1" type="button" :class="[paginationNumBtnClass, 'flex items-center justify-center rounded-full border border-darkblue-300 text-darkblue-600 transition-colors cursor-pointer hover:bg-darkblue-50']" @click="paginationJumpBack">…</button>
-              <button v-for="i in paginationVisiblePages" :key="i" type="button" class="flex items-center justify-center rounded-full border transition-colors cursor-pointer" :class="[paginationNumBtnClass, i === currentPage ? 'bg-royalblue-500 text-white border-royalblue-500' : 'text-darkblue-600 border-darkblue-300 hover:bg-darkblue-50']" @click="currentPage = i">{{ i }}</button>
-              <button v-if="paginationBlockEnd < pageCount" type="button" :class="[paginationNumBtnClass, 'flex items-center justify-center rounded-full border border-darkblue-300 text-darkblue-600 transition-colors cursor-pointer hover:bg-darkblue-50']" @click="paginationJumpForward">…</button>
-            </template>
-            <UButton :size="config.paginationSize" color="secondary" variant="outline" icon="i-lucide-chevron-right" :disabled="currentPage >= pageCount" square class="rounded-full!" @click="currentPage < pageCount && currentPage++" />
-            <span v-if="config.rowSelection" class="ml-3 text-xs text-toned">{{ selectedCount }} of {{ totalCount }} selected</span>
-          </div>
+          <template v-if="pageCount > 1">
+            <div class="flex items-center gap-1.5">
+              <button
+                v-for="i in pageCount" :key="i" type="button"
+                class="rounded-full transition-all duration-200 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-royalblue-300"
+                :class="i === currentPage ? 'w-4 h-1.5 bg-royalblue-500' : 'w-1.5 h-1.5 bg-lightgrey-700 hover:bg-lightgrey-600'"
+                :aria-label="`Go to page ${i}`" @click="currentPage = i"
+              />
+            </div>
+            <div class="flex-1 flex items-center justify-end gap-1">
+              <UButton :size="config.paginationSize" color="secondary" variant="outline" icon="i-lucide-chevron-left" :disabled="currentPage <= 1" square class="rounded-full!" @click="currentPage > 1 && currentPage--" />
+              <template v-if="config.paginationShowNumbers">
+                <button v-if="paginationBlockStart > 1" type="button" :class="[paginationNumBtnClass, 'flex items-center justify-center rounded-full border border-darkblue-300 text-darkblue-600 transition-colors cursor-pointer hover:bg-darkblue-50']" @click="paginationJumpBack">…</button>
+                <button v-for="i in paginationVisiblePages" :key="i" type="button" class="flex items-center justify-center rounded-full border transition-colors cursor-pointer" :class="[paginationNumBtnClass, i === currentPage ? 'bg-royalblue-500 text-white border-royalblue-500' : 'text-darkblue-600 border-darkblue-300 hover:bg-darkblue-50']" @click="currentPage = i">{{ i }}</button>
+                <button v-if="paginationBlockEnd < pageCount" type="button" :class="[paginationNumBtnClass, 'flex items-center justify-center rounded-full border border-darkblue-300 text-darkblue-600 transition-colors cursor-pointer hover:bg-darkblue-50']" @click="paginationJumpForward">…</button>
+              </template>
+              <UButton :size="config.paginationSize" color="secondary" variant="outline" icon="i-lucide-chevron-right" :disabled="currentPage >= pageCount" square class="rounded-full!" @click="currentPage < pageCount && currentPage++" />
+              <span v-if="config.rowSelection" class="ml-3 text-xs text-toned">{{ selectedCount }} of {{ totalCount }} selected</span>
+            </div>
+          </template>
         </template>
 
         <!-- Summary ON + Pagination OFF: [summary | row selection] -->
@@ -615,8 +619,8 @@ const showFooterBar = computed(() => config.rowSelection || config.showFooter)
           <p v-if="config.rowSelection" class="text-xs text-toned">{{ selectedCount }} of {{ totalCount }} selected</p>
         </template>
 
-        <!-- Summary OFF + Pagination ON: [dots | controls] -->
-        <template v-else-if="config.showPagination">
+        <!-- Summary OFF + Pagination ON: [dots | controls] — only rendered when multiple pages exist -->
+        <template v-else-if="config.showPagination && pageCount > 1">
           <div class="flex items-center gap-1.5">
             <button
               v-for="i in pageCount" :key="i" type="button"
