@@ -22,6 +22,7 @@ const bespoke = [
   { label: 'App Header', to: '/components/bespoke/navigation' },
   { label: 'Charts', to: '/components/bespoke/charts' },
   { label: 'Pagination', to: '/components/bespoke/pagination' },
+  { label: 'Segmented Control', to: '/components/bespoke/segmented-control' },
 ]
 
 function isActive(path: string) {

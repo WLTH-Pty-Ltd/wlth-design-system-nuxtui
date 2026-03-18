@@ -135,34 +135,60 @@ const config = reactive({
   rowSelection: false,
   showFooter: false,
   showSummary: false,
-  showSearch: false,
+  showHeader: false,
   showPagination: false,
   paginationShowNumbers: false,
   paginationSize: 'md',
-  headerVariant: 'default' as 'default' | 'primary' | 'secondary',
-  // Toolbar options (active when showSearch is true)
+  headerVariant: 'primary' as 'primary' | 'secondary',
+  // Toolbar options (active when showHeader is true)
+  toolbarSearch: true,
   toolbarTitle: false,
   toolbarTitleText: 'Clients',
   toolbarFilter: false,
   toolbarSort: false,
   toolbarColumns: false,
   toolbarExport: false,
+  toolbarSegment: false,
+  toolbarSegmentOptions: ['All', 'Individuals', 'Business'],
+  activeSegment: 'All',
 })
 
 const loadingColorItems    = toItems(['primary', 'secondary', 'success', 'info', 'warning', 'error', 'neutral'])
 const loadingAnimItems     = toItems(['carousel', 'carousel-inverse', 'swing', 'elastic'])
 const stickyPositionItems  = toItems(['header', 'footer', 'true'])
 const paginationSizeItems  = toItems(['xs', 'sm', 'md', 'lg', 'xl'])
-const headerVariantItems   = toItems(['default', 'primary', 'secondary'])
+const headerVariantItems   = toItems(['primary', 'secondary'])
+
+// ─── Demo filter chips ─────────────────────────────────────────────────────────
+
+const demoFilterPool = [
+  { label: 'Status', value: 'Active' },
+  { label: 'Status', value: 'Pending' },
+  { label: 'Portfolio', value: 'Growth' },
+  { label: 'Portfolio', value: 'Income' },
+]
+
+const demoActiveFilters = ref<{ label: string; value: string }[]>([])
+
+function addDemoFilter() {
+  const unused = demoFilterPool.filter(o =>
+    !demoActiveFilters.value.some(f => f.label === o.label && f.value === o.value)
+  )
+  if (unused.length) demoActiveFilters.value.push(unused[0])
+}
+
+function removeFilter(f: { label: string; value: string }) {
+  demoActiveFilters.value = demoActiveFilters.value.filter(a => a !== f)
+}
+
+function clearFilters() { demoActiveFilters.value = [] }
 
 // th is always the sub-header (bg-elevated); toolbar row carries the variant colour
 const tableUI = computed(() => ({ th: '!bg-elevated !text-toned py-3' }))
 
-const toolbarClass = computed(() => {
-  if (config.headerVariant === 'primary')   return 'bg-royalblue-500 text-white'
-  if (config.headerVariant === 'secondary') return 'bg-darkblue-800 text-white'
-  return 'bg-default text-default'
-})
+const toolbarClass = computed(() =>
+  config.headerVariant === 'primary' ? 'bg-royalblue-500 text-white' : 'bg-darkblue-800 text-white'
+)
 
 // ─── Search & pagination ──────────────────────────────────────────────────────
 
@@ -171,13 +197,29 @@ const currentPage = ref(1)
 const PAGE_SIZE = 12
 
 const filteredData = computed(() => {
-  if (!config.showSearch || !searchQuery.value.trim()) return allData
-  const q = searchQuery.value.toLowerCase()
-  return allData.filter(row =>
-    row.client.toLowerCase().includes(q) ||
-    row.portfolio.toLowerCase().includes(q) ||
-    row.status.toLowerCase().includes(q)
-  )
+  let data = allData
+
+  // Segment filter (demo mapping: Individuals → Conservative/Income, Business → Growth/High Growth/Balanced)
+  if (config.toolbarSegment && config.activeSegment !== 'All') {
+    const individualPortfolios = ['Conservative', 'Income']
+    const businessPortfolios   = ['Growth', 'High Growth', 'Balanced']
+    if (config.activeSegment === 'Individuals')
+      data = data.filter(r => individualPortfolios.includes(r.portfolio))
+    else if (config.activeSegment === 'Business')
+      data = data.filter(r => businessPortfolios.includes(r.portfolio))
+  }
+
+  // Search filter
+  if (config.showHeader && config.toolbarSearch && searchQuery.value.trim()) {
+    const q = searchQuery.value.toLowerCase()
+    data = data.filter(row =>
+      row.client.toLowerCase().includes(q) ||
+      row.portfolio.toLowerCase().includes(q) ||
+      row.status.toLowerCase().includes(q)
+    )
+  }
+
+  return data
 })
 
 const pageCount = computed(() => Math.max(1, Math.ceil(filteredData.value.length / PAGE_SIZE)))
@@ -211,7 +253,9 @@ const displayData = computed(() => {
 // Turning off footer also hides pagination
 watch(searchQuery, () => { currentPage.value = 1 })
 watch(() => config.showPagination, (val) => { if (!val) currentPage.value = 1 })
-watch(() => config.showSearch, (val) => { if (!val) searchQuery.value = '' })
+watch(() => config.showHeader, (val) => { if (!val) { searchQuery.value = ''; demoActiveFilters.value = [] } })
+watch(() => config.toolbarSegment, (val) => { if (!val) config.activeSegment = 'All' })
+watch(() => config.activeSegment, () => { currentPage.value = 1 })
 watch(() => config.showFooter, (val) => {
   if (val) { config.showSummary = true }
   else { config.showSummary = false; config.showPagination = false }
@@ -249,7 +293,7 @@ const codeSnippet = computed(() => {
 
   let code = `<UTable\n${props.join('\n')}\n/>`
 
-  if (config.showSearch) {
+  if (config.showHeader) {
     code = `<!-- Search -->\n<UInput v-model="query" placeholder="Search…" icon="i-lucide-search" />\n\n` + code
   }
 
@@ -327,9 +371,9 @@ const showFooterBar = computed(() => config.rowSelection || config.showFooter)
 
     <!-- Config panel -->
     <UCard variant="soft" :ui="{ root: 'rounded-xl bg-(--ui-bg-muted)', body: 'p-4' }">
-      <div class="flex flex-wrap items-center gap-x-6 gap-y-4">
+      <div class="space-y-4">
 
-        <!-- Toggles -->
+        <!-- Row 1: Primary toggles + header variant (always visible) -->
         <div class="flex flex-wrap items-center gap-x-5 gap-y-3">
           <label class="flex items-center gap-2 cursor-pointer select-none">
             <AppSwitch v-model="config.loading" size="sm" />
@@ -344,25 +388,23 @@ const showFooterBar = computed(() => config.rowSelection || config.showFooter)
             <span class="text-xs text-toned">Row selection</span>
           </label>
           <label class="flex items-center gap-2 cursor-pointer select-none">
-            <AppSwitch v-model="config.showSearch" size="sm" />
-            <span class="text-xs text-toned">Search</span>
+            <AppSwitch v-model="config.showHeader" size="sm" />
+            <span class="text-xs text-toned">Header</span>
           </label>
           <label class="flex items-center gap-2 cursor-pointer select-none">
             <AppSwitch v-model="config.showFooter" size="sm" />
             <span class="text-xs text-toned">Footer</span>
           </label>
+          <div class="w-px h-6 bg-muted hidden sm:block" />
+          <div class="flex items-center gap-2">
+            <span class="text-xs text-muted">Header</span>
+            <USelect v-model="config.headerVariant" :items="headerVariantItems" value-key="value" size="xs" class="w-28" />
+          </div>
         </div>
 
-        <!-- Header variant -->
-        <div class="w-px h-8 bg-muted hidden sm:block" />
-        <div class="flex items-center gap-2">
-          <span class="text-xs text-muted">Header</span>
-          <USelect v-model="config.headerVariant" :items="headerVariantItems" value-key="value" size="xs" class="w-28" />
-        </div>
-
-        <!-- Loading options -->
-        <template v-if="config.loading">
-          <div class="w-px h-8 bg-muted hidden sm:block" />
+        <!-- Sub-row: Loading options -->
+        <div v-if="config.loading" class="flex flex-wrap items-center gap-4 pl-5 border-l-2 border-muted">
+          <span class="text-xs text-muted w-14 shrink-0">Loading</span>
           <div class="flex items-center gap-2">
             <span class="text-xs text-muted">Color</span>
             <USelect v-model="config.loadingColor" :items="loadingColorItems" value-key="value" size="xs" class="w-32" />
@@ -371,27 +413,33 @@ const showFooterBar = computed(() => config.rowSelection || config.showFooter)
             <span class="text-xs text-muted">Animation</span>
             <USelect v-model="config.loadingAnimation" :items="loadingAnimItems" value-key="value" size="xs" class="w-40" />
           </div>
-        </template>
+        </div>
 
-        <!-- Sticky options -->
-        <template v-if="config.sticky">
-          <div class="w-px h-8 bg-muted hidden sm:block" />
+        <!-- Sub-row: Sticky options -->
+        <div v-if="config.sticky" class="flex items-center gap-4 pl-5 border-l-2 border-muted">
+          <span class="text-xs text-muted w-14 shrink-0">Sticky</span>
           <div class="flex items-center gap-2">
             <span class="text-xs text-muted">Position</span>
             <USelect v-model="config.stickyPosition" :items="stickyPositionItems" value-key="value" size="xs" class="w-28" />
           </div>
-        </template>
+        </div>
 
-        <!-- Toolbar options -->
-        <template v-if="config.showSearch">
-          <div class="w-px h-8 bg-muted hidden sm:block" />
+        <!-- Sub-row: Toolbar options -->
+        <div v-if="config.showHeader" class="flex flex-wrap items-center gap-x-5 gap-y-3 pl-5 border-l-2 border-muted">
+          <span class="text-xs text-muted w-14 shrink-0">Header</span>
+          <label class="flex items-center gap-2 cursor-pointer select-none">
+            <AppSwitch v-model="config.toolbarSearch" size="sm" />
+            <span class="text-xs text-toned">Search</span>
+          </label>
           <label class="flex items-center gap-2 cursor-pointer select-none">
             <AppSwitch v-model="config.toolbarTitle" size="sm" />
             <span class="text-xs text-toned">Title</span>
           </label>
-          <template v-if="config.toolbarTitle">
-            <UInput v-model="config.toolbarTitleText" size="xs" class="w-32" />
-          </template>
+          <UInput v-if="config.toolbarTitle" v-model="config.toolbarTitleText" size="xs" class="w-32" />
+          <label class="flex items-center gap-2 cursor-pointer select-none">
+            <AppSwitch v-model="config.toolbarSegment" size="sm" />
+            <span class="text-xs text-toned">Segments</span>
+          </label>
           <label class="flex items-center gap-2 cursor-pointer select-none">
             <AppSwitch v-model="config.toolbarFilter" size="sm" />
             <span class="text-xs text-toned">Filter</span>
@@ -408,11 +456,20 @@ const showFooterBar = computed(() => config.rowSelection || config.showFooter)
             <AppSwitch v-model="config.toolbarExport" size="sm" />
             <span class="text-xs text-toned">Export</span>
           </label>
-        </template>
+          <button
+            v-if="config.toolbarFilter"
+            type="button"
+            class="flex items-center gap-1 px-2.5 py-1 rounded-lg text-xs text-toned border border-muted hover:bg-elevated transition-colors cursor-pointer"
+            @click="addDemoFilter"
+          >
+            <UIcon name="i-lucide-plus" class="size-3" />
+            Add demo filter
+          </button>
+        </div>
 
-        <!-- Footer options -->
-        <template v-if="config.showFooter">
-          <div class="w-px h-8 bg-muted hidden sm:block" />
+        <!-- Sub-row: Footer options -->
+        <div v-if="config.showFooter" class="flex flex-wrap items-center gap-x-5 gap-y-3 pl-5 border-l-2 border-muted">
+          <span class="text-xs text-muted w-14 shrink-0">Footer</span>
           <label class="flex items-center gap-2 cursor-pointer select-none">
             <AppSwitch v-model="config.showSummary" size="sm" />
             <span class="text-xs text-toned">Summary</span>
@@ -431,7 +488,7 @@ const showFooterBar = computed(() => config.rowSelection || config.showFooter)
               <USelect v-model="config.paginationSize" :items="paginationSizeItems" value-key="value" size="xs" class="w-20" />
             </div>
           </template>
-        </template>
+        </div>
 
       </div>
     </UCard>
@@ -440,42 +497,76 @@ const showFooterBar = computed(() => config.rowSelection || config.showFooter)
     <div class="rounded-3xl overflow-hidden">
 
       <!-- Toolbar -->
-      <div v-if="config.showSearch" class="px-5 py-3.5 border-b border-muted flex items-center gap-4" :class="toolbarClass">
+      <div v-if="config.showHeader" class="px-5 py-3.5 border-b border-muted flex items-center gap-4" :class="toolbarClass">
 
-        <!-- Left: title -->
-        <div class="flex-1">
-          <p v-if="config.toolbarTitle" class="text-sm font-semibold" :class="config.headerVariant !== 'default' ? 'text-white' : 'text-default'">
+        <!-- Left zone: title + segment tabs -->
+        <div class="flex items-center gap-3">
+          <p v-if="config.toolbarTitle" class="text-sm font-semibold text-white">
             {{ config.toolbarTitleText }}
           </p>
+          <AppSegmentedControl
+            v-if="config.toolbarSegment"
+            v-model="config.activeSegment"
+            :options="config.toolbarSegmentOptions"
+            variant="ghost"
+            size="sm"
+          />
         </div>
 
-        <!-- Right: search + action buttons -->
+        <!-- Spacer -->
+        <div class="flex-1" />
+
+        <!-- Right zone: search + action buttons -->
         <div class="flex items-center gap-2">
           <UInput
+            v-if="config.toolbarSearch"
             v-model="searchQuery"
             placeholder="Search…"
             icon="i-lucide-search"
             size="sm"
-            :color="config.headerVariant === 'default' ? 'primary' : 'neutral'"
-            :variant="config.headerVariant === 'default' ? 'outline' : 'subtle'"
+            color="neutral"
+            variant="subtle"
             class="w-56"
           />
           <div v-if="config.toolbarFilter || config.toolbarSort || config.toolbarColumns || config.toolbarExport" class="flex items-center gap-0.5 ml-1">
             <UTooltip v-if="config.toolbarFilter" text="Filter">
-              <UButton color="neutral" variant="ghost" icon="i-lucide-sliders-horizontal" size="sm" square :class="config.headerVariant !== 'default' ? 'text-white/70 hover:text-white hover:bg-white/10' : ''" />
+              <UButton color="neutral" variant="ghost" icon="i-lucide-sliders-horizontal" size="sm" square class="text-white/70 hover:text-white hover:bg-white/10" />
             </UTooltip>
             <UTooltip v-if="config.toolbarSort" text="Sort">
-              <UButton color="neutral" variant="ghost" icon="i-lucide-arrow-up-down" size="sm" square :class="config.headerVariant !== 'default' ? 'text-white/70 hover:text-white hover:bg-white/10' : ''" />
+              <UButton color="neutral" variant="ghost" icon="i-lucide-arrow-up-down" size="sm" square class="text-white/70 hover:text-white hover:bg-white/10" />
             </UTooltip>
             <UTooltip v-if="config.toolbarColumns" text="Columns">
-              <UButton color="neutral" variant="ghost" icon="i-lucide-columns-3" size="sm" square :class="config.headerVariant !== 'default' ? 'text-white/70 hover:text-white hover:bg-white/10' : ''" />
+              <UButton color="neutral" variant="ghost" icon="i-lucide-columns-3" size="sm" square class="text-white/70 hover:text-white hover:bg-white/10" />
             </UTooltip>
             <UTooltip v-if="config.toolbarExport" text="Export">
-              <UButton color="neutral" variant="ghost" icon="i-lucide-download" size="sm" square :class="config.headerVariant !== 'default' ? 'text-white/70 hover:text-white hover:bg-white/10' : ''" />
+              <UButton color="neutral" variant="ghost" icon="i-lucide-download" size="sm" square class="text-white/70 hover:text-white hover:bg-white/10" />
             </UTooltip>
           </div>
         </div>
 
+      </div>
+
+      <!-- Active filter strip (only when filter chips are present) -->
+      <div
+        v-if="config.showHeader && demoActiveFilters.length"
+        class="px-5 py-2.5 border-b border-muted flex items-center gap-2 flex-wrap"
+        :class="toolbarClass"
+      >
+        <button
+          v-for="f in demoActiveFilters"
+          :key="`${f.label}-${f.value}`"
+          type="button"
+          class="flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium cursor-pointer transition-colors bg-white/20 text-white hover:bg-white/30"
+          @click="removeFilter(f)"
+        >
+          {{ f.label }}: {{ f.value }}
+          <UIcon name="i-lucide-x" class="size-3" />
+        </button>
+        <button
+          type="button"
+          class="ml-auto text-xs cursor-pointer transition-colors text-white/70 hover:text-white"
+          @click="clearFilters"
+        >Clear all</button>
       </div>
 
       <!-- Table — height always fixed on UTable so its overflow-auto root is the scroll container -->
