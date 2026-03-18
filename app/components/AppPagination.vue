@@ -92,7 +92,6 @@ const skeletonBtnClass = computed(() => {
 
     <!-- Real pagination -->
     <template v-else>
-      <template v-if="total > 1">
       <div class="flex items-center justify-between gap-4 w-full">
 
         <!-- Left: dots always visible -->
@@ -179,7 +178,6 @@ const skeletonBtnClass = computed(() => {
         </div>
 
       </div>
-      </template>
     </template>
 
   </div>
