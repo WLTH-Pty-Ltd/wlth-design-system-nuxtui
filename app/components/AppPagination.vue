@@ -96,17 +96,27 @@ const skeletonBtnClass = computed(() => {
 
         <!-- Left: dots always visible -->
         <div class="flex items-center gap-1.5">
-          <button
-            v-for="i in total"
-            :key="i"
-            type="button"
-            class="rounded-full transition-all duration-200 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-royalblue-300"
-            :class="i === page
-              ? 'w-4 h-1.5 bg-royalblue-500'
-              : 'w-1.5 h-1.5 bg-lightgrey-700 hover:bg-lightgrey-600'"
-            :aria-label="`Go to page ${i}`"
-            @click="page = i"
-          />
+          <!-- Placeholder dots when only one page — visible but inactive -->
+          <template v-if="total <= 1">
+            <div
+              v-for="i in 4"
+              :key="i"
+              class="w-1.5 h-1.5 rounded-full bg-lightgrey-300 dark:bg-lightgrey-600"
+            />
+          </template>
+          <template v-else>
+            <button
+              v-for="i in total"
+              :key="i"
+              type="button"
+              class="rounded-full transition-all duration-200 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-royalblue-300"
+              :class="i === page
+                ? 'w-4 h-1.5 bg-royalblue-500'
+                : 'w-1.5 h-1.5 bg-lightgrey-700 hover:bg-lightgrey-600'"
+              :aria-label="`Go to page ${i}`"
+              @click="page = i"
+            />
+          </template>
         </div>
 
         <!-- Right: prev/next + optional numbered buttons, all circles -->
