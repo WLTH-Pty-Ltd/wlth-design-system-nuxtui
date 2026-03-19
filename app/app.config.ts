@@ -169,7 +169,8 @@ export default defineAppConfig({
 
     table: {
       slots: {
-tr:        'bg-muted hover:bg-elevated data-[selected=true]:bg-elevated',
+        root:      'bg-muted',
+        tr:        'bg-muted hover:bg-elevated data-[selected=true]:bg-elevated',
         tbody:     '!divide-lightgrey-400',
         separator: '!bg-(--ui-border-muted)',
         td:        'text-toned'
