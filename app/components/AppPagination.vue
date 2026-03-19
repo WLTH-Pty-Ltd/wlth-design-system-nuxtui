@@ -56,6 +56,18 @@ const numBtnClass = computed(() => {
   return map[resolvedSize.value]
 })
 
+// Prev/next circle button size — matches numBtnClass dimensions
+const navBtnClass = computed(() => {
+  const map: Record<Size, string> = {
+    xs: 'w-5 h-5 text-[10px]',
+    sm: 'w-6 h-6 text-xs',
+    md: 'w-7 h-7 text-sm',
+    lg: 'w-8 h-8 text-base',
+    xl: 'w-9 h-9 text-base',
+  }
+  return map[resolvedSize.value]
+})
+
 // Skeleton circle size matches number button size
 const skeletonBtnClass = computed(() => {
   const map: Record<Size, string> = {
@@ -121,17 +133,15 @@ const skeletonBtnClass = computed(() => {
 
         <!-- Right: prev/next + optional numbered buttons, all circles -->
         <div class="flex items-center gap-1">
-          <UButton
-            :size="resolvedSize"
-            color="secondary"
-            variant="outline"
-            icon="i-lucide-chevron-left"
+          <button
+            type="button"
             :disabled="page <= 1"
             aria-label="Previous page"
-            square
-            class="rounded-full!"
+            :class="[navBtnClass, 'flex items-center justify-center rounded-full bg-white text-lightgrey-900 transition-colors cursor-pointer hover:bg-lightgrey-100 disabled:opacity-40 disabled:cursor-not-allowed focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-royalblue-300']"
             @click="page > 1 && page--"
-          />
+          >
+            <UIcon name="i-lucide-chevron-left" />
+          </button>
 
           <template v-if="showNumbers">
             <!-- Jump to previous block -->
@@ -174,17 +184,15 @@ const skeletonBtnClass = computed(() => {
             </button>
           </template>
 
-          <UButton
-            :size="resolvedSize"
-            color="secondary"
-            variant="outline"
-            icon="i-lucide-chevron-right"
+          <button
+            type="button"
             :disabled="page >= total"
             aria-label="Next page"
-            square
-            class="rounded-full!"
+            :class="[navBtnClass, 'flex items-center justify-center rounded-full bg-white text-lightgrey-900 transition-colors cursor-pointer hover:bg-lightgrey-100 disabled:opacity-40 disabled:cursor-not-allowed focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-royalblue-300']"
             @click="page < total && page++"
-          />
+          >
+            <UIcon name="i-lucide-chevron-right" />
+          </button>
         </div>
 
       </div>

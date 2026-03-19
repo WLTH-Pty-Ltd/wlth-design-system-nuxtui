@@ -3,6 +3,11 @@ definePageMeta({ layout: 'docs' })
 
 const modalOpen = ref(false)
 const slideoverOpen = ref(false)
+const slideoverLeft = ref(false)
+const slideoverTop = ref(false)
+const slideoverBottom = ref(false)
+const slideoverNoClose = ref(false)
+const slideoverFooter = ref(false)
 const dropdownItems = [[
   { label: 'Edit', icon: 'i-lucide-pencil' },
   { label: 'Duplicate', icon: 'i-lucide-copy' }
@@ -34,7 +39,7 @@ const dropdownItems = [[
             </template>
             <template #footer>
               <div class="flex justify-end gap-2">
-                <UButton color="neutral" variant="outline" label="Cancel" @click="modalOpen = false" />
+                <UButton color="surface" variant="solid" label="Cancel" @click="modalOpen = false" />
                 <UButton color="primary" label="Confirm" @click="modalOpen = false" />
               </div>
             </template>
@@ -46,21 +51,96 @@ const dropdownItems = [[
     <USeparator />
 
     <!-- Slideover -->
-    <section class="space-y-4">
+    <section class="space-y-6">
       <div class="space-y-0.5">
         <h2 class="text-base font-semibold text-default">Slideover</h2>
-        <p class="text-sm text-toned">Panel that slides in from the edge of the screen. Useful for detail views and forms.</p>
+        <p class="text-sm text-toned">Panel that slides in from any edge of the screen. Useful for detail views, forms, and contextual panels.</p>
       </div>
-      <div class="rounded-xl border border-muted overflow-hidden">
-        <div class="p-6 bg-muted">
-          <UButton variant="outline" color="neutral" label="Open slideover" icon="i-lucide-panel-right" @click="slideoverOpen = true" />
-          <USlideover v-model:open="slideoverOpen" title="Slideover title" description="Content slides in from the side.">
-            <template #body>
-              <p class="text-toned text-sm">Slideover body content. Useful for detail panels and forms.</p>
-            </template>
-          </USlideover>
+
+      <!-- Default (right) -->
+      <div class="space-y-2">
+        <p class="text-xs font-semibold text-toned uppercase tracking-wider">Default — slides from right</p>
+        <div class="rounded-xl border border-muted overflow-hidden">
+          <div class="p-6 bg-muted">
+            <UButton variant="outline" color="neutral" label="Open slideover" icon="i-lucide-panel-right" @click="slideoverOpen = true" />
+            <USlideover v-model:open="slideoverOpen" title="Slideover title" description="Content slides in from the right.">
+              <template #body>
+                <p class="text-toned text-sm">Slideover body content. Useful for detail panels and forms.</p>
+              </template>
+            </USlideover>
+          </div>
         </div>
       </div>
+
+      <!-- Sides -->
+      <div class="space-y-2">
+        <p class="text-xs font-semibold text-toned uppercase tracking-wider">Side</p>
+        <div class="rounded-xl border border-muted overflow-hidden">
+          <div class="p-6 bg-muted flex flex-wrap gap-3">
+            <UButton variant="outline" color="neutral" label="Left" icon="i-lucide-panel-left" @click="slideoverLeft = true" />
+            <UButton variant="outline" color="neutral" label="Top" icon="i-lucide-panel-top" @click="slideoverTop = true" />
+            <UButton variant="outline" color="neutral" label="Bottom" icon="i-lucide-panel-bottom" @click="slideoverBottom = true" />
+            <USlideover v-model:open="slideoverLeft" side="left" title="Left slideover" description="Slides in from the left.">
+              <template #body><p class="text-toned text-sm">Left panel content.</p></template>
+            </USlideover>
+            <USlideover v-model:open="slideoverTop" side="top" title="Top slideover" description="Slides in from the top.">
+              <template #body><p class="text-toned text-sm">Top panel content.</p></template>
+            </USlideover>
+            <USlideover v-model:open="slideoverBottom" side="bottom" title="Bottom slideover" description="Slides in from the bottom.">
+              <template #body><p class="text-toned text-sm">Bottom panel content.</p></template>
+            </USlideover>
+          </div>
+        </div>
+      </div>
+
+      <!-- Prevent close -->
+      <div class="space-y-2">
+        <p class="text-xs font-semibold text-toned uppercase tracking-wider">Prevent close</p>
+        <div class="rounded-xl border border-muted overflow-hidden">
+          <div class="p-6 bg-muted">
+            <UButton variant="outline" color="neutral" label="Open (not dismissible)" icon="i-lucide-lock" @click="slideoverNoClose = true" />
+            <USlideover v-model:open="slideoverNoClose" :dismissible="false" title="Not dismissible" description="Click outside or press Esc — nothing happens. Use the button to close.">
+              <template #body>
+                <p class="text-toned text-sm">This slideover can only be closed programmatically.</p>
+              </template>
+              <template #footer="{ close }">
+                <div class="flex justify-end">
+                  <UButton color="neutral" variant="outline" label="Close" @click="close" />
+                </div>
+              </template>
+            </USlideover>
+          </div>
+        </div>
+      </div>
+
+      <!-- Footer slot -->
+      <div class="space-y-2">
+        <p class="text-xs font-semibold text-toned uppercase tracking-wider">With footer</p>
+        <div class="rounded-xl border border-muted overflow-hidden">
+          <div class="p-6 bg-muted">
+            <UButton variant="outline" color="neutral" label="Open with footer" icon="i-lucide-layout-panel-top" @click="slideoverFooter = true" />
+            <USlideover v-model:open="slideoverFooter" title="Edit record" description="Make changes and confirm or discard.">
+              <template #body>
+                <div class="space-y-4">
+                  <UFormField label="Name">
+                    <UInput placeholder="Enter name" class="w-full" />
+                  </UFormField>
+                  <UFormField label="Description">
+                    <UTextarea placeholder="Enter description" class="w-full" />
+                  </UFormField>
+                </div>
+              </template>
+              <template #footer="{ close }">
+                <div class="flex justify-end gap-2">
+                  <UButton color="neutral" variant="outline" label="Cancel" @click="close" />
+                  <UButton color="primary" label="Save changes" @click="close" />
+                </div>
+              </template>
+            </USlideover>
+          </div>
+        </div>
+      </div>
+
     </section>
 
     <USeparator />

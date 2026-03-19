@@ -68,6 +68,28 @@ const chipCode = computed(() => {
 
     <USeparator />
 
+    <!-- Custom compound variants -->
+    <section class="space-y-4">
+      <div class="space-y-0.5">
+        <h2 class="text-base font-semibold text-default">Custom variants</h2>
+        <p class="text-sm text-toned">Additional button colors defined via compound variants in <span class="font-mono text-xs">app.config.ts</span>. These sit outside Nuxt UI's standard palette.</p>
+      </div>
+      <div class="rounded-xl border border-muted overflow-hidden">
+        <div class="p-6 bg-muted flex flex-wrap gap-3 items-center">
+          <UButton color="surface" variant="solid" label="white / solid" />
+          <UButton color="surface" variant="outline" label="white / outline" />
+        </div>
+        <div class="border-t border-muted px-5 py-3 flex flex-wrap gap-3 items-center bg-muted">
+          <UButton color="nav" variant="soft" label="nav / soft" />
+          <UButton color="nav" variant="solid" label="nav / solid" />
+          <UButton color="pill" variant="soft" label="pill / soft" />
+          <UButton color="pill" variant="solid" label="pill / solid" />
+        </div>
+      </div>
+    </section>
+
+    <USeparator />
+
     <!-- Badge -->
     <section class="space-y-4">
       <div class="space-y-0.5">

@@ -251,6 +251,51 @@ npm run dev</pre>
 
     <USeparator />
 
+    <!-- Design principles -->
+    <div class="space-y-3">
+      <p class="text-xs font-semibold uppercase tracking-widest text-muted">Design principles</p>
+      <p class="text-sm text-toned">Rules for keeping the design system clean and consistent when adding or changing components.</p>
+      <div class="rounded-xl border border-muted overflow-hidden">
+        <div
+          v-for="(rule, i) in [
+            {
+              icon: 'i-lucide-sliders',
+              label: 'Style via app.config.ts, not wrapper components',
+              desc: 'Component appearance must be controlled through ui.* slot and variant overrides in app/app.config.ts. Do not create wrapper components (e.g. AppSlideover, AppButton) just to apply styling defaults — this fragments the component API and forces consumers to learn non-standard names.',
+            },
+            {
+              icon: 'i-lucide-component',
+              label: 'Bespoke components for new behaviour only',
+              desc: 'A new component in app/components/ is justified only when it adds layout, logic, or composition that cannot be expressed through Nuxt UI props and slots — e.g. AppHeader, NotificationsTray. Pure styling is never a reason.',
+            },
+            {
+              icon: 'i-lucide-minimize',
+              label: 'Stay close to Nuxt UI defaults',
+              desc: 'Override only what is necessary to meet the WLTH brand. Prefer semantic token variables (--ui-*, text-highlighted, border-muted) over hard-coded colour values so that light/dark mode and future rebrands work automatically.',
+            },
+            {
+              icon: 'i-lucide-alert-triangle',
+              label: 'Accept Nuxt UI limitations gracefully',
+              desc: 'Some sub-component properties (e.g. the Slideover close button color/variant) are hardcoded in the Nuxt UI source and cannot be overridden from app.config.ts. Document the limitation in the relevant slot comment rather than working around it with a wrapper component.',
+            },
+          ]"
+          :key="rule.label"
+          class="flex items-start gap-4 px-5 py-4"
+          :class="i !== 0 ? 'border-t border-muted' : ''"
+        >
+          <div class="w-8 h-8 rounded-lg bg-elevated flex items-center justify-center shrink-0 mt-0.5">
+            <UIcon :name="rule.icon" class="text-toned text-sm" />
+          </div>
+          <div class="min-w-0">
+            <p class="text-sm font-medium text-default">{{ rule.label }}</p>
+            <p class="text-xs text-toned mt-0.5 leading-relaxed">{{ rule.desc }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <USeparator />
+
     <!-- Local dev -->
     <div class="space-y-3">
       <p class="text-xs font-semibold uppercase tracking-widest text-muted">Local development</p>

@@ -25,6 +25,7 @@ export default defineAppConfig({
       neutral:   'lightgrey',  // Text, borders, surfaces, disabled states
       nav:       'royalblue',  // Nav pill buttons — states overridden by compoundVariants below
       pill:      'royalblue',  // Dropdown pill triggers — ProductSwitcher + EntitySelector
+      surface:   'lightgrey',  // Plain white button — states overridden by compoundVariants below
     },
 
 
@@ -60,6 +61,18 @@ export default defineAppConfig({
           color: 'pill',
           variant: 'solid',
           class: 'flex items-center gap-1.5 rounded-[24px] border-2 border-(--ui-border-highlighted) px-3 py-1.5 text-sm bg-(--ui-bg-accented) focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-royalblue-300 transition-colors',
+        },
+        {
+          // Surface button — clean white bg, no border, dark text. E.g. secondary action in modal footers.
+          color: 'surface',
+          variant: 'solid',
+          class: 'bg-white! text-lightgrey-900! border-0! shadow-none! hover:bg-lightgrey-100! focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-royalblue-300 transition-colors',
+        },
+        {
+          // Surface outline — white bg with a visible border. Use where neutral/outline feels too heavy.
+          color: 'surface',
+          variant: 'outline',
+          class: 'bg-white! text-lightgrey-900! border! border-lightgrey-300! hover:bg-lightgrey-100! focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-royalblue-300 transition-colors',
         },
       ],
     },
@@ -147,10 +160,66 @@ export default defineAppConfig({
       },
     },
 
-    // USlideover — slides in from the right edge. Used by: NotificationsSlideover.
+    // UModal — centered dialog.
+    //
+    // Slots:
+    //   overlay     — backdrop behind the dialog
+    //   content     — the dialog panel (bg, border, shadow, rounding)
+    //   header      — title + description row + close button area
+    //   title       — heading text
+    //   description — subheading text
+    //   body        — scrollable content area
+    //   footer      — action row at the bottom
+    //   close       — close button position
+    //
+    // Note: the fullscreen:false variant in Nuxt UI adds `ring ring-default rounded-lg shadow-lg`
+    // and `sm:px-6` / `sm:p-6` padding bumps — overridden below to match the slideover visual language.
+    // `ring-0` alone is insufficient because variant classes are merged after base slots; `!ring-0` is required.
+    // Note: close button color="neutral" variant="ghost" are hardcoded in Modal.vue and cannot be
+    // changed from app.config.ts.
+    modal: {
+      slots: {
+        overlay:     'bg-lightgrey-900/40',
+        content:     'bg-white !ring-0 rounded-3xl border border-lightgrey-300 shadow-xl divide-y-0',
+        header:      'px-8 py-8 sm:px-8 border-b border-muted min-h-0',
+        title:       'text-lg font-semibold text-highlighted',
+        description: 'text-sm text-toned mt-0.5',
+        body:        'px-8 py-8 sm:p-8',
+        footer:      'px-8 py-4 sm:px-8 bg-(--ui-bg-elevated)',
+        close:       'top-4 end-4 rounded-full',
+      },
+    },
+
+    // USlideover — slides in from any edge of the screen.
+    //
+    // Slots mirror the NotificationsTray visual language:
+    //   overlay     — backdrop behind the panel
+    //   content     — the panel itself (sizing, bg, border, shadow)
+    //   header      — title + description row + close button area
+    //   title       — heading text
+    //   description — subheading text
+    //   body        — scrollable content area
+    //   footer      — action row at the bottom
+    //   close       — close button position
     slideover: {
       slots: {
-        content: 'bg-white ring-0 border-r border-lightgrey-300 shadow-xl',
+        overlay:     'bg-lightgrey-900/40',
+        content:     'bg-white ring-0 sm:ring-0 shadow-xl',
+        header:      'px-4 py-4 border-b border-muted min-h-0',
+        title:       'text-lg font-semibold text-highlighted',
+        description: 'text-sm text-toned mt-0.5',
+        body:        'px-4 py-4',
+        footer:      'px-4 py-4 border-t border-muted',
+        close:       'top-4 end-4 rounded-full',
+      },
+      // Rounded corners and border on the exposed edge per slide direction
+      variants: {
+        side: {
+          right:  { content: 'border-l border-lightgrey-300 rounded-l-3xl max-w-xl' },
+          left:   { content: 'border-r border-lightgrey-300 rounded-r-3xl max-w-xl' },
+          top:    { content: 'border-b border-lightgrey-300 rounded-b-3xl' },
+          bottom: { content: 'border-t border-lightgrey-300 rounded-t-3xl' },
+        },
       },
     },
 

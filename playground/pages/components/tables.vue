@@ -601,13 +601,13 @@ const showFooterBar = computed(() => config.rowSelection || config.showFooter)
               />
             </div>
             <div class="flex-1 flex items-center justify-end gap-1">
-              <UButton :size="config.paginationSize" color="secondary" variant="outline" icon="i-lucide-chevron-left" :disabled="currentPage <= 1" square class="rounded-full!" @click="currentPage > 1 && currentPage--" />
+              <button type="button" :disabled="currentPage <= 1" :class="[paginationNumBtnClass, 'flex items-center justify-center rounded-full bg-white text-lightgrey-900 hover:bg-lightgrey-100 disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-royalblue-300']" @click="currentPage > 1 && currentPage--"><UIcon name="i-lucide-chevron-left" /></button>
               <template v-if="config.paginationShowNumbers">
                 <button v-if="paginationBlockStart > 1" type="button" :class="[paginationNumBtnClass, 'flex items-center justify-center rounded-full border border-darkblue-300 text-darkblue-600 transition-colors cursor-pointer hover:bg-darkblue-50']" @click="paginationJumpBack">…</button>
                 <button v-for="i in paginationVisiblePages" :key="i" type="button" class="flex items-center justify-center rounded-full border transition-colors cursor-pointer" :class="[paginationNumBtnClass, i === currentPage ? 'bg-royalblue-500 text-white border-royalblue-500' : 'text-darkblue-600 border-darkblue-300 hover:bg-darkblue-50']" @click="currentPage = i">{{ i }}</button>
                 <button v-if="paginationBlockEnd < pageCount" type="button" :class="[paginationNumBtnClass, 'flex items-center justify-center rounded-full border border-darkblue-300 text-darkblue-600 transition-colors cursor-pointer hover:bg-darkblue-50']" @click="paginationJumpForward">…</button>
               </template>
-              <UButton :size="config.paginationSize" color="secondary" variant="outline" icon="i-lucide-chevron-right" :disabled="currentPage >= pageCount" square class="rounded-full!" @click="currentPage < pageCount && currentPage++" />
+              <button type="button" :disabled="currentPage >= pageCount" :class="[paginationNumBtnClass, 'flex items-center justify-center rounded-full bg-white text-lightgrey-900 hover:bg-lightgrey-100 disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-royalblue-300']" @click="currentPage < pageCount && currentPage++"><UIcon name="i-lucide-chevron-right" /></button>
               <span v-if="config.rowSelection" class="ml-3 text-xs text-toned">{{ selectedCount }} of {{ totalCount }} selected</span>
             </div>
           </template>
