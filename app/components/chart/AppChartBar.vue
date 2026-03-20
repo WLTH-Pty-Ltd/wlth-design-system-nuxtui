@@ -393,9 +393,8 @@ const skeletonHeights = [120, 60, 180, 40, 150, 90, 130, 70, 160, 45, 110, 85]
 
     <!-- Pagination footer — always rendered (v-show) to prevent height jump -->
     <div
-      v-show="showPagination && (loading || data.length > windowSize)"
+      v-show="showPagination"
       class="pt-3 border-t border-muted"
-      :class="{ 'pointer-events-none': !showPagination || (!loading && data.length <= windowSize) }"
     >
       <AppPagination v-model:page="paginationPage" :total="totalPages" :loading="loading" />
     </div>
