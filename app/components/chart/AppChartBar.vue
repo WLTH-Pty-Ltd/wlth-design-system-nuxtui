@@ -79,7 +79,7 @@ watch([() => props.data, windowSize], () => {
 watch(pageIndex, () => {
   animated.value = false
   localActiveKey.value = null
-  nextTick(() => { animated.value = true })
+  nextTick(() => requestAnimationFrame(() => { animated.value = true }))
 })
 
 function prevPage() {
@@ -207,11 +207,11 @@ function onBarLeave() { hoveredKey.value = null }
 
 const animated = ref(false)
 
-onMounted(() => nextTick(() => { animated.value = true }))
+onMounted(() => nextTick(() => requestAnimationFrame(() => { animated.value = true })))
 
 watch(() => props.data, () => {
   animated.value = false
-  nextTick(() => { animated.value = true })
+  nextTick(() => requestAnimationFrame(() => { animated.value = true }))
 })
 
 // ─── Keyboard navigation ──────────────────────────────────────────────────────
