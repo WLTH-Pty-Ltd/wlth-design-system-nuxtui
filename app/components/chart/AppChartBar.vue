@@ -32,6 +32,7 @@ const props = withDefaults(defineProps<{
 
 const emit = defineEmits<{
   (e: 'select', key: string, values: Record<string, number>): void
+  (e: 'update:page', index: number): void
 }>()
 
 // ─── Color sequence ─────────────────────────────────────────────────────────
@@ -76,10 +77,11 @@ watch([() => props.data, windowSize], () => {
   pageIndex.value = 0
 }, { immediate: true })
 
-watch(pageIndex, () => {
+watch(pageIndex, (val) => {
   animated.value = false
   localActiveKey.value = null
   nextTick(() => requestAnimationFrame(() => { animated.value = true }))
+  emit('update:page', val)
 })
 
 function prevPage() {

@@ -61,6 +61,7 @@ const props = withDefaults(defineProps<{
 
 const emit = defineEmits<{
   (e: 'select', key: string, values: Record<string, number>): void
+  (e: 'update:page', index: number): void
 }>()
 
 // ─── Dataset toggle ───────────────────────────────────────────────────────────
@@ -157,6 +158,7 @@ const resolvedData = computed<AppChartDataPoint[]>(() => activeDataset.value?.da
       :show-pagination="showPagination"
       :show-legend="showLegend"
       @select="(key, values) => emit('select', key, values)"
+      @update:page="(index) => emit('update:page', index)"
     />
 
     <!-- Stacked bar renderer -->
