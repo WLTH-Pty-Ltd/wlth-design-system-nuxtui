@@ -25,12 +25,7 @@ const emptyLabel = computed(() =>
 </script>
 
 <template>
-  <UDrawer
-    v-model:open="isOpen"
-    direction="right"
-    :handle="false"
-    :ui="{ content: 'w-[95vw] md:w-96 lg:w-lg' }"
-  >
+  <USlideover v-model:open="isOpen" side="right">
     <!-- Trigger: 36×36 dark circle with bell icon + green unread chip -->
     <button
       type="button"
@@ -44,104 +39,84 @@ const emptyLabel = computed(() =>
       />
     </button>
 
-    <template #content>
-      <div class="flex flex-col h-full w-full">
-        <!-- Header -->
-        <div class="flex items-center justify-between px-4 py-4 border-b border-muted shrink-0">
-          <div class="flex items-center gap-2">
-            <p class="text-lg font-semibold text-highlighted">
-              Notifications
-            </p>
-            <UBadge
-              v-if="unreadCount > 0"
-              :label="unreadCount"
-              color="error"
-              variant="solid"
-              size="md"
-              class="rounded-full"
-            />
-          </div>
-          <UButton
-            icon="i-lucide-x"
-            color="info"
-            variant="outline"
-            size="lg"
-            aria-label="Close notifications"
-            class="rounded-full"
-            @click="isOpen = false"
-          />
-        </div>
-        <!-- Scope tabs -->
-        <div class="px-4 py-3 border-b border-muted shrink-0">
-          <UTabs
-            v-model="notificationScope"
-            :items="scopeItems"
-            :content="false"
-            size="sm"
-          />
-        </div>
-
-        <!-- Notification list -->
-        <div
-          v-if="filteredNotifications.length"
-          class="divide-y divide-muted flex-1 overflow-y-auto"
-        >
-          <button
-            v-for="notif in filteredNotifications"
-            :key="notif.id"
-            class="w-full text-left px-4 py-4 hover:bg-elevated transition-colors flex gap-3 items-start"
-            @click="markRead(notif.id)"
-          >
-            <div class="relative shrink-0 mt-0.5">
-              <UIcon :name="PRODUCTS[notif.product].icon" class="size-4 text-toned" />
-              <span
-                v-if="!notif.read"
-                class="absolute -top-1 -right-1 size-2 rounded-full bg-error-500"
-              />
-            </div>
-            <div class="min-w-0 flex-1">
-              <p :class="['text-sm leading-snug', notif.read ? 'text-toned' : 'font-medium text-highlighted']">
-                {{ notif.title }}
-              </p>
-              <p v-if="notif.body" class="text-xs text-toned mt-0.5 truncate">
-                {{ notif.body }}
-              </p>
-              <p class="text-xs text-toned mt-1">
-                {{ formatDistanceToNow(new Date(notif.timestamp), { addSuffix: true }) }}
-              </p>
-            </div>
-          </button>
-        </div>
-
-        <!-- Empty state -->
-        <div
-          v-else
-          class="flex flex-col items-center justify-center py-10 px-4 text-center gap-2"
-        >
-          <UIcon name="i-lucide-bell" class="size-8 text-dimmed" />
-          <p class="text-sm font-medium text-highlighted">
-            No notifications
-          </p>
-          <p class="text-xs text-muted">
-            {{ emptyLabel }}
-          </p>
-        </div>
-
-        <!-- Tray footer -->
-        <div
+    <template #header>
+      <!-- pe-10 gives the close button room at the end -->
+      <div class="flex items-center gap-2 pe-10">
+        <p class="text-lg font-semibold text-highlighted">Notifications</p>
+        <UBadge
           v-if="unreadCount > 0"
-          class="border-t border-muted px-4 py-4 shrink-0"
-        >
-          <UButton
-            color="primary"
-            variant="outline"
-            size="md"
-            @click="markAllRead()"
-          >
-            Mark all as read
-          </UButton>
-        </div>
+          :label="unreadCount"
+          color="error"
+          variant="solid"
+          size="md"
+          class="rounded-full"
+        />
       </div>
     </template>
-  </UDrawer>
+
+    <template #body>
+      <!-- Scope tabs — full-width strip, breaks out of body padding -->
+      <div class="-mx-4 -mt-4 px-4 py-3 border-b border-muted mb-4">
+        <UTabs
+          v-model="notificationScope"
+          :items="scopeItems"
+          :content="false"
+          size="sm"
+        />
+      </div>
+
+      <!-- Notification list -->
+      <div
+        v-if="filteredNotifications.length"
+        class="divide-y divide-muted -mx-4"
+      >
+        <button
+          v-for="notif in filteredNotifications"
+          :key="notif.id"
+          class="w-full text-left px-4 py-4 hover:bg-elevated transition-colors flex gap-3 items-start"
+          @click="markRead(notif.id)"
+        >
+          <div class="relative shrink-0 mt-0.5">
+            <UIcon :name="PRODUCTS[notif.product].icon" class="size-4 text-toned" />
+            <span
+              v-if="!notif.read"
+              class="absolute -top-1 -right-1 size-2 rounded-full bg-error-500"
+            />
+          </div>
+          <div class="min-w-0 flex-1">
+            <p :class="['text-sm leading-snug', notif.read ? 'text-toned' : 'font-medium text-highlighted']">
+              {{ notif.title }}
+            </p>
+            <p v-if="notif.body" class="text-xs text-toned mt-0.5 truncate">
+              {{ notif.body }}
+            </p>
+            <p class="text-xs text-toned mt-1">
+              {{ formatDistanceToNow(new Date(notif.timestamp), { addSuffix: true }) }}
+            </p>
+          </div>
+        </button>
+      </div>
+
+      <!-- Empty state -->
+      <div
+        v-else
+        class="flex flex-col items-center justify-center py-10 text-center gap-2"
+      >
+        <UIcon name="i-lucide-bell" class="size-8 text-dimmed" />
+        <p class="text-sm font-medium text-highlighted">No notifications</p>
+        <p class="text-xs text-muted">{{ emptyLabel }}</p>
+      </div>
+    </template>
+
+    <template v-if="unreadCount > 0" #footer>
+      <UButton
+        color="primary"
+        variant="outline"
+        size="md"
+        @click="markAllRead()"
+      >
+        Mark all as read
+      </UButton>
+    </template>
+  </USlideover>
 </template>
