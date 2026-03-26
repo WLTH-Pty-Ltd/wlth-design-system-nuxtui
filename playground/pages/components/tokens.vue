@@ -68,8 +68,6 @@ const GROUPS: { label: string; prefix: string }[] = [
 function parseTokens(css: string) {
   const palette = buildPaletteMap(css)
 
-  // Light: last :root block that has --ui-* vars (skip the palette :root)
-  // Strategy: find all :root blocks, use the one(s) that contain --ui-
   const allRootBlocks: string[] = []
   const rootRe = /:root\s*\{/g
   let rm
@@ -102,6 +100,59 @@ function parseTokens(css: string) {
 }
 
 const semanticTokenGroups = parseTokens(tokensCSS)
+
+// ---------------------------------------------------------------------------
+// Static token data
+// ---------------------------------------------------------------------------
+
+const radiusTokens = [
+  { token: '--ui-radius-xs',   value: '0.25rem',  px: '4px',    note: 'Tightest corner — checkboxes, small chips, badges' },
+  { token: '--ui-radius-sm',   value: '0.5rem',   px: '8px',    note: 'Compact — tags, inline elements' },
+  { token: '--ui-radius-md',   value: '0.75rem',  px: '12px',   note: 'Default input and button corner' },
+  { token: '--ui-radius-lg',   value: '1rem',     px: '16px',   note: 'Cards, table containers' },
+  { token: '--ui-radius-xl',   value: '1.25rem',  px: '20px',   note: 'Panels, dropdown menus' },
+  { token: '--ui-radius-2xl',  value: '1.5rem',   px: '24px',   note: 'Modals, large surface containers' },
+  { token: '--ui-radius-3xl',  value: '2rem',     px: '32px',   note: 'Slideovers, drawers (--ui-radius default)' },
+  { token: '--ui-radius-full', value: '9999px',   px: '9999px', note: 'Pills, avatar chips, circular buttons' },
+]
+
+const shadowTokens = [
+  { token: '--ui-shadow-sm',  uses: 'Subtle lift — chips, small UI elements, secondary cards' },
+  { token: '--ui-shadow-md',  uses: 'Medium depth — dropdown menus, select panels' },
+  { token: '--ui-shadow-lg',  uses: 'Prominent depth — popovers, date pickers, floating toolbars' },
+  { token: '--ui-shadow-xl',  uses: 'Strong lift — modals, slideovers, drawers' },
+  { token: '--ui-shadow-2xl', uses: 'Maximum depth — fullscreen overlays, command palettes' },
+]
+
+const zIndexTokens = [
+  { token: '--ui-z-base',     value: '0',   uses: 'Default document flow' },
+  { token: '--ui-z-raised',   value: '10',  uses: 'Slightly elevated — sticky table headers, floating labels' },
+  { token: '--ui-z-dropdown', value: '100', uses: 'Dropdown menus, select panels, autocomplete' },
+  { token: '--ui-z-sticky',   value: '200', uses: 'Sticky page headers, pinned sidebars' },
+  { token: '--ui-z-overlay',  value: '300', uses: 'Overlay/backdrop behind modals' },
+  { token: '--ui-z-modal',    value: '400', uses: 'Modals, slideovers, drawers' },
+  { token: '--ui-z-toast',    value: '500', uses: 'Toast notifications' },
+  { token: '--ui-z-tooltip',  value: '600', uses: 'Tooltips — always on top of everything' },
+]
+
+const spacingTokens = [
+  { step: '0',  rem: '0',       px: '0' },
+  { step: '1',  rem: '0.25rem', px: '4px' },
+  { step: '2',  rem: '0.5rem',  px: '8px' },
+  { step: '3',  rem: '0.75rem', px: '12px' },
+  { step: '4',  rem: '1rem',    px: '16px' },
+  { step: '5',  rem: '1.25rem', px: '20px' },
+  { step: '6',  rem: '1.5rem',  px: '24px' },
+  { step: '7',  rem: '1.75rem', px: '28px' },
+  { step: '8',  rem: '2rem',    px: '32px' },
+  { step: '9',  rem: '2.25rem', px: '36px' },
+  { step: '10', rem: '2.5rem',  px: '40px' },
+  { step: '12', rem: '3rem',    px: '48px' },
+  { step: '14', rem: '3.5rem',  px: '56px' },
+  { step: '16', rem: '4rem',    px: '64px' },
+  { step: '20', rem: '5rem',    px: '80px' },
+  { step: '24', rem: '6rem',    px: '96px' },
+]
 </script>
 
 <template>
@@ -109,9 +160,10 @@ const semanticTokenGroups = parseTokens(tokensCSS)
 
     <div class="space-y-1">
       <h1 class="text-2xl font-semibold text-default">Tokens</h1>
-      <p class="text-sm text-toned">Semantic CSS custom properties — backgrounds, text, and borders for light and dark mode.</p>
+      <p class="text-sm text-toned">Semantic CSS custom properties — use these instead of raw palette values. Covers colour, radius, shadow, z-index, and spacing.</p>
     </div>
 
+    <!-- ── Semantic colour tokens ───────────────────────────── -->
     <div class="space-y-10">
       <div v-for="group in semanticTokenGroups" :key="group.label" class="space-y-3">
         <h2 class="text-base font-semibold text-default">{{ group.label }}</h2>
@@ -153,6 +205,133 @@ const semanticTokenGroups = parseTokens(tokensCSS)
         </div>
 
         <USeparator v-if="group.label !== 'Borders'" />
+      </div>
+    </div>
+
+    <USeparator />
+
+    <!-- ── Border Radius ────────────────────────────────────── -->
+    <div class="space-y-4">
+      <div class="space-y-1">
+        <h2 class="text-base font-semibold text-default">Border Radius</h2>
+        <p class="text-sm text-toned">Defined in <code class="font-mono text-xs bg-elevated px-1.5 py-0.5 rounded">tokens.css</code> and mapped to <code class="font-mono text-xs bg-elevated px-1.5 py-0.5 rounded">--ui-radius-*</code>. Use Tailwind's <code class="font-mono text-xs bg-elevated px-1.5 py-0.5 rounded">rounded-*</code> utilities or reference the CSS variable directly.</p>
+      </div>
+
+      <div class="grid gap-4 px-1 text-xs text-toned font-mono" style="grid-template-columns: 12rem 5rem 5rem 2.5rem 1fr">
+        <span>Token</span>
+        <span>Value</span>
+        <span>px</span>
+        <span>Preview</span>
+        <span>Use case</span>
+      </div>
+
+      <div class="rounded-xl border border-muted overflow-hidden divide-y divide-muted">
+        <div
+          v-for="r in radiusTokens"
+          :key="r.token"
+          class="grid items-center gap-4 px-4 py-3 bg-muted hover:bg-elevated transition-colors"
+          style="grid-template-columns: 12rem 5rem 5rem 2.5rem 1fr"
+        >
+          <span class="font-mono text-xs text-highlighted">{{ r.token }}</span>
+          <span class="font-mono text-xs text-toned">{{ r.value }}</span>
+          <span class="font-mono text-xs text-toned">{{ r.px }}</span>
+          <div
+            class="w-7 h-7 bg-royalblue-500 shrink-0"
+            :style="{ borderRadius: `var(${r.token})` }"
+          />
+          <span class="text-xs text-toned">{{ r.note }}</span>
+        </div>
+      </div>
+    </div>
+
+    <USeparator />
+
+    <!-- ── Shadows ───────────────────────────────────────────── -->
+    <div class="space-y-4">
+      <div class="space-y-1">
+        <h2 class="text-base font-semibold text-default">Shadows</h2>
+        <p class="text-sm text-toned">Defined as <code class="font-mono text-xs bg-elevated px-1.5 py-0.5 rounded">--ui-shadow-*</code> in <code class="font-mono text-xs bg-elevated px-1.5 py-0.5 rounded">tokens.css</code>. Use via <code class="font-mono text-xs bg-elevated px-1.5 py-0.5 rounded">box-shadow: var(--ui-shadow-xl)</code> or Tailwind's <code class="font-mono text-xs bg-elevated px-1.5 py-0.5 rounded">shadow-*</code> utilities for rough equivalents.</p>
+      </div>
+
+      <div class="rounded-xl border border-muted overflow-hidden divide-y divide-muted">
+        <div
+          v-for="s in shadowTokens"
+          :key="s.token"
+          class="grid items-center gap-6 px-4 py-4 bg-muted hover:bg-elevated transition-colors"
+          style="grid-template-columns: 12rem 6rem 1fr"
+        >
+          <span class="font-mono text-xs text-highlighted">{{ s.token }}</span>
+          <div class="w-16 h-14 bg-elevated rounded-lg flex items-center justify-center shrink-0">
+            <div
+              class="w-9 h-9 rounded-xl bg-white"
+              :style="{ boxShadow: `var(${s.token})` }"
+            />
+          </div>
+          <span class="text-xs text-toned">{{ s.uses }}</span>
+        </div>
+      </div>
+    </div>
+
+    <USeparator />
+
+    <!-- ── Z-index ───────────────────────────────────────────── -->
+    <div class="space-y-4">
+      <div class="space-y-1">
+        <h2 class="text-base font-semibold text-default">Z-Index</h2>
+        <p class="text-sm text-toned">Semantic layer scale defined as <code class="font-mono text-xs bg-elevated px-1.5 py-0.5 rounded">--ui-z-*</code>. Always reference these tokens instead of arbitrary numeric z-index values to keep stacking order consistent.</p>
+      </div>
+
+      <div class="grid gap-4 px-1 text-xs text-toned font-mono" style="grid-template-columns: 12rem 5rem 1fr">
+        <span>Token</span>
+        <span>Value</span>
+        <span>Use case</span>
+      </div>
+
+      <div class="rounded-xl border border-muted overflow-hidden divide-y divide-muted">
+        <div
+          v-for="z in zIndexTokens"
+          :key="z.token"
+          class="grid items-center gap-4 px-4 py-3 bg-muted hover:bg-elevated transition-colors"
+          style="grid-template-columns: 12rem 5rem 1fr"
+        >
+          <span class="font-mono text-xs text-highlighted">{{ z.token }}</span>
+          <span class="font-mono text-xs text-toned">{{ z.value }}</span>
+          <span class="text-xs text-toned">{{ z.uses }}</span>
+        </div>
+      </div>
+    </div>
+
+    <USeparator />
+
+    <!-- ── Spacing ───────────────────────────────────────────── -->
+    <div class="space-y-4">
+      <div class="space-y-1">
+        <h2 class="text-base font-semibold text-default">Spacing</h2>
+        <p class="text-sm text-toned">All spacing is on a strict 4px grid. Only use these steps for <code class="font-mono text-xs bg-elevated px-1.5 py-0.5 rounded">p-*</code>, <code class="font-mono text-xs bg-elevated px-1.5 py-0.5 rounded">m-*</code>, <code class="font-mono text-xs bg-elevated px-1.5 py-0.5 rounded">gap-*</code>, and sizing utilities — fractional steps (0.5, 1.5, 2.5 etc.) are off-grid and should not be used.</p>
+      </div>
+
+      <div class="grid gap-4 px-1 text-xs text-toned font-mono" style="grid-template-columns: 5rem 6rem 5rem 1fr">
+        <span>Step</span>
+        <span>rem</span>
+        <span>px</span>
+        <span>Visual</span>
+      </div>
+
+      <div class="rounded-xl border border-muted overflow-hidden divide-y divide-muted">
+        <div
+          v-for="s in spacingTokens"
+          :key="s.step"
+          class="grid items-center gap-4 px-4 py-2.5 bg-muted hover:bg-elevated transition-colors"
+          style="grid-template-columns: 5rem 6rem 5rem 1fr"
+        >
+          <span class="font-mono text-xs text-highlighted">{{ s.step }}</span>
+          <span class="font-mono text-xs text-toned">{{ s.rem }}</span>
+          <span class="font-mono text-xs text-toned">{{ s.px }}</span>
+          <div
+            class="h-3 bg-royalblue-400 rounded-sm shrink-0 max-w-xs"
+            :style="{ width: s.px === '0' ? '2px' : s.px }"
+          />
+        </div>
       </div>
     </div>
 

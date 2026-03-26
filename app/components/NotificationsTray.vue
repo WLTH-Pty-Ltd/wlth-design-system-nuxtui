@@ -25,7 +25,7 @@ const emptyLabel = computed(() =>
 </script>
 
 <template>
-  <USlideover v-model:open="isOpen" side="right">
+  <USlideover v-model:open="isOpen" side="right" title="Notifications">
     <!-- Trigger: 36×36 dark circle with bell icon + green unread chip -->
     <button
       type="button"
@@ -39,16 +39,15 @@ const emptyLabel = computed(() =>
       />
     </button>
 
-    <template #header>
-      <!-- pe-10 gives the close button room at the end -->
-      <div class="flex items-center gap-2 pe-10">
-        <p class="text-lg font-semibold text-highlighted">Notifications</p>
+    <template #title>
+      <div class="flex items-center gap-2">
+        <span>Notifications</span>
         <UBadge
           v-if="unreadCount > 0"
           :label="unreadCount"
-          color="error"
+          color="primary"
           variant="solid"
-          size="md"
+          size="sm"
           class="rounded-full"
         />
       </div>
@@ -62,6 +61,7 @@ const emptyLabel = computed(() =>
           :items="scopeItems"
           :content="false"
           size="sm"
+          color="secondary"
         />
       </div>
 
