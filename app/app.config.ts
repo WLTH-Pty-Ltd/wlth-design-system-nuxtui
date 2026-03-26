@@ -54,13 +54,13 @@ export default defineAppConfig({
           // Dropdown pill trigger — closed / default
           color: 'pill',
           variant: 'soft',
-          class: 'flex items-center gap-1.5 rounded-[24px] border border-lightgrey-600 px-3 py-1.5 text-sm bg-transparent hover:bg-lightgrey-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-royalblue-300 transition-colors',
+          class: 'flex items-center gap-2 rounded-[24px] border border-lightgrey-600 px-3 py-2 text-sm bg-transparent hover:bg-lightgrey-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-royalblue-300 transition-colors',
         },
         {
           // Dropdown pill trigger — open (dropdown is visible)
           color: 'pill',
           variant: 'solid',
-          class: 'flex items-center gap-1.5 rounded-[24px] border-2 border-(--ui-border-highlighted) px-3 py-1.5 text-sm bg-(--ui-bg-accented) focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-royalblue-300 transition-colors',
+          class: 'flex items-center gap-2 rounded-[24px] border-2 border-(--ui-border-highlighted) px-3 py-2 text-sm bg-(--ui-bg-accented) focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-royalblue-300 transition-colors',
         },
         {
           // Surface button — clean white bg, no border, dark text. E.g. secondary action in modal footers.
