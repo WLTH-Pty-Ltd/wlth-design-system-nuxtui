@@ -83,6 +83,23 @@ const composables = [
   }
 ]
 
+const useHeaderApi = [
+  { name: 'currentProductId', type: 'Ref<ProductId>', desc: 'The active product. Initialised from app.config wlth.product, writable — changing it switches the header context.' },
+  { name: 'currentProduct', type: 'ComputedRef<Product>', desc: 'Full product object for the active product, with navItems merged from app.config.' },
+  { name: 'currentEntityId', type: 'Ref<string>', desc: 'ID of the active entity. Persisted to localStorage under wlth-entity-id.' },
+  { name: 'currentEntity', type: 'ComputedRef<EntityOption>', desc: 'Full EntityOption for the active entity, resolved from the entities list.' },
+  { name: 'notifications', type: 'Ref<HubNotification[]>', desc: "The full notification list. Replace this ref's value to load real notifications from your API." },
+  { name: 'filteredNotifications', type: 'ComputedRef<HubNotification[]>', desc: 'Notifications filtered by notificationScope (all products, or current product only).' },
+  { name: 'unreadCount', type: 'ComputedRef<number>', desc: 'Count of unread notifications in filteredNotifications. Drives the badge on the bell icon.' },
+  { name: 'notificationScope', type: "Ref<'all' | 'product'>", desc: 'Controls whether filteredNotifications shows all products or just the current product.' },
+  { name: 'roles', type: 'Ref<string[]>', desc: 'Active user roles. Persisted to localStorage under wlth-roles. Use to gate features in consuming apps.' },
+  { name: 'activeLabel', type: 'Ref<string>', desc: 'Label of the currently active nav item. Used by ProductNav to highlight the active pill. Resets to "Home" on product switch.' },
+  { name: 'switchProduct', type: '(id: ProductId) => void', desc: 'Opens the target product in a new tab, passing the current entityId as a query param for context handoff.' },
+  { name: 'setEntity', type: '(id: string) => void', desc: 'Updates the active entity and persists to localStorage.' },
+  { name: 'markRead', type: '(id: string) => void', desc: 'Marks a single notification as read by its id.' },
+  { name: 'markAllRead', type: '() => void', desc: 'Marks all notifications in the current filtered scope as read.' },
+]
+
 const products = [
   { id: 'broker',      label: 'Broker',      icon: 'i-lucide-briefcase',        navItems: 'Home, Products, Applications, Support' },
   { id: 'pay',         label: 'Pay',          icon: 'i-lucide-credit-card',      navItems: 'Home, Payments, Payees, Cards' },
@@ -346,22 +363,7 @@ export default defineAppConfig({
           <span>Name</span><span>Type</span><span>Description</span>
         </div>
         <div
-          v-for="(row, i) in [
-            { name: 'currentProductId', type: 'Ref<ProductId>', desc: 'The active product. Initialised from app.config wlth.product, writable — changing it switches the header context.' },
-            { name: 'currentProduct', type: 'ComputedRef<Product>', desc: 'Full product object for the active product, with navItems merged from app.config.' },
-            { name: 'currentEntityId', type: 'Ref<string>', desc: 'ID of the active entity. Persisted to localStorage under wlth-entity-id.' },
-            { name: 'currentEntity', type: 'ComputedRef<EntityOption>', desc: 'Full EntityOption for the active entity, resolved from the entities list.' },
-            { name: 'notifications', type: 'Ref<HubNotification[]>', desc: 'The full notification list. Replace this ref\'s value to load real notifications from your API.' },
-            { name: 'filteredNotifications', type: 'ComputedRef<HubNotification[]>', desc: 'Notifications filtered by notificationScope (all products, or current product only).' },
-            { name: 'unreadCount', type: 'ComputedRef<number>', desc: 'Count of unread notifications in filteredNotifications. Drives the badge on the bell icon.' },
-            { name: 'notificationScope', type: `Ref<'all' | 'product'>`, desc: 'Controls whether filteredNotifications shows all products or just the current product.' },
-            { name: 'roles', type: 'Ref<string[]>', desc: 'Active user roles. Persisted to localStorage under wlth-roles. Use to gate features in consuming apps.' },
-            { name: 'activeLabel', type: 'Ref<string>', desc: 'Label of the currently active nav item. Used by ProductNav to highlight the active pill. Resets to "Home" on product switch.' },
-            { name: 'switchProduct', type: '(id: ProductId) => void', desc: 'Opens the target product in a new tab, passing the current entityId as a query param for context handoff.' },
-            { name: 'setEntity', type: '(id: string) => void', desc: 'Updates the active entity and persists to localStorage.' },
-            { name: 'markRead', type: '(id: string) => void', desc: 'Marks a single notification as read by its id.' },
-            { name: 'markAllRead', type: '() => void', desc: 'Marks all notifications in the current filtered scope as read.' },
-          ]"
+          v-for="(row, i) in useHeaderApi"
           :key="row.name"
           class="grid grid-cols-[1fr_1fr_2fr] gap-x-4 items-start px-5 py-3 text-xs"
           :class="i !== 0 ? 'border-t border-muted' : ''"
