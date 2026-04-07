@@ -13,6 +13,7 @@ const gettingStarted = [
 
 const foundations = [
   { label: 'Colors', to: '/components/colors' },
+  { label: 'Icons', to: '/components/icons' },
   { label: 'Tokens', to: '/components/tokens' },
   { label: 'Typography', to: '/components/typography' },
 ]
