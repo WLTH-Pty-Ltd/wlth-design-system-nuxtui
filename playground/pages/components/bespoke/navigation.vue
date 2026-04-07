@@ -313,7 +313,220 @@ export default defineAppConfig({
 
     <USeparator />
 
-    <!-- ─── 5. Versioning ────────────────────────────────────────────────── -->
+    <!-- ─── 5. useHeader API ────────────────────────────────────────────── -->
+    <section class="space-y-6">
+      <div class="space-y-0.5">
+        <h2 class="text-base font-semibold text-default">useHeader API</h2>
+        <p class="text-sm text-toned">
+          Call <code class="text-xs font-mono bg-elevated px-1 py-0.5 rounded">useHeader()</code> anywhere in a consuming app to read or modify header state.
+          It is a shared composable — every call returns the same instance.
+        </p>
+      </div>
+
+      <pre class="text-xs font-mono bg-elevated rounded-lg px-4 py-3 overflow-x-auto leading-relaxed text-default"><code>const {
+  currentProductId,    // Ref&lt;ProductId&gt;
+  currentProduct,      // ComputedRef&lt;Product&gt;
+  currentEntityId,     // Ref&lt;string&gt;
+  currentEntity,       // ComputedRef&lt;EntityOption&gt;
+  notifications,       // Ref&lt;HubNotification[]&gt;
+  filteredNotifications, // ComputedRef&lt;HubNotification[]&gt; — filtered by notificationScope
+  unreadCount,         // ComputedRef&lt;number&gt;
+  notificationScope,   // Ref&lt;'all' | 'product'&gt; — persisted to localStorage
+  roles,               // Ref&lt;string[]&gt; — persisted to localStorage
+  activeLabel,         // Ref&lt;string&gt; — currently active nav item label
+  switchProduct,       // (id: ProductId) => void — opens product in new tab
+  setEntity,           // (id: string) => void — updates currentEntityId
+  markRead,            // (id: string) => void — marks one notification as read
+  markAllRead,         // () => void — marks all filtered notifications as read
+} = useHeader()</code></pre>
+
+      <!-- Property table -->
+      <div class="rounded-xl border border-muted overflow-hidden">
+        <div class="grid grid-cols-[1fr_1fr_2fr] text-[11px] font-semibold uppercase tracking-wider text-dimmed bg-muted px-5 py-2.5 border-b border-muted">
+          <span>Name</span><span>Type</span><span>Description</span>
+        </div>
+        <div
+          v-for="(row, i) in [
+            { name: 'currentProductId', type: 'Ref<ProductId>', desc: 'The active product. Initialised from app.config wlth.product, writable — changing it switches the header context.' },
+            { name: 'currentProduct', type: 'ComputedRef<Product>', desc: 'Full product object for the active product, with navItems merged from app.config.' },
+            { name: 'currentEntityId', type: 'Ref<string>', desc: 'ID of the active entity. Persisted to localStorage under wlth-entity-id.' },
+            { name: 'currentEntity', type: 'ComputedRef<EntityOption>', desc: 'Full EntityOption for the active entity, resolved from the entities list.' },
+            { name: 'notifications', type: 'Ref<HubNotification[]>', desc: 'The full notification list. Replace this ref\'s value to load real notifications from your API.' },
+            { name: 'filteredNotifications', type: 'ComputedRef<HubNotification[]>', desc: 'Notifications filtered by notificationScope (all products, or current product only).' },
+            { name: 'unreadCount', type: 'ComputedRef<number>', desc: 'Count of unread notifications in filteredNotifications. Drives the badge on the bell icon.' },
+            { name: 'notificationScope', type: `Ref<'all' | 'product'>`, desc: 'Controls whether filteredNotifications shows all products or just the current product.' },
+            { name: 'roles', type: 'Ref<string[]>', desc: 'Active user roles. Persisted to localStorage under wlth-roles. Use to gate features in consuming apps.' },
+            { name: 'activeLabel', type: 'Ref<string>', desc: 'Label of the currently active nav item. Used by ProductNav to highlight the active pill. Resets to "Home" on product switch.' },
+            { name: 'switchProduct', type: '(id: ProductId) => void', desc: 'Opens the target product in a new tab, passing the current entityId as a query param for context handoff.' },
+            { name: 'setEntity', type: '(id: string) => void', desc: 'Updates the active entity and persists to localStorage.' },
+            { name: 'markRead', type: '(id: string) => void', desc: 'Marks a single notification as read by its id.' },
+            { name: 'markAllRead', type: '() => void', desc: 'Marks all notifications in the current filtered scope as read.' },
+          ]"
+          :key="row.name"
+          class="grid grid-cols-[1fr_1fr_2fr] gap-x-4 items-start px-5 py-3 text-xs"
+          :class="i !== 0 ? 'border-t border-muted' : ''"
+        >
+          <code class="font-mono text-royalblue-500">{{ row.name }}</code>
+          <code class="font-mono text-toned">{{ row.type }}</code>
+          <span class="text-toned leading-relaxed">{{ row.desc }}</span>
+        </div>
+      </div>
+    </section>
+
+    <USeparator />
+
+    <!-- ─── 6. useDashboard API ──────────────────────────────────────────── -->
+    <section class="space-y-6">
+      <div class="space-y-0.5">
+        <h2 class="text-base font-semibold text-default">useDashboard API</h2>
+        <p class="text-sm text-toned">
+          Controls mobile menu and notifications slideover state. Also registers app-wide keyboard shortcuts.
+          It is a shared composable — every call returns the same instance.
+        </p>
+      </div>
+
+      <pre class="text-xs font-mono bg-elevated rounded-lg px-4 py-3 overflow-x-auto leading-relaxed text-default"><code>const {
+  isMobileMenuOpen,              // Ref&lt;boolean&gt; — drives MobileMenuDrawer
+  isNotificationsSlideoverOpen,  // Ref&lt;boolean&gt; — drives NotificationsSlideover
+} = useDashboard()</code></pre>
+
+      <div class="space-y-2">
+        <p class="text-xs font-semibold text-toned uppercase tracking-wider">Keyboard shortcuts</p>
+        <p class="text-xs text-toned">Registered automatically when <code class="font-mono bg-elevated px-1 py-0.5 rounded">useDashboard()</code> is first called. These are global shortcuts — they fire on any page.</p>
+        <div class="rounded-xl border border-muted overflow-hidden">
+          <div
+            v-for="(shortcut, i) in [
+              { keys: 'G then H', desc: 'Navigate to / (home)' },
+              { keys: 'G then I', desc: 'Navigate to /inbox' },
+              { keys: 'G then C', desc: 'Navigate to /customers' },
+              { keys: 'G then S', desc: 'Navigate to /settings' },
+              { keys: 'G then D', desc: 'Navigate to /design-system' },
+              { keys: 'N', desc: 'Toggle notifications slideover' },
+            ]"
+            :key="shortcut.keys"
+            class="flex items-center gap-4 px-5 py-3 text-xs"
+            :class="i !== 0 ? 'border-t border-muted' : ''"
+          >
+            <UKbd :value="shortcut.keys" size="sm" class="shrink-0" />
+            <span class="text-toned">{{ shortcut.desc }}</span>
+          </div>
+        </div>
+        <p class="text-xs text-toned">
+          The routes above are defaults. Override them in a consuming app by calling
+          <code class="font-mono bg-elevated px-1 py-0.5 rounded">defineShortcuts()</code>
+          after <code class="font-mono bg-elevated px-1 py-0.5 rounded">useDashboard()</code> is initialised.
+        </p>
+      </div>
+    </section>
+
+    <USeparator />
+
+    <!-- ─── 7. usePageLoader API ─────────────────────────────────────────── -->
+    <section class="space-y-6">
+      <div class="space-y-0.5">
+        <h2 class="text-base font-semibold text-default">usePageLoader API</h2>
+        <p class="text-sm text-toned">
+          Drives the thin progress bar at the top of the page rendered by
+          <code class="text-xs font-mono bg-elevated px-1 py-0.5 rounded">AppPageLoader</code>.
+          Call <code class="text-xs font-mono bg-elevated px-1 py-0.5 rounded">show()</code> to start it —
+          it disappears automatically after the duration you provide.
+        </p>
+      </div>
+
+      <pre class="text-xs font-mono bg-elevated rounded-lg px-4 py-3 overflow-x-auto leading-relaxed text-default"><code>const { isVisible, show } = usePageLoader()
+
+// show() accepts an optional minimum display time in milliseconds (default 2200ms)
+show()        // visible for 2.2 seconds
+show(1000)    // visible for 1 second</code></pre>
+
+      <div class="space-y-2">
+        <p class="text-xs font-semibold text-toned uppercase tracking-wider">Wiring to Nuxt route changes</p>
+        <p class="text-sm text-toned">The recommended approach is a Nuxt plugin that calls <code class="text-xs font-mono bg-elevated px-1 py-0.5 rounded">show()</code> on each route change. Create this file in your consuming app:</p>
+        <pre class="text-xs font-mono bg-elevated rounded-lg px-4 py-3 overflow-x-auto leading-relaxed text-default"><code>// plugins/page-loader.client.ts
+export default defineNuxtPlugin(() => {
+  const { show } = usePageLoader()
+  const router = useRouter()
+
+  router.beforeEach(() => {
+    show(600) // show for 600ms — tune to match your typical page load time
+  })
+})</code></pre>
+        <p class="text-xs text-toned">The loader also works well for async data fetching — call <code class="font-mono bg-elevated px-1 py-0.5 rounded">show()</code> before an await and it disappears on its own without needing a finish() call.</p>
+      </div>
+    </section>
+
+    <USeparator />
+
+    <!-- ─── 8. Connecting real data ──────────────────────────────────────── -->
+    <section class="space-y-6">
+      <div class="space-y-0.5">
+        <h2 class="text-base font-semibold text-default">Connecting real data</h2>
+        <p class="text-sm text-toned">
+          The design system ships with mock entities, a mock user, and mock notifications so the header renders out of the box.
+          In a real app you replace these by writing to the refs that <code class="text-xs font-mono bg-elevated px-1 py-0.5 rounded">useHeader()</code> exposes.
+          The recommended place to do this is a Nuxt plugin that runs after your auth session is established.
+        </p>
+      </div>
+
+      <div class="space-y-2">
+        <p class="text-xs font-semibold text-toned uppercase tracking-wider">Replace notifications</p>
+        <p class="text-sm text-toned">Assign your API response directly to <code class="text-xs font-mono bg-elevated px-1 py-0.5 rounded">notifications.value</code>. The header will reactively update.</p>
+        <pre class="text-xs font-mono bg-elevated rounded-lg px-4 py-3 overflow-x-auto leading-relaxed text-default"><code>// plugins/header-data.client.ts
+export default defineNuxtPlugin(async () => {
+  const { notifications } = useHeader()
+
+  // Replace with your API call
+  const data = await $fetch('/api/notifications')
+  notifications.value = data.map(n => ({
+    id: n.id,
+    product: n.product,        // must be a valid ProductId
+    entityId: n.entityId,
+    title: n.title,
+    body: n.body,              // optional
+    timestamp: n.createdAt,   // ISO string
+    read: n.isRead,
+  }))
+})</code></pre>
+      </div>
+
+      <div class="space-y-2">
+        <p class="text-xs font-semibold text-toned uppercase tracking-wider">Replace entities and user</p>
+        <p class="text-sm text-toned">
+          <code class="text-xs font-mono bg-elevated px-1 py-0.5 rounded">MOCK_ENTITIES</code> and
+          <code class="text-xs font-mono bg-elevated px-1 py-0.5 rounded">MOCK_USER</code> are exported constants from
+          <code class="text-xs font-mono bg-elevated px-1 py-0.5 rounded">useHeader.ts</code>.
+          Because the entity list and user profile are currently hardcoded in the composable,
+          swapping them requires either overriding those exports or — the cleaner approach — contributing a
+          <code class="text-xs font-mono bg-elevated px-1 py-0.5 rounded">setEntities()</code> and
+          <code class="text-xs font-mono bg-elevated px-1 py-0.5 rounded">setUser()</code> method to the composable.
+          This is a known gap and the recommended next step for apps that need dynamic entity lists.
+        </p>
+        <UAlert
+          icon="i-lucide-info"
+          color="neutral"
+          variant="subtle"
+          title="EntityOption shape"
+          description="Each entity needs: id (string), name (string), and optionally avatar (Nuxt UI AvatarProps — src + alt). If no src is provided, UAvatar renders initials from alt."
+        />
+      </div>
+
+      <div class="space-y-2">
+        <p class="text-xs font-semibold text-toned uppercase tracking-wider">HubNotification shape</p>
+        <pre class="text-xs font-mono bg-elevated rounded-lg px-4 py-3 overflow-x-auto leading-relaxed text-default"><code>interface HubNotification {
+  id: string
+  product: ProductId          // 'broker' | 'pay' | 'shareholder' | 'dashboard' | 'customer'
+  entityId: string            // must match an entity id
+  title: string
+  body?: string               // optional subtitle
+  timestamp: string           // ISO 8601 date string
+  read: boolean
+}</code></pre>
+      </div>
+    </section>
+
+    <USeparator />
+
+    <!-- ─── 10. Versioning ───────────────────────────────────────────────── -->
     <section class="space-y-4">
       <div class="space-y-0.5">
         <h2 class="text-base font-semibold text-default">Versioning &amp; updates</h2>
