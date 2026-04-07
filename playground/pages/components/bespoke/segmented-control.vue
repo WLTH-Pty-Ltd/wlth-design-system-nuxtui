@@ -16,6 +16,13 @@ const config = reactive({
   count: 3,
 })
 
+const propsRows = [
+  { prop: 'modelValue / v-model', type: 'string', def: '—', desc: 'The currently selected value. Should match the value field of one of the options.' },
+  { prop: 'options', type: "string[] | { label: string; value: string }[]", def: '—', desc: 'Required. Segment options. Pass a plain string array as a shorthand — each string is used as both label and value.' },
+  { prop: 'variant', type: "'default' | 'primary' | 'secondary' | 'ghost'", def: "'default'", desc: 'Visual style. Use ghost on coloured backgrounds (e.g. the royalblue header).' },
+  { prop: 'size', type: "'xs' | 'sm' | 'md' | 'lg'", def: "'sm'", desc: 'Controls text size and padding of each segment.' },
+]
+
 const activeOptions = computed(() => optionPool.slice(0, config.count))
 
 // Reset selected value if it falls outside the current options
@@ -139,6 +146,48 @@ const codeSnippet = computed(() => {
           </div>
         </div>
 
+      </div>
+    </div>
+
+    <!-- Props -->
+    <div class="space-y-3">
+      <h2 class="text-base font-semibold text-default">Props</h2>
+      <div class="rounded-xl border border-muted overflow-hidden">
+        <div class="grid grid-cols-[1.5fr_1.5fr_1fr_2fr] text-[11px] font-semibold uppercase tracking-wider text-dimmed bg-muted px-4 py-2.5 border-b border-muted">
+          <span>Prop</span><span>Type</span><span>Default</span><span>Description</span>
+        </div>
+        <div
+          v-for="(row, i) in propsRows"
+          :key="row.prop"
+          class="grid grid-cols-[1.5fr_1.5fr_1fr_2fr] gap-x-3 items-start px-4 py-3 text-xs"
+          :class="i !== 0 ? 'border-t border-muted' : ''"
+        >
+          <code class="font-mono text-royalblue-500">{{ row.prop }}</code>
+          <code class="font-mono text-toned">{{ row.type }}</code>
+          <code class="font-mono text-toned">{{ row.def }}</code>
+          <span class="text-toned leading-relaxed">{{ row.desc }}</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Options format -->
+    <div class="space-y-3">
+      <h2 class="text-base font-semibold text-default">Options format</h2>
+      <p class="text-sm text-toned">Pass a plain string array as a shorthand when label and value are the same. Use the object form when you need different display text and underlying values.</p>
+      <div class="space-y-2">
+        <p class="text-xs font-semibold text-dimmed uppercase tracking-wider">String shorthand</p>
+        <pre class="text-xs font-mono bg-elevated rounded-lg px-4 py-3 overflow-x-auto leading-relaxed text-default"><code>&lt;AppSegmentedControl v-model="view" :options="['All', 'Active', 'Pending']" /&gt;</code></pre>
+      </div>
+      <div class="space-y-2">
+        <p class="text-xs font-semibold text-dimmed uppercase tracking-wider">Object form</p>
+        <pre class="text-xs font-mono bg-elevated rounded-lg px-4 py-3 overflow-x-auto leading-relaxed text-default"><code>&lt;AppSegmentedControl
+  v-model="status"
+  :options="[
+    { label: 'All clients',    value: 'all'      },
+    { label: 'Active only',    value: 'active'   },
+    { label: 'Pending review', value: 'pending'  },
+  ]"
+/&gt;</code></pre>
       </div>
     </div>
 

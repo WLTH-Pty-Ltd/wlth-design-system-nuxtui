@@ -15,6 +15,18 @@ const page = ref(1)
 
 watch(() => config.totalPages, () => { page.value = 1 })
 
+const propsRows = [
+  { prop: 'page / v-model:page', type: 'number', def: '1', desc: 'The current page number. Use v-model:page for two-way binding.' },
+  { prop: 'total', type: 'number', def: '—', desc: 'Required. Total number of pages.' },
+  { prop: 'size', type: "'xs' | 'sm' | 'md' | 'lg' | 'xl'", def: "'md'", desc: 'Controls dot/number size and spacing.' },
+  { prop: 'show-numbers', type: 'boolean', def: 'false', desc: 'Switches from dot indicators to numbered buttons. Use when users need to jump to a specific page.' },
+  { prop: 'loading', type: 'boolean', def: 'false', desc: 'Dims the control and disables interaction while page data is loading.' },
+]
+
+const emitsRows = [
+  { emit: 'update:page', payload: 'number', desc: 'Emitted when the user navigates to a different page. Also emitted when dots are clicked directly.' },
+]
+
 const codeSnippet = computed(() => {
   const props: string[] = ['  v-model:page="page"', `  :total="${config.totalPages}"`]
   if (config.size !== 'md')    props.push(`  size="${config.size}"`)
@@ -92,6 +104,86 @@ const codeSnippet = computed(() => {
     </div>
 
     <AppCodeBlock :code="codeSnippet" />
+
+    <!-- Props -->
+    <div class="space-y-3">
+      <h2 class="text-base font-semibold text-default">Props</h2>
+      <div class="rounded-xl border border-muted overflow-hidden">
+        <div class="grid grid-cols-[1.5fr_1fr_1fr_2fr] text-[11px] font-semibold uppercase tracking-wider text-dimmed bg-muted px-4 py-2.5 border-b border-muted">
+          <span>Prop</span><span>Type</span><span>Default</span><span>Description</span>
+        </div>
+        <div
+          v-for="(row, i) in propsRows"
+          :key="row.prop"
+          class="grid grid-cols-[1.5fr_1fr_1fr_2fr] gap-x-3 items-start px-4 py-3 text-xs"
+          :class="i !== 0 ? 'border-t border-muted' : ''"
+        >
+          <code class="font-mono text-royalblue-500">{{ row.prop }}</code>
+          <code class="font-mono text-toned">{{ row.type }}</code>
+          <code class="font-mono text-toned">{{ row.def }}</code>
+          <span class="text-toned leading-relaxed">{{ row.desc }}</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Emits -->
+    <div class="space-y-3">
+      <h2 class="text-base font-semibold text-default">Events</h2>
+      <div class="rounded-xl border border-muted overflow-hidden">
+        <div class="grid grid-cols-[1fr_1fr_2fr] text-[11px] font-semibold uppercase tracking-wider text-dimmed bg-muted px-4 py-2.5 border-b border-muted">
+          <span>Event</span><span>Payload</span><span>Description</span>
+        </div>
+        <div
+          v-for="(row, i) in emitsRows"
+          :key="row.emit"
+          class="grid grid-cols-[1fr_1fr_2fr] gap-x-3 items-start px-4 py-3 text-xs"
+          :class="i !== 0 ? 'border-t border-muted' : ''"
+        >
+          <code class="font-mono text-royalblue-500">{{ row.emit }}</code>
+          <code class="font-mono text-toned">{{ row.payload }}</code>
+          <span class="text-toned leading-relaxed">{{ row.desc }}</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- When to use dots vs numbers -->
+    <div class="space-y-3">
+      <h2 class="text-base font-semibold text-default">Dots vs numbers</h2>
+      <div class="rounded-xl border border-muted overflow-hidden">
+        <div
+          v-for="(row, i) in [
+            { mode: 'Dots (default)', when: 'Use when the total page count is small (2–8) and the user navigates sequentially — charts, image galleries, card carousels.' },
+            { mode: 'Numbers (show-numbers)', when: 'Use when the page count is large or users need to jump to a specific page — data tables, search results, long lists.' },
+          ]"
+          :key="row.mode"
+          class="flex items-start gap-4 px-5 py-4 text-xs"
+          :class="i !== 0 ? 'border-t border-muted' : ''"
+        >
+          <code class="font-mono text-royalblue-500 shrink-0 w-36">{{ row.mode }}</code>
+          <span class="text-toned leading-relaxed">{{ row.when }}</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Table integration example -->
+    <div class="space-y-3">
+      <h2 class="text-base font-semibold text-default">Using with a table</h2>
+      <p class="text-sm text-toned">The most common use case is paginating a <code class="text-xs font-mono bg-elevated px-1 py-0.5 rounded">UTable</code>. Slice your data client-side, or pass the page number to your API call.</p>
+      <pre class="text-xs font-mono bg-elevated rounded-lg px-4 py-3 overflow-x-auto leading-relaxed text-default"><code>const PAGE_SIZE = 10
+const page = ref(1)
+const allRows = ref([/* ... your data */])
+
+const totalPages = computed(() => Math.ceil(allRows.value.length / PAGE_SIZE))
+const pageRows   = computed(() =>
+  allRows.value.slice((page.value - 1) * PAGE_SIZE, page.value * PAGE_SIZE)
+)</code></pre>
+      <pre class="text-xs font-mono bg-elevated rounded-lg px-4 py-3 overflow-x-auto leading-relaxed text-default"><code>&lt;UTable :rows="pageRows" :columns="columns" /&gt;
+&lt;AppPagination v-model:page="page" :total="totalPages" show-numbers /&gt;</code></pre>
+      <p class="text-xs text-toned">For server-side pagination, watch <code class="font-mono bg-elevated px-1 py-0.5 rounded">page</code> and re-fetch on change:</p>
+      <pre class="text-xs font-mono bg-elevated rounded-lg px-4 py-3 overflow-x-auto leading-relaxed text-default"><code>watch(page, async (newPage) => {
+  rows.value = await $fetch('/api/clients', { query: { page: newPage, limit: PAGE_SIZE } })
+})</code></pre>
+    </div>
 
   </div>
 </template>
