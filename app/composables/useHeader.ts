@@ -2,9 +2,9 @@ import { createSharedComposable, useLocalStorage } from '@vueuse/core'
 import type { EntityOption, HubNotification, Product, ProductId } from '~/types'
 
 export const MOCK_ENTITIES: EntityOption[] = [
-  { id: 'entity-1', name: 'Acme Corp', avatar: { src: '/images/entity%20avatars/Crypto%20Logos/Helium.png', alt: 'Acme Corp' } },
-  { id: 'entity-2', name: 'Globex Holdings', avatar: { src: '/images/entity%20avatars/Crypto%20Logos/Polkadot.png', alt: 'Globex Holdings' } },
-  { id: 'entity-3', name: 'Initech', avatar: { src: '/images/entity%20avatars/Crypto%20Logos/Shiba%20Inu%20SHIB.png', alt: 'Initech' } }
+  { id: 'entity-1', name: 'Acme Corp', avatar: { alt: 'Acme Corp' } },
+  { id: 'entity-2', name: 'Globex Holdings', avatar: { alt: 'Globex Holdings' } },
+  { id: 'entity-3', name: 'Initech', avatar: { alt: 'Initech' } }
 ]
 
 export const MOCK_USER = {
