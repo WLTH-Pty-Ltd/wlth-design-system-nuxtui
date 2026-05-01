@@ -95,7 +95,7 @@ export default defineAppConfig({
     //   active=true  — current / highlighted row (non-interactive, visually distinct)
     dropdownMenu: {
       slots: {
-        content:      'bg-lightgrey-50 ring-0 border border-lightgrey-300 rounded-xl shadow-xl py-4 px-4',
+        content:      'bg-lightgrey-50 ring-0 rounded-xl shadow-xl py-4 px-4',
         group:        'p-1 isolate flex flex-col gap-1',
         item:         'rounded-lg',
         itemLabel:    'text-lightgrey-900 font-medium',
@@ -127,7 +127,7 @@ export default defineAppConfig({
     // Mirrors dropdownMenu panel styling for visual consistency.
     selectMenu: {
       slots: {
-        content:      'bg-(--ui-bg-muted) ring-0 border border-(--ui-border-muted) rounded-xl shadow-xl py-2',
+        content:      'bg-(--ui-bg-muted) ring-0 rounded-xl shadow-xl py-2',
         item:         'rounded-lg',
         itemLabel:    'text-lightgrey-900 font-medium',
       },
@@ -156,7 +156,7 @@ export default defineAppConfig({
     // MobileMenuDrawer.
     drawer: {
       slots: {
-        content: 'bg-white ring-0 border-l border-lightgrey-300 shadow-xl px-4',
+        content: 'bg-white ring-0 shadow-xl px-4',
       },
     },
 
@@ -180,7 +180,7 @@ export default defineAppConfig({
     modal: {
       slots: {
         overlay:     'bg-lightgrey-900/40',
-        content:     'bg-white !ring-0 rounded-3xl border border-lightgrey-300 shadow-xl divide-y-0',
+        content:     'bg-white !ring-0 rounded-3xl shadow-xl divide-y-0',
         header:      'px-8 py-8 sm:px-8 border-b border-muted min-h-0',
         title:       'text-lg font-semibold text-highlighted',
         description: 'text-sm text-toned mt-0.5',
@@ -215,10 +215,10 @@ export default defineAppConfig({
       // Rounded corners and border on the exposed edge per slide direction
       variants: {
         side: {
-          right:  { content: 'border-l border-lightgrey-300 rounded-l-3xl max-w-xl' },
-          left:   { content: 'border-r border-lightgrey-300 rounded-r-3xl max-w-xl' },
-          top:    { content: 'border-b border-lightgrey-300 rounded-b-3xl' },
-          bottom: { content: 'border-t border-lightgrey-300 rounded-t-3xl' },
+          right:  { content: 'rounded-l-3xl max-w-xl' },
+          left:   { content: 'rounded-r-3xl max-w-xl' },
+          top:    { content: 'rounded-b-3xl' },
+          bottom: { content: 'rounded-t-3xl' },
         },
       },
     },
