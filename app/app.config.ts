@@ -250,15 +250,15 @@ export default defineAppConfig({
     // ─── Form controls ────────────────────────────────────────────────────────
 
     input: {
-      slots: { base: '!bg-muted' },
+      slots: { base: '!bg-muted !text-(--ui-text)' },
     },
 
     textarea: {
-      slots: { base: '!bg-muted' },
+      slots: { base: '!bg-muted !text-(--ui-text)' },
     },
 
     select: {
-      slots: { base: '!bg-muted' },
+      slots: { base: '!bg-muted !text-(--ui-text)' },
     },
 
   },
