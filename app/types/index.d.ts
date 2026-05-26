@@ -118,6 +118,7 @@ export interface HubNotification {
   body?: string
   timestamp: string
   read: boolean
+  url?: string
 }
 
 // ── WLTH Chart types ──────────────────────────────────────────────────────

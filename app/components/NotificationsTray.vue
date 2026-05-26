@@ -70,11 +70,13 @@ const emptyLabel = computed(() =>
         v-if="filteredNotifications.length"
         class="divide-y divide-muted -mx-4"
       >
-        <button
+        <component
+          :is="notif.url ? resolveComponent('NuxtLink') : 'button'"
           v-for="notif in filteredNotifications"
           :key="notif.id"
+          :to="notif.url ?? undefined"
           class="w-full text-left px-4 py-4 hover:bg-elevated transition-colors flex gap-3 items-start"
-          @click="markRead(notif.id)"
+          @click="markRead(notif.id); isOpen = false"
         >
           <div class="relative shrink-0 mt-0.5">
             <UIcon :name="PRODUCTS[notif.product].icon" class="size-4 text-toned" />
@@ -94,7 +96,7 @@ const emptyLabel = computed(() =>
               {{ formatDistanceToNow(new Date(notif.timestamp), { addSuffix: true }) }}
             </p>
           </div>
-        </button>
+        </component>
       </div>
 
       <!-- Empty state -->
