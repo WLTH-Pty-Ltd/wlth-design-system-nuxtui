@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { resolveComponent } from 'vue'
 import { formatDistanceToNow } from 'date-fns'
 import { PRODUCTS } from '~/composables/useHeader'
 
@@ -10,6 +11,7 @@ const {
   markAllRead
 } = useHeader()
 
+const NuxtLink = resolveComponent('NuxtLink')
 const isOpen = ref(false)
 
 const scopeItems = [
@@ -71,7 +73,7 @@ const emptyLabel = computed(() =>
         class="divide-y divide-muted -mx-4"
       >
         <component
-          :is="notif.url ? resolveComponent('NuxtLink') : 'button'"
+          :is="notif.url ? NuxtLink : 'button'"
           v-for="notif in filteredNotifications"
           :key="notif.id"
           :to="notif.url ?? undefined"
