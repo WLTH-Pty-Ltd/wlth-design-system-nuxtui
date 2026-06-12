@@ -9,9 +9,12 @@ const props = withDefaults(defineProps<{
   modelValue?: string
   variant?: 'default' | 'primary' | 'secondary' | 'ghost'
   size?: 'xs' | 'sm' | 'md' | 'lg'
+  /** Stretch to fill the container with evenly-sized pills (good on mobile). */
+  block?: boolean
 }>(), {
   variant: 'default',
   size: 'sm',
+  block: false,
 })
 
 const emit = defineEmits<{ 'update:modelValue': [value: string] }>()
@@ -50,13 +53,13 @@ const sizeClass = computed(() => ({
 </script>
 
 <template>
-  <div class="inline-flex items-center gap-0.5 rounded-full p-0.5" :class="containerClass">
+  <div class="items-center gap-0.5 rounded-full p-0.5" :class="[containerClass, block ? 'flex w-full' : 'inline-flex']">
     <button
       v-for="opt in normalised"
       :key="opt.value"
       type="button"
-      class="rounded-full font-medium transition-colors cursor-pointer"
-      :class="[sizeClass, pillClass(opt.value)]"
+      class="rounded-full font-medium transition-colors cursor-pointer whitespace-nowrap"
+      :class="[sizeClass, pillClass(opt.value), block ? 'flex-1' : '']"
       @click="emit('update:modelValue', opt.value)"
     >{{ opt.label }}</button>
   </div>

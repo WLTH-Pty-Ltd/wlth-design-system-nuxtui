@@ -119,6 +119,8 @@ function onNavItem(label: string) {
               color="nav"
               :variant="activeLabel === item.label ? 'solid' : 'ghost'"
               class="justify-start w-full py-3"
+              :to="item.to"
+              :href="item.href"
               @click="onNavItem(item.label)"
             >
               <UIcon name="i-lucide-house" class="size-4 shrink-0" />
@@ -141,6 +143,8 @@ function onNavItem(label: string) {
               color="nav"
               :variant="activeLabel === item.label ? 'solid' : 'ghost'"
               class="justify-start w-full py-3"
+              :to="item.to"
+              :href="item.href"
               @click="onNavItem(item.label)"
             >
               <UIcon :name="item.icon ?? 'i-lucide-circle'" class="size-4 shrink-0" />
