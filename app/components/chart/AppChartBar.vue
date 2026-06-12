@@ -57,7 +57,9 @@ const isMobile = breakpoints.smaller('md')
 
 const windowSize = computed(() => {
   if (props.window !== undefined) return props.window
-  return isMobile.value ? 3 : 5
+  // Mobile renders every bar and scrolls horizontally (see template) — no
+  // windowing — so no quarter is hidden behind pagination on a small screen.
+  return isMobile.value ? props.data.length : 5
 })
 
 // ─── Pagination ──────────────────────────────────────────────────────────────
@@ -209,10 +211,21 @@ function onBarLeave() { hoveredKey.value = null }
 
 const animated = ref(false)
 
-onMounted(() => nextTick(() => requestAnimationFrame(() => { animated.value = true })))
+// Bars scroll horizontally on mobile — always start pinned to the first (left)
+// bar so the newest data point is what loads into view, not a mid-scroll offset.
+const barsScroller = ref<HTMLElement | null>(null)
+function resetScroll() {
+  nextTick(() => { if (barsScroller.value) barsScroller.value.scrollLeft = 0 })
+}
+
+onMounted(() => {
+  resetScroll()
+  nextTick(() => requestAnimationFrame(() => { animated.value = true }))
+})
 
 watch(() => props.data, () => {
   animated.value = false
+  resetScroll()
   nextTick(() => requestAnimationFrame(() => { animated.value = true }))
 })
 
@@ -263,12 +276,17 @@ const skeletonHeights = [120, 60, 180, 40, 150, 90, 130, 70, 160, 45, 110, 85]
       <p class="text-xs text-muted">Data will appear once it's available</p>
     </div>
 
-    <!-- Chart bars -->
-    <div v-else class="flex items-end justify-between gap-2 md:gap-4 w-full" :style="`height: ${maxBarHeight + 60}px`">
+    <!-- Chart bars — scrolls horizontally on mobile so every bar stays readable -->
+    <div
+      v-else
+      ref="barsScroller"
+      class="flex items-end gap-3 md:gap-4 w-full overflow-x-auto md:overflow-x-visible md:justify-between"
+      :style="`height: ${maxBarHeight + 60}px`"
+    >
       <div
         v-for="(point, index) in visibleData"
         :key="point.key"
-        class="flex flex-col items-center gap-2 flex-1 min-w-0"
+        class="flex flex-col items-center gap-2 min-w-[56px] shrink-0 md:flex-1 md:min-w-0 md:shrink"
       >
         <!-- Single-series bar -->
         <template v-if="series.length === 1">
